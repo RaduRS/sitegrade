@@ -1,36 +1,45 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+Project Brief: SiteGrade.co.uk
+1. Project Summary
+SiteGrade is a UK-based digital platform that provides expert website appraisals. The core of the brand is offering free, public website reviews that are recorded and shared as engaging content on TikTok. These reviews are structured around 7 core pillars of website quality. The primary goal is to build an audience and establish authority, which will organically lead to inbound requests for paid web development and consulting services.
 
-## Getting Started
+2. Core Website Functionality
+The website will be simple, focused, and drive users towards one primary action: submitting their website for a review.
 
-First, run the development server:
+Hero Section: This is the most important part of the homepage. It must immediately grab attention and explain the service.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+It should feature the static headline: "We grade sites for"
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Following this, there will be a dynamic text element that cycles through the 7 pillars in a continuous loop. The effect should be a "typing and deleting" animation. For example, it types "Security," pauses, deletes it, and then types "SEO," and so on.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+The 7 words for the animation are: Performance, Design, Responsiveness, SEO, Security, Compliance, Analytics.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Submission Form: A clear, simple, and prominent form is needed.
 
-## Learn More
+It should contain only one field: "Enter your website URL."
 
-To learn more about Next.js, take a look at the following resources:
+The call-to-action button should be bold and clear, for example: "Grade My Site."
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+"How It Works" Section: A brief section explaining the process in 3 simple steps.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Submit Your Site: You enter your URL.
 
-## Deploy on Vercel
+We Review It: We conduct a professional appraisal based on our 7 pillars.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Watch on TikTok: We post the review on our TikTok channel for everyone to learn from.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+3. Design & Aesthetic Guidelines
+The website's feel should be bold, confident, and unconventional. It should stand out from typical corporate or "friendly" tech websites.
+
+Overall Vibe: Think Gumroad meets a modern, minimalist retro-futurism. The design should feel intentional, sharp, and opinionated.
+
+Shape Language: Embrace the square. Use sharp corners for buttons, containers, and form fields. Avoid rounded corners (or use a very small border-radius, like 2-4px). The layout should feel blocky and structured.
+
+Color Palette: Bold and high-contrast. Avoid soft, muted, or pastel colors. A simple palette with a dark background (like a deep charcoal or navy, not pure black) and one or two vibrant accent colors (e.g., electric yellow, magenta, or cyan) would work well. The colors should feel energetic and assertive.
+
+Typography: This is key to the "modern retro" feel.
+
+Headlines: Use a clean, strong, sans-serif font for the main static text.
+
+Dynamic Text / Accents: Consider using a crisp pixel or monospaced font for the animated words and perhaps for button text. This will create the desired 8-bit/retro feel while keeping the site looking modern and sharp.
+
+Visuals: Keep it minimalist. Avoid stock photos. The design should rely on typography, color, and layout. You could use simple, blocky icons with sharp edges to represent the 7 pillars if needed.

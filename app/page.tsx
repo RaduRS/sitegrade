@@ -1,103 +1,127 @@
-import Image from "next/image";
+'use client';
+
+import { useState, useEffect } from 'react';
+
+const TypewriterText = () => {
+  const [displayText, setDisplayText] = useState('');
+  const [isClient, setIsClient] = useState(false);
+  
+  const words = ["Performance", "Design", "Responsiveness", "SEO", "Security", "Compliance", "Analytics"];
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  useEffect(() => {
+    if (!isClient) return;
+
+    let wordIndex = 0;
+    let charIndex = 0;
+    let isDeleting = false;
+    let timeoutId: NodeJS.Timeout;
+
+    const typeWriter = () => {
+      const currentWord = words[wordIndex];
+      
+      if (isDeleting) {
+        setDisplayText(currentWord.substring(0, charIndex));
+        charIndex--;
+      } else {
+        setDisplayText(currentWord.substring(0, charIndex + 1));
+        charIndex++;
+      }
+      
+      let speed = isDeleting ? 75 : 100;
+      
+      if (!isDeleting && charIndex === currentWord.length) {
+        speed = 1500; // Pause when word is complete
+        isDeleting = true;
+      } else if (isDeleting && charIndex === 0) {
+        isDeleting = false;
+        wordIndex = (wordIndex + 1) % words.length;
+        speed = 300; // Pause before starting new word
+      }
+      
+      timeoutId = setTimeout(typeWriter, speed);
+    };
+
+    // Start the animation after a brief delay
+    timeoutId = setTimeout(typeWriter, 500);
+
+    return () => {
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
+    };
+  }, [isClient, words]);
+
+  if (!isClient) {
+    return <span className="text-yellow-400 font-mono text-4xl md:text-6xl lg:text-7xl">Performance</span>;
+  }
+
+  return (
+    <span className="text-yellow-400 font-mono text-4xl md:text-6xl lg:text-7xl min-h-[1.2em] inline-block">
+      {displayText}
+      <span className="animate-pulse text-yellow-400">|</span>
+    </span>
+  );
+};
 
 export default function Home() {
   return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+    <div className="min-h-screen bg-gray-900 text-white">
+      <main className="container mx-auto px-4">
+        {/* Hero Section */}
+        <section className="text-center min-h-screen flex flex-col justify-center">
+          <div className="mb-12">
+            <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold mb-8 leading-tight">
+              We grade sites for
+              <br />
+              <TypewriterText />
+            </h1>
+            
+            {/* Submission Form - Moved directly under heading */}
+            <form className="max-w-lg mx-auto mt-8 w-full px-4">
+              <div className="flex flex-col sm:flex-row gap-2">
+                <input
+                  type="url"
+                  placeholder="Enter your website URL"
+                  className="flex-1 px-4 py-4 bg-gray-800 border-2 border-gray-700 text-white placeholder-gray-400 focus:outline-none focus:border-yellow-400 transition-colors text-lg"
+                  required
+                />
+                <button
+                  type="submit"
+                  className="px-8 py-4 bg-yellow-400 text-gray-900 font-bold hover:bg-yellow-300 transition-colors text-lg"
+                >
+                  Grade My Site
+                </button>
+              </div>
+            </form>
+          </div>
+        </section>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
+        {/* How It Works Section */}
+        <section className="py-24">
+          <h2 className="text-4xl font-bold text-center mb-16">How It Works</h2>
+          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            <div className="text-center p-8">
+              <div className="text-5xl font-bold text-yellow-400 mb-6">1</div>
+              <h3 className="text-2xl font-bold mb-4">Submit Your Site</h3>
+              <p className="text-gray-400 text-lg">You enter your URL</p>
+            </div>
+            <div className="text-center p-8">
+              <div className="text-5xl font-bold text-yellow-400 mb-6">2</div>
+              <h3 className="text-2xl font-bold mb-4">We Review It</h3>
+              <p className="text-gray-400 text-lg">We conduct a professional appraisal based on our 7 pillars</p>
+            </div>
+            <div className="text-center p-8">
+              <div className="text-5xl font-bold text-yellow-400 mb-6">3</div>
+              <h3 className="text-2xl font-bold mb-4">Watch on TikTok</h3>
+              <p className="text-gray-400 text-lg">We post the review on our TikTok channel for everyone to learn from</p>
+            </div>
+          </div>
+        </section>
       </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
     </div>
   );
 }
