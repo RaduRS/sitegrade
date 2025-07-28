@@ -1,127 +1,207 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from "react";
+import { motion } from "framer-motion";
 
 const TypewriterText = () => {
-  const [displayText, setDisplayText] = useState('');
-  const [isClient, setIsClient] = useState(false);
-  
-  const words = ["Performance", "Design", "Responsiveness", "SEO", "Security", "Compliance", "Analytics"];
+  const [currentWordIndex, setCurrentWordIndex] = useState(0);
+  const [displayText, setDisplayText] = useState("");
+  const [isTyping, setIsTyping] = useState(true);
+
+  const words = useMemo(
+    () => [
+      "Performance",
+      "Design",
+      "Responsiveness",
+      "SEO",
+      "Security",
+      "Compliance",
+      "Analytics",
+    ],
+    []
+  );
 
   useEffect(() => {
-    setIsClient(true);
-  }, []);
+    let timeout: NodeJS.Timeout;
+    const currentWord = words[currentWordIndex];
 
-  useEffect(() => {
-    if (!isClient) return;
-
-    let wordIndex = 0;
-    let charIndex = 0;
-    let isDeleting = false;
-    let timeoutId: NodeJS.Timeout;
-
-    const typeWriter = () => {
-      const currentWord = words[wordIndex];
-      
-      if (isDeleting) {
-        setDisplayText(currentWord.substring(0, charIndex));
-        charIndex--;
+    if (isTyping) {
+      // Typing animation
+      if (displayText.length < currentWord.length) {
+        timeout = setTimeout(() => {
+          setDisplayText(currentWord.slice(0, displayText.length + 1));
+        }, 100);
       } else {
-        setDisplayText(currentWord.substring(0, charIndex + 1));
-        charIndex++;
+        // Word complete, wait then start deleting
+        timeout = setTimeout(() => {
+          setIsTyping(false);
+        }, 2000);
       }
-      
-      let speed = isDeleting ? 75 : 100;
-      
-      if (!isDeleting && charIndex === currentWord.length) {
-        speed = 1500; // Pause when word is complete
-        isDeleting = true;
-      } else if (isDeleting && charIndex === 0) {
-        isDeleting = false;
-        wordIndex = (wordIndex + 1) % words.length;
-        speed = 300; // Pause before starting new word
+    } else {
+      // Deleting animation
+      if (displayText.length > 0) {
+        timeout = setTimeout(() => {
+          setDisplayText(displayText.slice(0, -1));
+        }, 50);
+      } else {
+        // Deletion complete, move to next word
+        setCurrentWordIndex((prev) => (prev + 1) % words.length);
+        setIsTyping(true);
       }
-      
-      timeoutId = setTimeout(typeWriter, speed);
-    };
+    }
 
-    // Start the animation after a brief delay
-    timeoutId = setTimeout(typeWriter, 500);
-
-    return () => {
-      if (timeoutId) {
-        clearTimeout(timeoutId);
-      }
-    };
-  }, [isClient, words]);
-
-  if (!isClient) {
-    return <span className="text-yellow-400 font-mono text-4xl md:text-6xl lg:text-7xl">Performance</span>;
-  }
+    return () => clearTimeout(timeout);
+  }, [displayText, isTyping, currentWordIndex, words]);
 
   return (
-    <span className="text-yellow-400 font-mono text-4xl md:text-6xl lg:text-7xl min-h-[1.2em] inline-block">
-      {displayText}
-      <span className="animate-pulse text-yellow-400">|</span>
-    </span>
+    <div className="h-20 md:h-24 lg:h-32 flex items-center justify-center">
+      <motion.span
+        className="text-yellow-400 font-mono text-4xl md:text-6xl lg:text-7xl block"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5 }}
+      >
+        {displayText}
+        <motion.span
+          animate={{ opacity: [1, 0] }}
+          transition={{
+            duration: 0.8,
+            repeat: Infinity,
+            repeatType: "reverse",
+          }}
+          className="text-yellow-400"
+        >
+          |
+        </motion.span>
+      </motion.span>
+    </div>
   );
 };
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-gray-900 text-white">
-      <main className="container mx-auto px-4">
-        {/* Hero Section */}
-        <section className="text-center min-h-screen flex flex-col justify-center">
-          <div className="mb-12">
-            <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold mb-8 leading-tight">
+    <div className="bg-slate-900 text-white min-h-screen">
+      {/* Logo Header */}
+      <header className="w-full py-8">
+        <div className="text-center">
+          <h1 className="text-3xl md:text-4xl font-bold text-yellow-400 font-retro">
+            SITEGRADE
+          </h1>
+        </div>
+      </header>
+
+      <main className="w-full">
+        {/* Hero Section - Full viewport height */}
+        <section className="h-screen flex flex-col items-center justify-center px-4 text-center">
+          <div style={{ width: "100%", maxWidth: "1200px", margin: "0 auto" }}>
+            <h1 className="text-2xl md:text-4xl lg:text-6xl font-bold text-white mb-0 leading-tight uppercase">
               We grade sites for
-              <br />
-              <TypewriterText />
             </h1>
-            
-            {/* Submission Form - Moved directly under heading */}
-            <form className="max-w-lg mx-auto mt-8 w-full px-4">
-              <div className="flex flex-col sm:flex-row gap-2">
+
+            <div className="mb-16">
+              <TypewriterText />
+            </div>
+
+            {/* Submission Form */}
+            <div style={{ width: "100%", maxWidth: "800px", margin: "0 auto" }}>
+              <div className="flex flex-col sm:flex-row gap-4 items-stretch justify-center">
                 <input
                   type="url"
                   placeholder="Enter your website URL"
-                  className="flex-1 px-4 py-4 bg-gray-800 border-2 border-gray-700 text-white placeholder-gray-400 focus:outline-none focus:border-yellow-400 transition-colors text-lg"
-                  required
+                  className="retro-input flex-1 w-full sm:w-auto min-w-0 px-6"
                 />
-                <button
-                  type="submit"
-                  className="px-8 py-4 bg-yellow-400 text-gray-900 font-bold hover:bg-yellow-300 transition-colors text-lg"
-                >
-                  Grade My Site
+                <button className="button-3d w-full sm:w-auto">
+                  <span className="button_top">Grade My Site</span>
                 </button>
               </div>
-            </form>
+            </div>
           </div>
         </section>
 
         {/* How It Works Section */}
-        <section className="py-24">
-          <h2 className="text-4xl font-bold text-center mb-16">How It Works</h2>
-          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            <div className="text-center p-8">
-              <div className="text-5xl font-bold text-yellow-400 mb-6">1</div>
-              <h3 className="text-2xl font-bold mb-4">Submit Your Site</h3>
-              <p className="text-gray-400 text-lg">You enter your URL</p>
-            </div>
-            <div className="text-center p-8">
-              <div className="text-5xl font-bold text-yellow-400 mb-6">2</div>
-              <h3 className="text-2xl font-bold mb-4">We Review It</h3>
-              <p className="text-gray-400 text-lg">We conduct a professional appraisal based on our 7 pillars</p>
-            </div>
-            <div className="text-center p-8">
-              <div className="text-5xl font-bold text-yellow-400 mb-6">3</div>
-              <h3 className="text-2xl font-bold mb-4">Watch on TikTok</h3>
-              <p className="text-gray-400 text-lg">We post the review on our TikTok channel for everyone to learn from</p>
+        <section className="py-32">
+          <div
+            style={{ width: "100%", maxWidth: "1200px", margin: "0 auto" }}
+            className="px-4"
+          >
+            <h2 className="text-4xl font-bold text-center mb-20 text-white font-retro pb-8">
+              How It Works
+            </h2>
+            <div className="grid md:grid-cols-3 gap-16">
+              <div className="text-center p-8 how-it-works-card">
+                <div className="step-number mb-8">01</div>
+                <h3 className="step-title text-xl mb-6">Submit Your Site</h3>
+                <p className="text-slate-300 text-sm leading-relaxed">
+                  You enter your URL and we&apos;ll get started on your
+                  comprehensive review
+                </p>
+              </div>
+              <div className="text-center p-8 how-it-works-card">
+                <div className="step-number mb-8">02</div>
+                <h3 className="step-title text-xl mb-6">We Review It</h3>
+                <p className="text-slate-300 text-sm leading-relaxed">
+                  We conduct a professional appraisal based on our 7 core
+                  pillars
+                </p>
+              </div>
+              <div className="text-center p-8 how-it-works-card">
+                <div className="step-number mb-8">03</div>
+                <h3 className="step-title text-xl mb-6">Watch on TikTok</h3>
+                <p className="text-slate-300 text-sm leading-relaxed">
+                  We post the review on our TikTok channel for everyone to learn
+                  from
+                </p>
+              </div>
             </div>
           </div>
         </section>
       </main>
+
+      {/* Footer */}
+      <footer className="w-full py-16 border-t border-slate-700">
+        <div
+          style={{ width: "100%", maxWidth: "1200px", margin: "0 auto" }}
+          className="px-4"
+        >
+          <div className="grid md:grid-cols-3 gap-8 text-center md:text-left">
+            <div>
+              <h3 className="text-xl font-bold text-yellow-400 font-retro mb-4">
+                SITEGRADE
+              </h3>
+              <p className="text-slate-300 text-sm">
+                Professional website reviews for the modern web
+              </p>
+            </div>
+            <div>
+              <h4 className="text-lg font-semibold text-white mb-4">
+                Services
+              </h4>
+              <ul className="space-y-2 text-slate-300 text-sm">
+                <li>Performance Analysis</li>
+                <li>SEO Optimization</li>
+                <li>Design Review</li>
+                <li>Security Audit</li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="text-lg font-semibold text-white mb-4">
+                Follow Us
+              </h4>
+              <ul className="space-y-2 text-slate-300 text-sm">
+                <li>TikTok Reviews</li>
+                <li>YouTube Channel</li>
+                <li>Twitter Updates</li>
+                <li>LinkedIn</li>
+              </ul>
+            </div>
+          </div>
+          <div className="mt-12 pt-8 border-t border-slate-700 text-center">
+            <p className="text-slate-400 text-sm">
+              © 2024 SiteGrade. All rights reserved.
+            </p>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }
