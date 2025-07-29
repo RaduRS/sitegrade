@@ -1,10 +1,10 @@
 'use client';
 
 import { createContext, useContext, useEffect, ReactNode } from 'react';
-import { analytics, pageview, trackFormSubmission, trackButtonClick, initAnalytics } from '../lib/gtag';
+import { getAnalytics, pageview, trackFormSubmission, trackButtonClick, initAnalytics } from '../lib/gtag';
 
 // Create context
-const AnalyticsContext = createContext(analytics);
+const AnalyticsContext = createContext(getAnalytics());
 
 // Provider component
 export function AnalyticsProvider({ children }: { children: ReactNode }) {
@@ -13,11 +13,13 @@ export function AnalyticsProvider({ children }: { children: ReactNode }) {
     initAnalytics();
     
     // Track initial page view
-    pageview(window.location.pathname);
+    if (typeof window !== 'undefined') {
+      pageview(window.location.pathname);
+    }
   }, []);
 
   return (
-    <AnalyticsContext.Provider value={analytics}>
+    <AnalyticsContext.Provider value={getAnalytics()}>
       {children}
     </AnalyticsContext.Provider>
   );
@@ -29,4 +31,4 @@ export function useAnalytics() {
 }
 
 // Export analytics utilities for direct use
-export { analytics, pageview, trackFormSubmission, trackButtonClick };
+export { getAnalytics, pageview, trackFormSubmission, trackButtonClick };
