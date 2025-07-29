@@ -1,0 +1,19 @@
+export default function Loading() {
+  return (
+    <div className="bg-slate-900 text-white min-h-screen flex items-center justify-center">
+      <div className="text-center">
+        <div className="mb-8">
+          <h1 className="text-4xl font-bold text-yellow-400 font-retro mb-4">
+            SITEGRADE
+          </h1>
+          <div className="flex items-center justify-center space-x-2">
+            <div className="w-3 h-3 bg-yellow-400 animate-pulse"></div>
+            <div className="w-3 h-3 bg-yellow-400 animate-pulse" style={{ animationDelay: '0.2s' }}></div>
+            <div className="w-3 h-3 bg-yellow-400 animate-pulse" style={{ animationDelay: '0.4s' }}></div>
+          </div>
+        </div>
+        <p className="text-slate-300">Loading your website review...</p>
+      </div>
+    </div>
+  );
+}

@@ -35,6 +35,22 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-inter);
+  /* Performance optimizations */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* Performance optimization for animations */
+* {
+  will-change: auto;
+}
+
+.button-3d,
+.retro-input,
+.how-it-works-card {
+  will-change: transform, border-color;
+  contain: layout style;
 }
 
 /* Sharp corners and blocky design */
@@ -64,14 +80,17 @@ input {
 .button-3d {
   --button_radius: 4px; /* Sharp corners as per design */
   --button_color: #fbbf24; /* yellow-400 */
-  --button_outline_color: var(--blue-accent);
-  font-size: 18px;
+  --button_outline_color: var(--border);
+  font-size: 16px; /* Reduced for better mobile experience */
   font-weight: bold;
   border: none;
   cursor: pointer;
   border-radius: var(--button_radius);
   background: var(--button_outline_color);
   transition: all 0.1s ease;
+  height: 60px; /* Match input height exactly */
+  min-height: 60px;
+  max-height: 60px;
 }
 
 .button_top {
@@ -84,20 +103,34 @@ input {
   padding: 0 1.5em;
   background: var(--button_color);
   color: var(--button_outline_color);
-  transform: translateY(-0.2em);
-  transition: transform 0.1s ease;
+  /* transform: translateY(-0.2em); */
+  transition: all 0.1s ease;
   font-weight: bold;
   font-family: var(--font-jetbrains-mono);
   height: 100%;
-  min-width: 160px;
+  min-width: 140px; /* Reduced for mobile */
+  white-space: nowrap; /* Prevent text wrapping */
+  font-size: 14px; /* Smaller font for mobile */
+}
+
+/* Responsive button text size */
+@media (min-width: 640px) {
+  .button_top {
+    font-size: 16px;
+    min-width: 160px;
+  }
+
+  .button-3d {
+    font-size: 18px;
+  }
 }
 
 .button-3d:hover .button_top {
-  transform: translateY(-0.33em);
+  transform: translateY(-0.33em) translateZ(0);
 }
 
 .button-3d:active .button_top {
-  transform: translateY(0);
+  transform: translateY(0) translateZ(0);
 }
 
 .button-3d:focus {
@@ -116,6 +149,14 @@ input {
   color: var(--foreground);
   transition: all 0.2s ease;
   line-height: 1.2; /* Consistent line height */
+  text-align: center; /* Center text on mobile for consistency with button */
+}
+
+/* Left align text on larger screens */
+@media (min-width: 640px) {
+  .retro-input {
+    text-align: left;
+  }
 }
 
 /* How It Works cards styling */
@@ -167,4 +208,73 @@ input:focus {
 
 button:focus {
   outline: none;
+}
+
+/* Device compatibility improvements */
+@media (max-width: 640px) {
+  /* Improve touch targets on mobile */
+  .button-3d {
+    min-height: 48px; /* Minimum touch target size */
+    height: 48px;
+  }
+  
+  .retro-input {
+    height: 48px !important;
+    min-height: 48px;
+    max-height: 48px;
+    font-size: 16px; /* Prevent zoom on iOS */
+  }
+  
+  /* Better spacing on mobile */
+  .step-number {
+    font-size: 2.5rem;
+  }
+}
+
+/* High DPI displays */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .button_top,
+  .retro-input {
+    border-width: 2px; /* Thinner borders on high DPI */
+  }
+}
+
+/* Reduce motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Dark mode support (system preference) */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0f172a;
+    --foreground: #ffffff;
+  }
+}
+
+/* Touch device optimizations */
+@media (hover: none) and (pointer: coarse) {
+  .button-3d:hover .button_top {
+    transform: none; /* Disable hover effects on touch devices */
+  }
+  
+  .how-it-works-card:hover {
+    transform: none;
+    border-color: var(--border);
+  }
+  
+  .retro-input:hover {
+    border-color: var(--border);
+  }
+}
+
+/* Landscape orientation on mobile */
+@media (max-width: 768px) and (orientation: landscape) {
+  .step-number {
+    font-size: 2rem;
+  }
 }
