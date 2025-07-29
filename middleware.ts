@@ -47,6 +47,12 @@ export function middleware(request: NextRequest) {
   
   // Add the nonce to the response for use in scripts
   response.headers.set('X-Nonce', nonce);
+  
+  // Optimize for back/forward cache (bfcache)
+  // Avoid cache-control: no-store which prevents bfcache
+  if (!response.headers.get('Cache-Control')) {
+    response.headers.set('Cache-Control', 'public, max-age=0, s-maxage=86400');
+  }
 
   return response;
 }

@@ -42,10 +42,10 @@ const nextConfig = {
             key: 'X-Robots-Tag',
             value: 'index, follow'
           },
-          // Remove no-store to allow back/forward cache
+          // Optimize for back/forward cache (bfcache)
           {
             key: 'Cache-Control',
-            value: 'public, max-age=0, must-revalidate'
+            value: 'public, max-age=0, s-maxage=86400'
           }
         ],
       },

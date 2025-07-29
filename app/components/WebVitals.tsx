@@ -73,6 +73,27 @@ export function WebVitals() {
           }
         });
       });
+      
+      // Optimize for back/forward cache (bfcache)
+      // Use pageshow event instead of load for bfcache compatibility
+      const handlePageShow = (event: PageTransitionEvent) => {
+        if (event.persisted) {
+          // Page was restored from bfcache
+          if (typeof window.gtag !== 'undefined') {
+            window.gtag('event', 'page_view', {
+              event_category: 'Navigation',
+              event_label: 'bfcache_restore',
+              custom_map: { navigation_type: 'bfcache' }
+            });
+          }
+        }
+      };
+      
+      window.addEventListener('pageshow', handlePageShow, { passive: true });
+      
+      return () => {
+        window.removeEventListener('pageshow', handlePageShow);
+      };
     }
   }, []);
 
