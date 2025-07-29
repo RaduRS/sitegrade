@@ -6,10 +6,6 @@ import googleAnalytics from '@analytics/google-analytics';
 // Google Analytics configuration
 export const GA_TRACKING_ID = process.env.NEXT_PUBLIC_GA_TRACKING_ID;
 
-// Debug logging
-console.log('GA_TRACKING_ID from env:', GA_TRACKING_ID);
-console.log('All env vars:', Object.keys(process.env).filter(key => key.includes('GA')));
-
 // Initialize Analytics with Google Analytics plugin only if tracking ID is available
 let analyticsInstance: ReturnType<typeof Analytics> | null = null;
 
@@ -37,7 +33,7 @@ const initializeAnalytics = () => {
         })
       ]
     });
-    console.log('Analytics initialized successfully with Google Analytics tracking ID:', GA_TRACKING_ID);
+    console.log('Analytics initialized successfully');
     return analyticsInstance;
   } catch (error) {
     console.error('Failed to initialize analytics with Google Analytics, falling back to basic analytics:', error);
