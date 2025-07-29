@@ -345,9 +345,6 @@ input {
   border: 3px solid var(--border);
   border-radius: 8px;
   transition: all 0.3s ease;
-  /* Mobile performance optimizations */
-  contain: layout style;
-  will-change: auto;
 }
 
 .how-it-works-card:hover {
@@ -359,19 +356,6 @@ input {
   border-color: var(--accent);
   outline: 2px solid var(--accent);
   outline-offset: 2px;
-}
-
-/* Mobile-specific optimizations */
-@media (max-width: 768px) {
-  .how-it-works-card {
-    /* Reduce transitions on mobile for better performance */
-    transition: border-color 0.2s ease;
-  }
-  
-  .how-it-works-card:hover {
-    /* Disable transform on mobile to improve performance */
-    transform: none;
-  }
 }
 
 .retro-input:hover {
@@ -394,17 +378,6 @@ input {
   font-size: 3rem;
   color: var(--accent);
   text-shadow: 2px 2px 0px var(--blue-accent);
-  /* Performance optimizations */
-  contain: layout style paint;
-  will-change: auto;
-}
-
-/* Mobile optimization for step numbers */
-@media (max-width: 768px) {
-  .step-number {
-    font-size: 2.5rem;
-    text-shadow: 1px 1px 0px var(--blue-accent);
-  }
 }
 
 .step-title {
