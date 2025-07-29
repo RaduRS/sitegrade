@@ -1,6 +1,10 @@
-import { Suspense } from "react";
-import TypewriterText from "./TypewriterText";
+import dynamic from "next/dynamic";
 import SubmissionForm from "./SubmissionForm";
+
+// Dynamically import TypewriterText to reduce initial bundle size
+const TypewriterText = dynamic(() => import("./TypewriterText"), {
+  loading: () => <div className="h-20 md:h-24 lg:h-32 flex items-center justify-center" />
+});
 
 interface HeroSectionProps {
   title: string;
@@ -20,6 +24,7 @@ export default function HeroSection({
       aria-label="Website submission form"
     >
       <div style={{ width: "100%", maxWidth: "1200px", margin: "0 auto" }}>
+        {/* Critical LCP element - render immediately without Suspense */}
         <h1 
           id="hero-title"
           className="heading-xl text-white mb-0 uppercase"
@@ -31,15 +36,13 @@ export default function HeroSection({
           {title}
         </h1>
 
+        {/* Non-critical typewriter effect - lazy loaded */}
         <div id="hero-typewriter" className="mb-16" aria-live="polite">
-          <Suspense fallback={<div className="h-8" />}>
-            <TypewriterText words={typewriterWords} />
-          </Suspense>
+          <TypewriterText words={typewriterWords} />
         </div>
 
-        <Suspense fallback={<div className="h-32" />}>
-          <SubmissionForm />
-        </Suspense>
+        {/* Form is critical for user interaction */}
+        <SubmissionForm />
       </div>
     </section>
   );

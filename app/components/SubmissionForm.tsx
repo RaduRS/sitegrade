@@ -1,4 +1,6 @@
-import { useState } from 'react';
+"use client";
+
+import { useState, useRef, useEffect } from 'react';
 import { trackFormSubmission, trackButtonClick } from './Analytics';
 import { submitWebsite } from '../lib/supabase';
 
@@ -16,6 +18,15 @@ export default function SubmissionForm({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const errorRef = useRef<HTMLDivElement>(null);
+
+  // Focus error message when it appears
+  useEffect(() => {
+    if (error && errorRef.current) {
+      errorRef.current.focus();
+    }
+  }, [error]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -80,8 +91,14 @@ export default function SubmissionForm({
             onClick={() => {
               setIsSubmitted(false);
               setError(null);
+              // Focus the input when returning to form
+              setTimeout(() => {
+                if (inputRef.current) {
+                  inputRef.current.focus();
+                }
+              }, 100);
             }}
-            className="text-yellow-400 hover:text-yellow-300 transition-colors underline"
+            className="text-yellow-400 hover:text-yellow-300 transition-colors underline focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-offset-2 focus:ring-offset-slate-800 rounded"
           >
             Submit Another Site
           </button>
@@ -92,19 +109,21 @@ export default function SubmissionForm({
 
   return (
     <div style={{ width: "100%", maxWidth: "800px", margin: "0 auto" }}>
-      <form onSubmit={handleSubmit} role="search">
+      <form onSubmit={handleSubmit} role="search" aria-label="Website submission form">
         <div className="flex flex-col sm:flex-row gap-3 items-stretch justify-center">
           <label htmlFor="website-url" className="sr-only">
             Website URL to review
           </label>
           <input
+            ref={inputRef}
             id="website-url"
             type="url"
             name="url"
             placeholder={placeholder}
             className="retro-input flex-1 w-full sm:w-auto min-w-0 px-4 sm:px-6"
             required
-            aria-describedby="url-help"
+            aria-describedby={error ? "url-help url-error" : "url-help"}
+            aria-invalid={error ? "true" : "false"}
             autoComplete="url"
             disabled={isSubmitting}
           />
@@ -117,15 +136,28 @@ export default function SubmissionForm({
             aria-label="Submit website for grading"
             onClick={handleButtonClick}
             disabled={isSubmitting}
+            aria-describedby={isSubmitting ? "submit-status" : undefined}
           >
             <span className="button_top">
               {isSubmitting ? 'Submitting...' : buttonText}
             </span>
           </button>
+          {isSubmitting && (
+            <div id="submit-status" className="sr-only" aria-live="polite">
+              Submitting your website for review
+            </div>
+          )}
         </div>
         
         {error && (
-          <div className="mt-4 p-3 bg-red-900/50 border border-red-700 rounded text-red-300 text-sm text-center">
+          <div 
+            ref={errorRef}
+            id="url-error"
+            className="mt-4 p-3 bg-red-900/50 border border-red-700 rounded text-red-300 text-sm text-center"
+            role="alert"
+            aria-live="assertive"
+            tabIndex={-1}
+          >
             {error.includes('<a href=') ? (
               <div dangerouslySetInnerHTML={{ __html: error }} />
             ) : (

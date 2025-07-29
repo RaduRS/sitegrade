@@ -9,7 +9,7 @@ function StepCard({ stepNumber, title, description, stepIndex }: StepCardProps) 
   return (
     <article 
       className="text-center p-6 md:p-8 how-it-works-card"
-      role="article"
+      role="listitem"
       aria-labelledby={`step-title-${stepIndex}`}
       aria-describedby={`step-desc-${stepIndex}`}
     >
@@ -60,12 +60,12 @@ export default function HowItWorks({
         style={{ width: "100%", maxWidth: "1200px", margin: "0 auto" }}
         className="px-4"
       >
-        <h3 
+        <h2 
           id="how-it-works-title"
           className="heading-lg text-center mb-20 text-white font-retro pb-8"
         >
           {title}
-        </h3>
+        </h2>
         <div 
           className="grid md:grid-cols-3 gap-8 md:gap-12 lg:gap-16"
           role="list"

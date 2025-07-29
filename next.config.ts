@@ -18,6 +18,11 @@ const nextConfig = {
   compiler: {
     removeConsole: process.env.NODE_ENV === 'production',
   },
+
+  // Experimental features for better performance
+  experimental: {
+    optimizePackageImports: ['framer-motion'],
+  },
   
   // Headers for better caching and security
   async headers() {
@@ -37,9 +42,10 @@ const nextConfig = {
             key: 'X-Robots-Tag',
             value: 'index, follow'
           },
+          // Remove no-store to allow back/forward cache
           {
             key: 'Cache-Control',
-            value: 'public, max-age=3600, must-revalidate'
+            value: 'public, max-age=0, must-revalidate'
           }
         ],
       },

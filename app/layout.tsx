@@ -4,6 +4,7 @@ import "./globals.css";
 import { AnalyticsProvider } from './components/Analytics';
 import ErrorBoundary from './components/ErrorBoundary';
 import StructuredData from "./components/StructuredData";
+import WebVitals from "./components/WebVitals";
 
 const inter = Inter({ 
   subsets: ['latin'],
@@ -95,13 +96,24 @@ export default function RootLayout({
         
         {/* Performance and security */}
         <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
+        
+        {/* DNS prefetch for external resources */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://www.google-analytics.com" />
         <link rel="dns-prefetch" href="https://analytics.google.com" />
+        <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
         
         {/* Preload critical resources */}
         <link rel="preload" href="/SITEGRADE-logo.png" as="image" type="image/png" />
+        <link rel="preload" href="/_next/static/css/app/layout.css" as="style" />
+        
+        {/* Prefetch likely next pages */}
+        <link rel="prefetch" href="/privacy" />
+        
+        {/* Resource hints for better performance */}
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="msapplication-tap-highlight" content="no" />
         
         {/* Structured data */}
         <StructuredData />
@@ -110,8 +122,17 @@ export default function RootLayout({
         className={`${inter.variable} ${jetbrainsMono.variable} antialiased`}
         suppressHydrationWarning={true}
       >
+        {/* Skip navigation for keyboard users */}
+        <a 
+          href="#main-content" 
+          className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-yellow-400 focus:text-slate-900 focus:rounded focus:font-medium"
+        >
+          Skip to main content
+        </a>
+        
         <ErrorBoundary>
           <AnalyticsProvider>
+            <WebVitals />
             {children}
           </AnalyticsProvider>
         </ErrorBoundary>

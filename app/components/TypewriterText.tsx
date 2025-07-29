@@ -12,13 +12,14 @@ interface TypewriterTextProps {
 
 const TypewriterText = memo(function TypewriterText({ 
   words, 
-  typingSpeed = 100, 
-  deletingSpeed = 50, 
+  typingSpeed = 150, // Slightly slower for better performance
+  deletingSpeed = 75, 
   pauseDuration = 2000 
 }: TypewriterTextProps) {
   const [currentWordIndex, setCurrentWordIndex] = useState(0);
   const [displayText, setDisplayText] = useState("");
   const [isTyping, setIsTyping] = useState(true);
+  const [isVisible, setIsVisible] = useState(false);
 
   const memoizedWords = useMemo(() => words, [words]);
 
@@ -34,7 +35,18 @@ const TypewriterText = memo(function TypewriterText({
     setCurrentWordIndex((prev) => (prev + 1) % memoizedWords.length);
   }, [memoizedWords.length]);
 
+  // Delay animation start to improve LCP
   useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsVisible(true);
+    }, 500); // Start animation after 500ms
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  useEffect(() => {
+    if (!isVisible) return;
+
     let timeout: NodeJS.Timeout;
     const currentWord = memoizedWords[currentWordIndex];
 
@@ -64,35 +76,48 @@ const TypewriterText = memo(function TypewriterText({
     }
 
     return () => clearTimeout(timeout);
-  }, [displayText, isTyping, currentWordIndex, memoizedWords, typingSpeed, deletingSpeed, pauseDuration, updateText, toggleTyping, nextWord]);
+  }, [displayText, isTyping, currentWordIndex, memoizedWords, typingSpeed, deletingSpeed, pauseDuration, updateText, toggleTyping, nextWord, isVisible]);
 
   return (
     <div className="h-20 md:h-24 lg:h-32 flex items-center justify-center">
-      <motion.span
-        className="text-yellow-400 font-mono text-4xl md:text-6xl lg:text-7xl block"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.5 }}
-        role="text"
-        aria-live="polite"
-        aria-label={`Currently displaying: ${displayText}`}
-        style={{ willChange: 'opacity' }}
-      >
-        {displayText}
+      {isVisible ? (
         <motion.span
-          animate={{ opacity: [1, 0] }}
-          transition={{
-            duration: 0.8,
-            repeat: Infinity,
-            repeatType: "reverse",
+          className="text-yellow-400 font-mono text-4xl md:text-6xl lg:text-7xl block"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.3 }}
+          role="text"
+          aria-live="polite"
+          aria-label={`Currently displaying: ${displayText}`}
+          style={{ 
+            willChange: 'opacity',
+            contain: 'layout style'
           }}
-          className="text-yellow-400"
-          aria-hidden="true"
-          style={{ willChange: 'opacity' }}
         >
-          |
+          {displayText}
+          <motion.span
+            animate={{ opacity: [1, 0] }}
+            transition={{
+              duration: 0.8,
+              repeat: Infinity,
+              repeatType: "reverse",
+            }}
+            className="text-yellow-400"
+            aria-hidden="true"
+            style={{ willChange: 'opacity' }}
+          >
+            |
+          </motion.span>
         </motion.span>
-      </motion.span>
+      ) : (
+        // Placeholder to prevent layout shift
+        <div 
+          className="text-yellow-400 font-mono text-4xl md:text-6xl lg:text-7xl block opacity-0"
+          aria-hidden="true"
+        >
+          {memoizedWords[0]}|
+        </div>
+      )}
     </div>
   );
 });
