@@ -2,17 +2,37 @@ interface StepCardProps {
   stepNumber: string;
   title: string;
   description: string;
+  stepIndex: number;
 }
 
-function StepCard({ stepNumber, title, description }: StepCardProps) {
+function StepCard({ stepNumber, title, description, stepIndex }: StepCardProps) {
   return (
-    <div className="text-center p-6 md:p-8 how-it-works-card">
-      <div className="step-number mb-6 md:mb-8">{stepNumber}</div>
-      <h3 className="step-title text-lg md:text-xl mb-4 md:mb-6">{title}</h3>
-      <p className="text-slate-300 text-sm leading-relaxed">
+    <article 
+      className="text-center p-6 md:p-8 how-it-works-card"
+      role="article"
+      aria-labelledby={`step-title-${stepIndex}`}
+      aria-describedby={`step-desc-${stepIndex}`}
+    >
+      <div 
+        className="step-number mb-6 md:mb-8"
+        aria-label={`Step ${stepNumber}`}
+        role="img"
+      >
+        {stepNumber}
+      </div>
+      <h4 
+        id={`step-title-${stepIndex}`}
+        className="step-title text-lg md:text-xl mb-4 md:mb-6"
+      >
+        {title}
+      </h4>
+      <p 
+        id={`step-desc-${stepIndex}`}
+        className="text-slate-300 text-sm leading-relaxed"
+      >
         {description}
       </p>
-    </div>
+    </article>
   );
 }
 
@@ -30,21 +50,34 @@ export default function HowItWorks({
   steps 
 }: HowItWorksProps) {
   return (
-    <section className="py-32">
+    <section 
+      className="py-32"
+      aria-labelledby="how-it-works-title"
+      role="region"
+      aria-label="How our website review process works"
+    >
       <div
         style={{ width: "100%", maxWidth: "1200px", margin: "0 auto" }}
         className="px-4"
       >
-        <h2 className="text-4xl font-bold text-center mb-20 text-white font-retro pb-8">
+        <h3 
+          id="how-it-works-title"
+          className="text-4xl font-bold text-center mb-20 text-white font-retro pb-8"
+        >
           {title}
-        </h2>
-        <div className="grid md:grid-cols-3 gap-8 md:gap-12 lg:gap-16">
+        </h3>
+        <div 
+          className="grid md:grid-cols-3 gap-8 md:gap-12 lg:gap-16"
+          role="list"
+          aria-label="Process steps"
+        >
           {steps.map((step, index) => (
             <StepCard
               key={index}
               stepNumber={step.stepNumber}
               title={step.title}
               description={step.description}
+              stepIndex={index}
             />
           ))}
         </div>
