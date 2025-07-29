@@ -1,3 +1,13 @@
+import { 
+  Zap, 
+  Palette, 
+  Smartphone, 
+  Search, 
+  Shield, 
+  CheckCircle, 
+  BarChart3 
+} from "lucide-react";
+
 export const siteData = {
   brand: {
     name: "SITEGRADE",
@@ -14,6 +24,48 @@ export const siteData = {
       "Security",
       "Compliance",
       "Analytics"
+    ]
+  },
+
+  pillars: {
+    title: "Our 7 Grading Pillars",
+    subtitle: "Every website review is evaluated across these core areas to give you a comprehensive assessment",
+    items: [
+      {
+        name: "Performance",
+        description: "Loading speed, Core Web Vitals, and overall site optimization for the best user experience.",
+        icon: Zap
+      },
+      {
+        name: "Design",
+        description: "Visual appeal, user interface quality, and overall aesthetic that engages your visitors.",
+        icon: Palette
+      },
+      {
+        name: "Responsiveness",
+        description: "How well your site adapts across devices - mobile, tablet, and desktop compatibility.",
+        icon: Smartphone
+      },
+      {
+        name: "SEO",
+        description: "Search engine optimization, meta tags, structure, and discoverability factors.",
+        icon: Search
+      },
+      {
+        name: "Security",
+        description: "HTTPS implementation, security headers, and protection against common vulnerabilities.",
+        icon: Shield
+      },
+      {
+        name: "Compliance",
+        description: "Accessibility standards, GDPR compliance, and legal requirements adherence.",
+        icon: CheckCircle
+      },
+      {
+        name: "Analytics",
+        description: "Data tracking setup, conversion optimization, and performance measurement capabilities.",
+        icon: BarChart3
+      }
     ]
   },
 

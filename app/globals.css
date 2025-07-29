@@ -65,15 +65,15 @@
     --accent: #ffff00;
     --blue-accent: #0000ff;
   }
-  
+
   .text-slate-300 {
     color: #ffffff !important;
   }
-  
+
   .text-slate-400 {
     color: #cccccc !important;
   }
-  
+
   .border-slate-700 {
     border-color: #ffffff !important;
   }
@@ -205,11 +205,6 @@ input {
   transform: translateY(0) translateZ(0);
 }
 
-.button-3d:focus {
-  outline: 3px solid var(--accent);
-  outline-offset: 2px;
-}
-
 /* Enhanced input styling - consistent height across all devices with accessibility */
 .retro-input {
   height: 60px !important; /* Force consistent height on all devices */
@@ -257,18 +252,6 @@ input {
 
 .retro-input:focus {
   border-color: var(--accent);
-  outline: 2px solid var(--accent);
-  outline-offset: 2px;
-  box-shadow: 0 0 0 3px rgba(251, 191, 36, 0.1);
-}
-
-.retro-input:invalid {
-  border-color: #ef4444;
-}
-
-.retro-input:invalid:focus {
-  outline-color: #ef4444;
-  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
 }
 
 .retro-input::placeholder {
@@ -297,8 +280,7 @@ button:focus,
 input:focus,
 textarea:focus,
 select:focus {
-  outline: 2px solid var(--accent);
-  outline-offset: 2px;
+  outline: none; /* Remove default outline */
 }
 
 /* Link styles with better accessibility */
@@ -333,7 +315,7 @@ a:focus {
 }
 
 .loading::after {
-  content: '';
+  content: "";
   position: absolute;
   top: 50%;
   left: 50%;
@@ -347,8 +329,12 @@ a:focus {
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 /* Print styles for accessibility */
@@ -356,12 +342,12 @@ a:focus {
   .no-print {
     display: none !important;
   }
-  
+
   body {
     background: white !important;
     color: black !important;
   }
-  
+
   a {
     color: black !important;
     text-decoration: underline !important;
@@ -375,14 +361,14 @@ a:focus {
     min-height: 48px; /* Minimum touch target size */
     height: 48px;
   }
-  
+
   .retro-input {
     height: 48px !important;
     min-height: 48px;
     max-height: 48px;
     font-size: 16px; /* Prevent zoom on iOS */
   }
-  
+
   /* Better spacing on mobile */
   .step-number {
     font-size: 2.5rem;
@@ -422,12 +408,12 @@ a:focus {
   .button-3d:hover .button_top {
     transform: none; /* Disable hover effects on touch devices */
   }
-  
+
   .how-it-works-card:hover {
     transform: none;
     border-color: var(--border);
   }
-  
+
   .retro-input:hover {
     border-color: var(--border);
   }

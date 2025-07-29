@@ -3,6 +3,7 @@
 import Header from "./components/Header";
 import HeroSection from "./components/HeroSection";
 import HowItWorks from "./components/HowItWorks";
+import GradingPillars from "./components/GradingPillars";
 import Footer from "./components/Footer";
 import { siteData } from "./data/siteData";
 
@@ -29,6 +30,12 @@ export default function Home() {
         <HowItWorks
           title={siteData.howItWorks.title}
           steps={siteData.howItWorks.steps}
+        />
+
+        <GradingPillars
+          title={siteData.pillars.title}
+          subtitle={siteData.pillars.subtitle}
+          pillars={siteData.pillars.items}
         />
       </main>
 

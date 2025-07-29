@@ -70,7 +70,7 @@ export default function SubmissionForm({
               href="https://www.tiktok.com/@sitegrade" 
               target="_blank" 
               rel="noopener noreferrer"
-              className="text-amber-400 hover:text-amber-300 underline"
+              className="text-yellow-400 hover:text-yellow-300 underline"
             >
               TikTok @sitegrade
             </a>{' '}
@@ -81,7 +81,7 @@ export default function SubmissionForm({
               setIsSubmitted(false);
               setError(null);
             }}
-            className="text-amber-400 hover:text-amber-300 transition-colors underline"
+            className="text-yellow-400 hover:text-yellow-300 transition-colors underline"
           >
             Submit Another Site
           </button>
