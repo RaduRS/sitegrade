@@ -111,9 +111,6 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="https://analytics.google.com" />
         <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
         
-        {/* Preload critical resources */}
-        <link rel="preload" href="/SITEGRADE-logo.png" as="image" type="image/png" />
-        
         {/* Prefetch likely next pages */}
         <link rel="prefetch" href="/privacy" />
         

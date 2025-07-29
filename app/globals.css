@@ -386,6 +386,17 @@ input {
   color: var(--foreground);
 }
 
+/* Ordered list styling for process steps */
+ol.list-none {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+ol.list-none li {
+  display: block;
+}
+
 /* Improved focus styles for interactive elements */
 a:focus,
 button:focus,

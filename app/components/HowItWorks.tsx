@@ -9,7 +9,6 @@ function StepCard({ stepNumber, title, description, stepIndex }: StepCardProps) 
   return (
     <article 
       className="text-center p-6 md:p-8 how-it-works-card"
-      role="listitem"
       aria-labelledby={`step-title-${stepIndex}`}
       aria-describedby={`step-desc-${stepIndex}`}
     >
@@ -20,12 +19,12 @@ function StepCard({ stepNumber, title, description, stepIndex }: StepCardProps) 
       >
         {stepNumber}
       </div>
-      <h4 
+      <h3 
         id={`step-title-${stepIndex}`}
         className="heading-sm mb-4 md:mb-6"
       >
         {title}
-      </h4>
+      </h3>
       <p 
         id={`step-desc-${stepIndex}`}
         className="body-sm text-slate-300"
@@ -66,21 +65,21 @@ export default function HowItWorks({
         >
           {title}
         </h2>
-        <div 
-          className="grid md:grid-cols-3 gap-8 md:gap-12 lg:gap-16"
-          role="list"
+        <ol 
+          className="grid md:grid-cols-3 gap-8 md:gap-12 lg:gap-16 list-none"
           aria-label="Process steps"
         >
           {steps.map((step, index) => (
-            <StepCard
-              key={index}
-              stepNumber={step.stepNumber}
-              title={step.title}
-              description={step.description}
-              stepIndex={index}
-            />
+            <li key={index}>
+              <StepCard
+                stepNumber={step.stepNumber}
+                title={step.title}
+                description={step.description}
+                stepIndex={index}
+              />
+            </li>
           ))}
-        </div>
+        </ol>
       </div>
     </section>
   );
