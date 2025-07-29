@@ -8,6 +8,9 @@ export function middleware(request: NextRequest) {
   // Generate a nonce for inline scripts
   const nonce = Buffer.from(crypto.randomUUID()).toString('base64');
   
+  // Check if we're in development mode
+  const isDevelopment = process.env.NODE_ENV === 'development';
+  
   // Enhanced security headers for A+ rating
   response.headers.set('X-Frame-Options', 'DENY');
   response.headers.set('X-Content-Type-Options', 'nosniff');
@@ -18,10 +21,14 @@ export function middleware(request: NextRequest) {
   response.headers.set('Cross-Origin-Opener-Policy', 'same-origin-allow-popups');
   response.headers.set('Cross-Origin-Resource-Policy', 'cross-origin');
   
-  // Strict CSP without unsafe-inline and unsafe-eval
+  // CSP with conditional unsafe-eval for development
+  const scriptSrc = isDevelopment 
+    ? `'self' 'unsafe-eval' 'nonce-${nonce}' https://www.googletagmanager.com https://www.google-analytics.com https://ssl.google-analytics.com`
+    : `'self' 'nonce-${nonce}' https://www.googletagmanager.com https://www.google-analytics.com https://ssl.google-analytics.com`;
+  
   const csp = [
     "default-src 'self'",
-    `script-src 'self' 'nonce-${nonce}' https://www.googletagmanager.com https://www.google-analytics.com https://ssl.google-analytics.com`,
+    `script-src ${scriptSrc}`,
     "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com", // Keep unsafe-inline only for styles as it's safer
     "font-src 'self' https://fonts.gstatic.com",
     "img-src 'self' data: https://www.google-analytics.com https://ssl.google-analytics.com",
