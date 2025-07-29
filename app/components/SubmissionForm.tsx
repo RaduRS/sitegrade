@@ -1,4 +1,4 @@
-import { analytics } from './Analytics';
+import { trackFormSubmission, trackButtonClick } from './Analytics';
 
 interface SubmissionFormProps {
   onSubmit?: (url: string) => void;
@@ -16,7 +16,7 @@ export default function SubmissionForm({
     const formData = new FormData(e.currentTarget);
     const url = formData.get('url') as string;
     if (url) {
-      analytics.trackFormSubmission(url);
+      trackFormSubmission(url);
       if (onSubmit) {
         onSubmit(url);
       }
@@ -24,7 +24,7 @@ export default function SubmissionForm({
   };
 
   const handleButtonClick = () => {
-    analytics.trackButtonClick('grade_my_site', 'hero_section');
+    trackButtonClick('grade_my_site', 'hero_section');
   };
 
   return (
