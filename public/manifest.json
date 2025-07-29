@@ -1,7 +1,7 @@
 {
-  "name": "SiteGrade - Expert Website Appraisals & Reviews",
+  "name": "SiteGrade Expert Website Appraisals and Reviews",
   "short_name": "SiteGrade",
-  "description": "Get your website professionally reviewed based on 7 core pillars: Performance, Design, Responsiveness, SEO, Security, Compliance, and Analytics.",
+  "description": "Get your website professionally reviewed based on 7 core pillars. Performance, Design, SEO, Security analysis. Free reviews featured on TikTok.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#0f172a",
@@ -21,6 +21,8 @@
     }
   ],
   "categories": ["business", "productivity", "utilities"],
-  "lang": "en",
-  "dir": "ltr"
+  "lang": "en-GB",
+  "dir": "ltr",
+  "scope": "/",
+  "id": "sitegrade-app"
 }

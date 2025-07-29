@@ -78,6 +78,13 @@ export default function RootLayout({
   return (
     <html lang="en-GB" dir="ltr">
       <head>
+        {/* SEO meta tags */}
+        <meta name="description" content="Get your website professionally reviewed based on 7 core pillars. Performance, Design, SEO, Security analysis. Free reviews featured on TikTok." />
+        <meta name="keywords" content="website review, website appraisal, web design analysis, SEO audit, performance testing, website grading, TikTok reviews" />
+        <meta name="author" content="SiteGrade Team" />
+        <meta name="robots" content="index, follow" />
+        <link rel="canonical" href="https://sitegrade.co.uk/" />
+        
         {/* Accessibility and SEO meta tags */}
         <meta name="color-scheme" content="dark light" />
         <meta name="theme-color" content="#fbbf24" media="(prefers-color-scheme: light)" />
@@ -106,7 +113,6 @@ export default function RootLayout({
         
         {/* Preload critical resources */}
         <link rel="preload" href="/SITEGRADE-logo.png" as="image" type="image/png" />
-        <link rel="preload" href="/_next/static/css/app/layout.css" as="style" />
         
         {/* Prefetch likely next pages */}
         <link rel="prefetch" href="/privacy" />
