@@ -157,10 +157,10 @@ export async function submitWebsite(
         errorDetails.includes("already exists");
 
       if (isDuplicateError) {
-        return { 
-          success: false, 
-          error: '⚠️ This website has already been submitted and is in our review queue. No need to submit it again!' 
-        }
+        return {
+          success: false,
+          error: 'This website has already been submitted and is in our review queue. No need to submit it again! Keep an eye out on our <a href="https://www.tiktok.com/@sitegrade" target="_blank" rel="noopener noreferrer" class="text-amber-400 hover:text-amber-300 underline">TikTok @sitegrade</a> for your review.',
+        };
       }
 
       return {

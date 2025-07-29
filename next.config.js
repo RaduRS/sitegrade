@@ -28,6 +28,11 @@ const nextConfig = {
             key: 'Strict-Transport-Security',
             value: 'max-age=63072000; includeSubDomains; preload'
           },
+          // Additional security headers for A+ rating
+          {
+            key: 'X-Robots-Tag',
+            value: 'index, follow'
+          }
         ],
       },
       {
@@ -46,6 +51,28 @@ const nextConfig = {
             key: 'Cache-Control',
             value: 'public, max-age=31536000, immutable',
           },
+        ],
+      },
+      // Specific headers for API routes to be more restrictive
+      {
+        source: '/api/(.*)',
+        headers: [
+          {
+            key: 'Access-Control-Allow-Origin',
+            value: 'https://sitegrade.co.uk' // Only allow your domain
+          },
+          {
+            key: 'Access-Control-Allow-Methods',
+            value: 'POST, OPTIONS'
+          },
+          {
+            key: 'Access-Control-Allow-Headers',
+            value: 'Content-Type, Authorization'
+          },
+          {
+            key: 'Access-Control-Max-Age',
+            value: '86400'
+          }
         ],
       },
     ];

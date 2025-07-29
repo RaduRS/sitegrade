@@ -3,6 +3,7 @@ import { Inter, JetBrains_Mono } from 'next/font/google';
 import "./globals.css";
 import { AnalyticsProvider } from './components/Analytics';
 import ErrorBoundary from './components/ErrorBoundary';
+import StructuredData from "./components/StructuredData";
 
 const inter = Inter({ 
   subsets: ['latin'],
@@ -71,27 +72,6 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const structuredData = {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    "name": "SiteGrade",
-    "url": "https://sitegrade.co.uk",
-    "logo": "https://sitegrade.co.uk/SITEGRADE-logo.png",
-    "description": "Expert website appraisals and reviews based on 7 core pillars: Performance, Design, Responsiveness, SEO, Security, Compliance, and Analytics.",
-    "email": "hello@sitegrade.co.uk",
-    "sameAs": [
-      "https://tiktok.com/@sitegrade"
-    ],
-    "contactPoint": {
-      "@type": "ContactPoint",
-      "contactType": "customer service",
-      "email": "hello@sitegrade.co.uk",
-      "availableLanguage": "English"
-    },
-    "areaServed": "Worldwide",
-    "serviceType": "Website Review and Analysis"
-  };
-
   return (
     <html lang="en">
       <head>
@@ -100,10 +80,7 @@ export default function RootLayout({
         <link rel="manifest" href="/manifest.json" />
         <meta name="theme-color" content="#fbbf24" />
         <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-        />
+        <StructuredData />
       </head>
       <body className={`${inter.variable} ${jetbrainsMono.variable} antialiased`}>
         <ErrorBoundary>

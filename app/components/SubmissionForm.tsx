@@ -65,7 +65,16 @@ export default function SubmissionForm({
           </div>
           <h3 className="text-xl font-bold text-white mb-2">We Got Your Site! 🎉</h3>
           <p className="text-slate-300 mb-4">
-            Your website has been submitted for review. Keep an eye out on our TikTok @sitegrade for your professional review!
+            Your website has been submitted for review. Keep an eye out on our{' '}
+            <a 
+              href="https://www.tiktok.com/@sitegrade" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="text-amber-400 hover:text-amber-300 underline"
+            >
+              TikTok @sitegrade
+            </a>{' '}
+            for your professional review!
           </p>
           <button 
             onClick={() => {
@@ -117,7 +126,11 @@ export default function SubmissionForm({
         
         {error && (
           <div className="mt-4 p-3 bg-red-900/50 border border-red-700 rounded text-red-300 text-sm text-center">
-            {error}
+            {error.includes('<a href=') ? (
+              <div dangerouslySetInnerHTML={{ __html: error }} />
+            ) : (
+              error
+            )}
           </div>
         )}
       </form>
