@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import TypewriterText from "./TypewriterText";
 import SubmissionForm from "./SubmissionForm";
 
@@ -19,19 +20,26 @@ export default function HeroSection({
       aria-label="Website submission form"
     >
       <div style={{ width: "100%", maxWidth: "1200px", margin: "0 auto" }}>
-        <h2 
+        <h1 
           id="hero-title"
           className="heading-xl text-white mb-0 uppercase"
           aria-describedby="hero-typewriter"
+          style={{ 
+            willChange: 'auto'
+          }}
         >
           {title}
-        </h2>
+        </h1>
 
         <div id="hero-typewriter" className="mb-16" aria-live="polite">
-          <TypewriterText words={typewriterWords} />
+          <Suspense fallback={<div className="h-8" />}>
+            <TypewriterText words={typewriterWords} />
+          </Suspense>
         </div>
 
-        <SubmissionForm />
+        <Suspense fallback={<div className="h-32" />}>
+          <SubmissionForm />
+        </Suspense>
       </div>
     </section>
   );

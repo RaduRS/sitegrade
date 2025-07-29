@@ -18,8 +18,8 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "SiteGrade - Expert Website Appraisals & Reviews",
-  description: "Get your website professionally reviewed based on 7 core pillars: Performance, Design, Responsiveness, SEO, Security, Compliance, and Analytics. Submit your site for a free review featured on TikTok.",
+  title: "SiteGrade Expert Website Appraisals and Reviews",
+  description: "Get your website professionally reviewed based on 7 core pillars. Performance, Design, SEO, Security analysis. Free reviews featured on TikTok.",
   keywords: "website review, website appraisal, web design analysis, SEO audit, performance testing, website grading, TikTok reviews",
   authors: [{ name: "SiteGrade Team" }],
   creator: "SiteGrade",
@@ -34,7 +34,7 @@ export const metadata: Metadata = {
     canonical: '/',
   },
   openGraph: {
-    title: "SiteGrade - Expert Website Appraisals & Reviews",
+    title: "SiteGrade Expert Website Appraisals and Reviews",
     description: "Get your website professionally reviewed based on 7 core pillars. Free reviews featured on TikTok.",
     url: 'https://sitegrade.co.uk',
     siteName: 'SiteGrade',
@@ -51,7 +51,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: "SiteGrade - Expert Website Appraisals & Reviews",
+    title: "SiteGrade Expert Website Appraisals and Reviews",
     description: "Get your website professionally reviewed based on 7 core pillars. Free reviews featured on TikTok.",
     images: ['https://sitegrade.co.uk/SITEGRADE-logo.png'],
     creator: '@sitegrade',
@@ -97,6 +97,11 @@ export default function RootLayout({
         <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://www.google-analytics.com" />
+        <link rel="dns-prefetch" href="https://analytics.google.com" />
+        
+        {/* Preload critical resources */}
+        <link rel="preload" href="/SITEGRADE-logo.png" as="image" type="image/png" />
         
         {/* Structured data */}
         <StructuredData />

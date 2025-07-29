@@ -72,6 +72,23 @@ export const siteData = {
     ]
   },
 
+  about: {
+    title: "Professional Website Analysis for Modern Businesses",
+    content: {
+      introduction: "In today's digital landscape, your website serves as the cornerstone of your online presence. SiteGrade provides comprehensive website analysis and professional reviews that help businesses understand their digital performance across critical areas. Our expert team evaluates websites using industry-standard methodologies and cutting-edge tools to deliver actionable insights that drive real improvements.",
+      benefits: [
+        "Comprehensive analysis across 7 essential website quality pillars including performance, security, and SEO optimization",
+        "Professional video reviews delivered through engaging TikTok content that reaches your target audience",
+        "Actionable recommendations based on current web standards and best practices for improved user experience",
+        "Expert insights into Core Web Vitals, accessibility compliance, and modern web development standards",
+        "Detailed security assessments covering SSL implementation, data protection, and vulnerability analysis",
+        "SEO optimization guidance including meta tag analysis, content structure evaluation, and search visibility improvements"
+      ],
+      expertise: "Our team combines years of web development experience with deep knowledge of digital marketing, user experience design, and technical SEO. We stay current with Google's algorithm updates, accessibility guidelines, and emerging web technologies to ensure our reviews reflect the latest industry standards. Every website analysis includes practical recommendations that can be implemented immediately to improve performance and user satisfaction.",
+      commitment: "We're committed to helping businesses succeed online by providing transparent, honest, and constructive website reviews that highlight both strengths and areas for improvement."
+    }
+  },
+
   footer: {
     sections: [
       {

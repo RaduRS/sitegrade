@@ -4,7 +4,7 @@ export default async function StructuredData() {
   const headersList = await headers();
   const nonce = headersList.get('X-Nonce');
 
-  const structuredData = {
+  const organizationData = {
     "@context": "https://schema.org",
     "@type": "Organization",
     "name": "SiteGrade",
@@ -22,14 +22,75 @@ export default async function StructuredData() {
       "availableLanguage": "English"
     },
     "areaServed": "Worldwide",
-    "serviceType": "Website Review and Analysis"
+    "serviceType": "Website Review and Analysis",
+    "foundingDate": "2025",
+    "knowsAbout": [
+      "Website Performance Optimization",
+      "SEO Analysis",
+      "Web Security Auditing",
+      "Responsive Design Testing",
+      "Web Accessibility Compliance",
+      "Core Web Vitals",
+      "Website Analytics"
+    ]
+  };
+
+  const serviceData = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "name": "Professional Website Review and Analysis",
+    "description": "Comprehensive website evaluation covering performance, design, SEO, security, compliance, and analytics with expert recommendations.",
+    "provider": {
+      "@type": "Organization",
+      "name": "SiteGrade",
+      "url": "https://sitegrade.co.uk"
+    },
+    "serviceType": "Website Analysis",
+    "areaServed": "Worldwide",
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "Website Review Services",
+      "itemListElement": [
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Performance Analysis",
+            "description": "Core Web Vitals assessment and page speed optimization recommendations"
+          }
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "SEO Audit",
+            "description": "Search engine optimization analysis and improvement strategies"
+          }
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Security Assessment",
+            "description": "Website security evaluation and vulnerability analysis"
+          }
+        }
+      ]
+    }
   };
 
   return (
-    <script
-      type="application/ld+json"
-      nonce={nonce || undefined}
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-    />
+    <>
+      <script
+        type="application/ld+json"
+        nonce={nonce || undefined}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationData) }}
+      />
+      <script
+        type="application/ld+json"
+        nonce={nonce || undefined}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceData) }}
+      />
+    </>
   );
 }

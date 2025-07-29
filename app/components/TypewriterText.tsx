@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useMemo, useCallback } from "react";
+import { useState, useEffect, useMemo, useCallback, memo } from "react";
 import { motion } from "framer-motion";
 
 interface TypewriterTextProps {
@@ -10,7 +10,7 @@ interface TypewriterTextProps {
   pauseDuration?: number;
 }
 
-export default function TypewriterText({ 
+const TypewriterText = memo(function TypewriterText({ 
   words, 
   typingSpeed = 100, 
   deletingSpeed = 50, 
@@ -76,6 +76,7 @@ export default function TypewriterText({
         role="text"
         aria-live="polite"
         aria-label={`Currently displaying: ${displayText}`}
+        style={{ willChange: 'opacity' }}
       >
         {displayText}
         <motion.span
@@ -87,10 +88,13 @@ export default function TypewriterText({
           }}
           className="text-yellow-400"
           aria-hidden="true"
+          style={{ willChange: 'opacity' }}
         >
           |
         </motion.span>
       </motion.span>
     </div>
   );
-}
+});
+
+export default TypewriterText;
