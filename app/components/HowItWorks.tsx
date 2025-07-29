@@ -22,13 +22,13 @@ function StepCard({ stepNumber, title, description, stepIndex }: StepCardProps) 
       </div>
       <h4 
         id={`step-title-${stepIndex}`}
-        className="step-title text-lg md:text-xl mb-4 md:mb-6"
+        className="heading-sm mb-4 md:mb-6"
       >
         {title}
       </h4>
       <p 
         id={`step-desc-${stepIndex}`}
-        className="text-slate-300 text-sm leading-relaxed"
+        className="body-sm text-slate-300"
       >
         {description}
       </p>
@@ -62,7 +62,7 @@ export default function HowItWorks({
       >
         <h3 
           id="how-it-works-title"
-          className="text-4xl font-bold text-center mb-20 text-white font-retro pb-8"
+          className="heading-lg text-center mb-20 text-white font-retro pb-8"
         >
           {title}
         </h3>

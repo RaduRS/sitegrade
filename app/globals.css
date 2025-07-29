@@ -136,6 +136,77 @@ body {
   font-weight: 700;
 }
 
+/* Consistent Typography System */
+.heading-xl {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  line-height: 1.1;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.heading-lg {
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  line-height: 1.2;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.heading-md {
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  line-height: 1.3;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.heading-sm {
+  font-size: clamp(1.25rem, 2.5vw, 1.5rem);
+  line-height: 1.4;
+  font-weight: 600;
+}
+
+.body-lg {
+  font-size: clamp(1.125rem, 2vw, 1.25rem);
+  line-height: 1.6;
+  font-weight: 400;
+}
+
+.body-md {
+  font-size: clamp(1rem, 1.5vw, 1.125rem);
+  line-height: 1.6;
+  font-weight: 400;
+}
+
+.body-sm {
+  font-size: clamp(0.875rem, 1.25vw, 1rem);
+  line-height: 1.5;
+  font-weight: 400;
+}
+
+/* Monospace variants */
+.mono-lg {
+  font-family: var(--font-jetbrains-mono);
+  font-size: clamp(1rem, 1.75vw, 1.125rem);
+  line-height: 1.5;
+  font-weight: 600;
+  letter-spacing: 0.025em;
+}
+
+.mono-md {
+  font-family: var(--font-jetbrains-mono);
+  font-size: clamp(0.875rem, 1.5vw, 1rem);
+  line-height: 1.5;
+  font-weight: 600;
+  letter-spacing: 0.025em;
+}
+
+.mono-sm {
+  font-family: var(--font-jetbrains-mono);
+  font-size: clamp(0.75rem, 1.25vw, 0.875rem);
+  line-height: 1.4;
+  font-weight: 500;
+  letter-spacing: 0.025em;
+}
+
 /* Remove default button styles */
 button {
   border: none;

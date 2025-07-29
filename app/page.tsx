@@ -35,7 +35,7 @@ export default function Home() {
         <GradingPillars
           title={siteData.pillars.title}
           subtitle={siteData.pillars.subtitle}
-          pillars={siteData.pillars.items}
+          items={siteData.pillars.items}
         />
       </main>
 

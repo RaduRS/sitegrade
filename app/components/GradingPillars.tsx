@@ -2,149 +2,141 @@
 
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
+import { 
+  Zap, 
+  Palette, 
+  Smartphone, 
+  Search, 
+  Shield, 
+  CheckCircle, 
+  BarChart3 
+} from "lucide-react";
+
+// Icon mapping
+const iconMap = {
+  Zap,
+  Palette,
+  Smartphone,
+  Search,
+  Shield,
+  CheckCircle,
+  BarChart3
+} as const;
 
 interface Pillar {
   name: string;
   description: string;
-  icon: React.ComponentType<{ className?: string }>;
+  icon: string;
 }
 
 interface GradingPillarsProps {
   title: string;
   subtitle: string;
-  pillars: Pillar[];
+  items: Pillar[];
 }
 
-export default function GradingPillars({ title, subtitle, pillars }: GradingPillarsProps) {
+export default function GradingPillars({ title, subtitle, items }: GradingPillarsProps) {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
+  const MotionDiv = mounted ? motion.div : 'div';
+
   return (
-    <section 
-      className="py-20 px-4"
-      aria-labelledby="pillars-heading"
-      role="region"
-    >
-      <div className="max-w-6xl mx-auto">
-        {/* Section Header */}
-        <div className="text-center mb-16">
-          <h2 
-            id="pillars-heading"
-            className="text-3xl md:text-4xl font-bold text-white mb-4"
-          >
+    <section className="py-20 px-4">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Header */}
+        <div className="text-center mb-12">
+          <h2 className="heading-lg text-white mb-4 font-mono">
             {title}
           </h2>
-          <p className="text-gray-300 text-lg max-w-2xl mx-auto">
+          <p className="body-lg text-gray-300 max-w-3xl mx-auto">
             {subtitle}
           </p>
         </div>
 
-        {/* Pillars as horizontal flowing badges */}
-        <div className="space-y-8">
-          {/* First row - 4 pillars */}
-          <div 
-            className="flex flex-wrap justify-center gap-4 md:gap-6"
-            role="list"
-            aria-label="Primary grading criteria"
-          >
-            {pillars.slice(0, 4).map((pillar, index) => {
-              const IconComponent = pillar.icon;
-              const BadgeComponent = mounted ? motion.div : 'div';
-              const animationProps = mounted ? {
-                initial: { opacity: 0, scale: 0.8 },
-                whileInView: { opacity: 1, scale: 1 },
-                transition: { 
-                  duration: 0.4, 
-                  delay: index * 0.1,
-                  ease: "easeOut"
-                },
-                viewport: { once: true },
-                whileHover: { 
-                  scale: 1.05,
-                  transition: { duration: 0.2 }
-                }
-              } : {};
-
+        {/* Pillar List */}
+        <div className="space-y-8 mb-16">
+          {/* First Row - 3 pillars */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {items.slice(0, 3).map((pillar, index) => {
+              const IconComponent = iconMap[pillar.icon as keyof typeof iconMap];
               return (
-                <BadgeComponent
+                <MotionDiv
                   key={pillar.name}
-                  role="listitem"
-                  className="group bg-slate-800/60 border border-slate-600 rounded-full px-6 py-4 flex items-center gap-3 hover:border-amber-400/60 hover:bg-slate-700/60 transition-all duration-300 cursor-default"
-                  {...animationProps}
+                  className="flex items-start gap-3 p-3 rounded bg-slate-800/30"
+                  {...(mounted && {
+                    initial: { opacity: 0, y: 20 },
+                    animate: { opacity: 1, y: 0 },
+                    transition: { delay: index * 0.1 }
+                  })}
                 >
-                  <IconComponent className="w-5 h-5 text-amber-400 group-hover:text-amber-300 transition-colors" />
-                  <span className="text-white font-medium text-sm md:text-base whitespace-nowrap">
-                    {pillar.name}
-                  </span>
-                </BadgeComponent>
+                  <IconComponent className="w-6 h-6 text-amber-400 mt-1 flex-shrink-0" />
+                  <div>
+                    <h3 className="heading-sm text-amber-400 mb-2 font-mono">{pillar.name}</h3>
+                    <p className="body-sm text-gray-300 leading-relaxed">
+                      {pillar.description}
+                    </p>
+                  </div>
+                </MotionDiv>
               );
             })}
           </div>
 
-          {/* Second row - 3 pillars */}
-          <div 
-            className="flex flex-wrap justify-center gap-4 md:gap-6"
-            role="list"
-            aria-label="Secondary grading criteria"
-          >
-            {pillars.slice(4).map((pillar, index) => {
-              const IconComponent = pillar.icon;
-              const BadgeComponent = mounted ? motion.div : 'div';
-              const animationProps = mounted ? {
-                initial: { opacity: 0, scale: 0.8 },
-                whileInView: { opacity: 1, scale: 1 },
-                transition: { 
-                  duration: 0.4, 
-                  delay: (index + 4) * 0.1,
-                  ease: "easeOut"
-                },
-                viewport: { once: true },
-                whileHover: { 
-                  scale: 1.05,
-                  transition: { duration: 0.2 }
-                }
-              } : {};
-
+          {/* Second Row - 3 pillars */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {items.slice(3, 6).map((pillar, index) => {
+              const IconComponent = iconMap[pillar.icon as keyof typeof iconMap];
               return (
-                <BadgeComponent
+                <MotionDiv
                   key={pillar.name}
-                  role="listitem"
-                  className="group bg-slate-800/60 border border-slate-600 rounded-full px-6 py-4 flex items-center gap-3 hover:border-amber-400/60 hover:bg-slate-700/60 transition-all duration-300 cursor-default"
-                  {...animationProps}
+                  className="flex items-start gap-3 p-3 rounded bg-slate-800/30"
+                  {...(mounted && {
+                    initial: { opacity: 0, y: 20 },
+                    animate: { opacity: 1, y: 0 },
+                    transition: { delay: (index + 3) * 0.1 }
+                  })}
                 >
-                  <IconComponent className="w-5 h-5 text-amber-400 group-hover:text-amber-300 transition-colors" />
-                  <span className="text-white font-medium text-sm md:text-base whitespace-nowrap">
-                    {pillar.name}
-                  </span>
-                </BadgeComponent>
+                  <IconComponent className="w-6 h-6 text-amber-400 mt-1 flex-shrink-0" />
+                  <div>
+                    <h3 className="heading-sm text-amber-400 mb-2 font-mono">{pillar.name}</h3>
+                    <p className="body-sm text-gray-300 leading-relaxed">
+                      {pillar.description}
+                    </p>
+                  </div>
+                </MotionDiv>
               );
             })}
           </div>
-        </div>
 
-        {/* Detailed descriptions in a compact format */}
-        <div className="mt-12 max-w-4xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-            {pillars.map((pillar) => (
-              <div key={pillar.name} className="flex items-start gap-3 p-3 rounded bg-slate-800/30">
-                <pillar.icon className="w-4 h-4 text-amber-400 mt-0.5 flex-shrink-0" />
-                <div>
-                  <span className="text-amber-400 font-medium">{pillar.name}:</span>
-                  <span className="text-gray-300 ml-2">{pillar.description}</span>
-                </div>
-              </div>
-            ))}
+          {/* Third row - Analytics left-aligned */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {(() => {
+              const pillar = items[6]; // Analytics is at index 6
+              const IconComponent = iconMap[pillar.icon as keyof typeof iconMap];
+              return (
+                <MotionDiv
+                  key={pillar.name}
+                  className="flex items-start gap-3 p-3 rounded bg-slate-800/30"
+                  {...(mounted && {
+                    initial: { opacity: 0, y: 20 },
+                    animate: { opacity: 1, y: 0 },
+                    transition: { delay: 6 * 0.1 }
+                  })}
+                >
+                  <IconComponent className="w-6 h-6 text-amber-400 mt-1 flex-shrink-0" />
+                  <div>
+                    <h3 className="heading-sm text-amber-400 mb-2 font-mono">{pillar.name}</h3>
+                    <p className="body-sm text-gray-300 leading-relaxed">
+                      {pillar.description}
+                    </p>
+                  </div>
+                </MotionDiv>
+              );
+            })()}
           </div>
-        </div>
-
-        {/* Call to Action */}
-        <div className="text-center mt-12">
-          <p className="text-gray-400 text-sm">
-            Ready to see how your website measures up across all pillars?
-          </p>
         </div>
       </div>
     </section>

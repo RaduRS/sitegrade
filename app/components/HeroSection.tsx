@@ -21,7 +21,7 @@ export default function HeroSection({
       <div style={{ width: "100%", maxWidth: "1200px", margin: "0 auto" }}>
         <h2 
           id="hero-title"
-          className="text-2xl md:text-4xl lg:text-6xl font-bold text-white mb-0 leading-tight uppercase"
+          className="heading-xl text-white mb-0 uppercase"
           aria-describedby="hero-typewriter"
         >
           {title}
