@@ -33,7 +33,7 @@ const initializeAnalytics = () => {
       app: 'SiteGrade',
       plugins: [
         googleAnalytics({
-          trackingId: GA_TRACKING_ID,
+          measurementIds: [GA_TRACKING_ID as string],
         })
       ]
     });
