@@ -1,7 +1,6 @@
 import Link from 'next/link';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import { siteData } from '../data/siteData';
 
 export default function PrivacyPolicy() {
   return (

@@ -126,7 +126,7 @@ export async function submitWebsite(
       return { success: false, error: "Invalid request" };
     }
 
-    const { data, error } = await supabase
+    const { error } = await supabase
       .from("website_submissions")
       .insert([
         {

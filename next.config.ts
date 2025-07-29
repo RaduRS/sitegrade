@@ -14,19 +14,10 @@ const nextConfig = {
     minimumCacheTTL: 60,
   },
   
-  // Experimental features for better performance
-  experimental: {
-    optimizePackageImports: ['framer-motion', 'lucide-react'],
-    optimizeCss: true,
-  },
-  
   // Compiler optimizations
   compiler: {
     removeConsole: process.env.NODE_ENV === 'production',
   },
-  
-  // Output configuration for better performance
-  output: 'standalone',
   
   // Headers for better caching and security
   async headers() {
@@ -79,30 +70,8 @@ const nextConfig = {
           },
         ],
       },
-      // Specific headers for API routes to be more restrictive
-      {
-        source: '/api/(.*)',
-        headers: [
-          {
-            key: 'Access-Control-Allow-Origin',
-            value: 'https://sitegrade.co.uk' // Only allow your domain
-          },
-          {
-            key: 'Access-Control-Allow-Methods',
-            value: 'POST, OPTIONS'
-          },
-          {
-            key: 'Access-Control-Allow-Headers',
-            value: 'Content-Type, Authorization'
-          },
-          {
-            key: 'Access-Control-Max-Age',
-            value: '86400'
-          }
-        ],
-      },
     ];
   },
 };
 
-module.exports = nextConfig;
+export default nextConfig;

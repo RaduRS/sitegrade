@@ -42,7 +42,7 @@ export default function SubmissionForm({
       } else {
         setError(result.error || 'Failed to submit website');
       }
-    } catch (err) {
+    } catch {
       setError('Something went wrong. Please try again.');
     } finally {
       setIsSubmitting(false);

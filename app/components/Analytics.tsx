@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
+import { createContext, useContext, useEffect, useState, useCallback, ReactNode } from 'react';
 import { getAnalytics, pageview, trackFormSubmission, trackButtonClick, initAnalytics } from '../lib/gtag';
 import CookieConsent from './CookieConsent';
 
@@ -11,15 +11,7 @@ const AnalyticsContext = createContext(getAnalytics());
 export function AnalyticsProvider({ children }: { children: ReactNode }) {
   const [analyticsInitialized, setAnalyticsInitialized] = useState(false);
 
-  useEffect(() => {
-    // Check if user has already consented
-    const consent = localStorage.getItem('cookie-consent');
-    if (consent === 'accepted') {
-      initializeAnalytics();
-    }
-  }, []);
-
-  const initializeAnalytics = () => {
+  const initializeAnalytics = useCallback(() => {
     if (!analyticsInitialized) {
       initAnalytics();
       setAnalyticsInitialized(true);
@@ -29,7 +21,15 @@ export function AnalyticsProvider({ children }: { children: ReactNode }) {
         pageview(window.location.pathname);
       }
     }
-  };
+  }, [analyticsInitialized]);
+
+  useEffect(() => {
+    // Check if user has already consented
+    const consent = localStorage.getItem('cookie-consent');
+    if (consent === 'accepted') {
+      initializeAnalytics();
+    }
+  }, [initializeAnalytics]);
 
   const handleAcceptCookies = () => {
     initializeAnalytics();
