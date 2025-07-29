@@ -29,12 +29,7 @@ export default function Home() {
         />
       </main>
 
-      <Footer
-        brandName={siteData.brand.name}
-        brandDescription={siteData.brand.description}
-        sections={siteData.footer.sections}
-        copyrightText={siteData.footer.copyrightText}
-      />
+      <Footer />
     </div>
   );
 }

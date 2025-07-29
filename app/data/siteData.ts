@@ -59,6 +59,6 @@ export const siteData = {
         ]
       }
     ],
-    copyrightText: "© 2024 SiteGrade. All rights reserved."
+    copyrightText: "© 2025 SiteGrade. All rights reserved."
   }
 };

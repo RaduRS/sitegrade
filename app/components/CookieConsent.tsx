@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Link from "next/link";
 
 interface CookieConsentProps {
   onAccept: () => void;
@@ -41,7 +42,14 @@ export default function CookieConsent({
         <div className="flex-1">
           <p className="text-sm text-gray-700 leading-relaxed">
             We use Google Analytics to understand how visitors interact with our
-            website. This helps us improve your experience.
+            website. This helps us improve your experience. You can learn more about our data practices in our{' '}
+            <Link href="/privacy" className="text-amber-600 hover:text-amber-700 underline">
+              Privacy Policy
+            </Link>{' '}
+            and{' '}
+            <Link href="/privacy/cookies" className="text-amber-600 hover:text-amber-700 underline">
+              Cookie Policy
+            </Link>.
           </p>
         </div>
         <div className="flex flex-col sm:flex-row gap-3 shrink-0">
