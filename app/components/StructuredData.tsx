@@ -1,9 +1,4 @@
-import { headers } from 'next/headers';
-
-export default async function StructuredData() {
-  const headersList = await headers();
-  const nonce = headersList.get('X-Nonce');
-
+export default function StructuredData() {
   const organizationData = {
     "@context": "https://schema.org",
     "@type": "Organization",
@@ -13,7 +8,10 @@ export default async function StructuredData() {
     "description": "Expert website appraisals and reviews based on 7 core pillars: Performance, Design, Responsiveness, SEO, Security, Compliance, and Analytics.",
     "email": "hello@sitegrade.co.uk",
     "sameAs": [
-      "https://tiktok.com/@sitegrade"
+      "https://www.tiktok.com/@sitegradeuk",
+      "https://www.instagram.com/sitegradeuk/",
+      "https://www.youtube.com/@sitegradeuk",
+      "https://x.com/sitegradeuk"
     ],
     "contactPoint": {
       "@type": "ContactPoint",
@@ -83,12 +81,10 @@ export default async function StructuredData() {
     <>
       <script
         type="application/ld+json"
-        nonce={nonce || undefined}
         dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationData) }}
       />
       <script
         type="application/ld+json"
-        nonce={nonce || undefined}
         dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceData) }}
       />
     </>

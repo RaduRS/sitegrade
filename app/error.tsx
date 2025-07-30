@@ -24,10 +24,10 @@ export default function Error({
       <main className="flex-1 flex items-center justify-center px-4">
         <div className="text-center max-w-md">
           <div className="mb-8">
-            <h1 className="text-6xl font-bold text-yellow-400 font-retro mb-4">
-              ERROR
-            </h1>
-            <h2 className="text-2xl font-semibold text-white mb-4">
+            <h1 className="heading-xl text-yellow-400 font-retro mb-4">
+          Oops!
+        </h1>
+        <h2 className="heading-lg text-white mb-4 font-retro">
               Something went wrong!
             </h2>
             <p className="text-slate-300 mb-8">

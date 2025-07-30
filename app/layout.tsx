@@ -55,7 +55,7 @@ export const metadata: Metadata = {
     title: "SiteGrade Expert Website Appraisals and Reviews",
     description: "Get your website professionally reviewed based on 7 core pillars. Free reviews featured on TikTok.",
     images: ['https://sitegrade.co.uk/SITEGRADE-logo.png'],
-    creator: '@sitegrade',
+    creator: '@sitegradeuk',
   },
   robots: {
     index: true,

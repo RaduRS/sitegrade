@@ -10,10 +10,10 @@ export default function NotFound() {
       <main className="flex-1 flex items-center justify-center px-4 py-16">
         <div className="text-center max-w-md">
           <div className="mb-8">
-            <h1 className="text-6xl md:text-8xl font-mono font-bold text-yellow-400 mb-4">
-              404
-            </h1>
-            <h2 className="text-2xl md:text-3xl font-bold mb-4">
+            <h1 className="heading-xl text-yellow-400 mb-4 font-retro">
+          404
+        </h1>
+        <h2 className="heading-lg mb-4 font-retro">
               Page Not Found
             </h2>
             <p className="text-slate-300 mb-8">

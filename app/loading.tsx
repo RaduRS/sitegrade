@@ -3,7 +3,7 @@ export default function Loading() {
     <div className="bg-slate-900 text-white min-h-screen flex items-center justify-center">
       <div className="text-center">
         <div className="mb-8">
-          <h1 className="text-4xl font-bold text-yellow-400 font-retro mb-4">
+          <h1 className="heading-xl text-yellow-400 font-retro mb-4">
             SITEGRADE
           </h1>
           <div className="flex items-center justify-center space-x-2">

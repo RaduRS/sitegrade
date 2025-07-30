@@ -74,16 +74,16 @@ export default function SubmissionForm({
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
             </svg>
           </div>
-          <h3 className="text-xl font-bold text-white mb-2">We Got Your Site! 🎉</h3>
+          <h3 className="heading-md text-white mb-2 font-retro">We Got Your Site! 🎉</h3>
           <p className="text-slate-300 mb-4">
             Your website has been submitted for review. Keep an eye out on our{' '}
             <a 
-              href="https://www.tiktok.com/@sitegrade" 
+              href="https://www.tiktok.com/@sitegradeuk" 
               target="_blank" 
               rel="noopener noreferrer"
               className="text-yellow-400 hover:text-yellow-300 underline"
             >
-              TikTok @sitegrade
+              TikTok @sitegradeuk
             </a>{' '}
             for your professional review!
           </p>

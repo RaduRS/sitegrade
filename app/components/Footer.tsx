@@ -1,7 +1,64 @@
 import Link from "next/link";
 import { siteData } from "../data/siteData";
+import { Mail, Music, Instagram, Youtube, X } from "lucide-react";
 
 export default function Footer() {
+  // Create combined contact and follow section
+  const contactAndFollowSection = {
+    title: "Contact",
+    items: [
+      <a 
+        key="email" 
+        href="mailto:hello@sitegrade.co.uk" 
+        className="hover:text-amber-400 transition-colors flex items-center gap-2 justify-center mb-6"
+      >
+        <Mail className="w-4 h-4" />
+        hello@sitegrade.co.uk
+      </a>,
+      <div key="follow-title" className="mb-4">
+        <h6 className="text-lg font-semibold text-white font-retro">Follow Us</h6>
+      </div>,
+      <div key="social" className="flex justify-center items-center gap-4">
+        <a 
+          href="https://www.tiktok.com/@sitegradeuk" 
+          className="hover:text-amber-400 transition-colors p-2"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Follow us on TikTok"
+        >
+          <Music className="w-5 h-5" />
+        </a>
+        <a 
+          href="https://www.instagram.com/sitegradeuk/" 
+          className="hover:text-amber-400 transition-colors p-2"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Follow us on Instagram"
+        >
+          <Instagram className="w-5 h-5" />
+        </a>
+        <a 
+          href="https://www.youtube.com/@sitegradeuk" 
+          className="hover:text-amber-400 transition-colors p-2"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Follow us on YouTube"
+        >
+          <Youtube className="w-5 h-5" />
+        </a>
+        <a 
+          href="https://x.com/sitegradeuk" 
+          className="hover:text-amber-400 transition-colors p-2"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Follow us on X"
+        >
+          <X className="w-5 h-5" />
+        </a>
+      </div>
+    ]
+  };
+
   const sections = [
     ...siteData.footer.sections.slice(0, 1), // Services
     {
@@ -18,7 +75,7 @@ export default function Footer() {
         </Link>
       ]
     },
-    ...siteData.footer.sections.slice(1) // Contact
+    contactAndFollowSection
   ];
 
   return (
@@ -46,7 +103,7 @@ export default function Footer() {
         >
           {sections.map((section, index) => (
             <div key={index}>
-              <h5 className="text-lg font-semibold text-white mb-4">
+              <h5 className="text-lg font-semibold text-white mb-4 font-retro">
                 {section.title}
               </h5>
               <ul 

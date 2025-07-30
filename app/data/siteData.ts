@@ -104,9 +104,7 @@ export const siteData = {
         title: "Contact",
         items: [
           "hello@sitegrade.co.uk",
-          "https://sitegrade.co.uk",
-          "TikTok: @sitegrade",
-          "Professional Reviews"
+          "https://sitegrade.co.uk"
         ]
       }
     ],
