@@ -27,8 +27,6 @@ html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
-  /* Reduce paint complexity */
-  transform: translateZ(0);
 }
 
 body {
@@ -39,8 +37,6 @@ body {
   font-family: var(--font-inter);
   /* Prevent FOUC */
   opacity: 1;
-  /* Optimize rendering */
-  contain: layout style;
 }
 
 /* Critical LCP element optimization */
