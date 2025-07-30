@@ -67,10 +67,10 @@ export default function Footer() {
         <Link key="privacy" href="/privacy" className="hover:text-amber-400 transition-colors">
           Privacy Policy
         </Link>,
-        <Link key="cookies" href="/privacy/cookies" className="hover:text-amber-400 transition-colors">
+        <Link key="cookies" href="/cookies" className="hover:text-amber-400 transition-colors">
           Cookie Policy
         </Link>,
-        <Link key="terms" href="/privacy/terms" className="hover:text-amber-400 transition-colors">
+        <Link key="terms" href="/terms" className="hover:text-amber-400 transition-colors">
           Terms of Service
         </Link>
       ]

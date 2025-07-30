@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import Link from "next/link";
 
 interface CookieConsentProps {
@@ -13,129 +13,157 @@ export default function CookieConsent({
   onReject,
 }: CookieConsentProps) {
   const [isVisible, setIsVisible] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
   const acceptButtonRef = useRef<HTMLButtonElement>(null);
   const scrollPositionRef = useRef(0);
+  const eventListenersRef = useRef(false);
 
-  // Prevent scrolling function
-  const preventScroll = () => {
-    // Save current scroll position
-    scrollPositionRef.current = window.pageYOffset;
-
-    // Apply styles to prevent scrolling
-    document.body.style.position = "fixed";
-    document.body.style.top = `-${scrollPositionRef.current}px`;
-    document.body.style.width = "100%";
-    document.body.style.overflow = "hidden";
-    document.documentElement.style.overflow = "hidden";
-
-    // Add event listeners to prevent scrolling
-    document.addEventListener("wheel", preventScrollEvent, { passive: false });
-    document.addEventListener("touchmove", preventScrollEvent, {
-      passive: false,
-    });
-    document.addEventListener("keydown", preventKeyboardScroll, {
-      passive: false,
-    });
-  };
-
-  // Restore scrolling function
-  const restoreScroll = () => {
-    // Remove event listeners
-    document.removeEventListener("wheel", preventScrollEvent);
-    document.removeEventListener("touchmove", preventScrollEvent);
-    document.removeEventListener("keydown", preventKeyboardScroll);
-
-    // Remove the fixed positioning
-    document.body.style.position = "";
-    document.body.style.top = "";
-    document.body.style.width = "";
-    document.body.style.overflow = "";
-    document.documentElement.style.overflow = "";
-
-    // Restore scroll position
-    window.scrollTo(0, scrollPositionRef.current);
-  };
-
-  // Prevent scroll events
-  const preventScrollEvent = (e: Event) => {
+  // Memoized scroll prevention functions
+  const preventScrollEvent = useCallback((e: Event) => {
     e.preventDefault();
     e.stopPropagation();
     return false;
-  };
+  }, []);
 
-  // Prevent keyboard scrolling (arrow keys, page up/down, etc.)
-  const preventKeyboardScroll = (e: KeyboardEvent) => {
+  const preventKeyboardScroll = useCallback((e: KeyboardEvent) => {
     const scrollKeys = [
-      "ArrowUp",
-      "ArrowDown",
-      "ArrowLeft",
-      "ArrowRight",
-      "PageUp",
-      "PageDown",
-      "Home",
-      "End",
-      " ",
+      "ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight",
+      "PageUp", "PageDown", "Home", "End", " "
     ];
     if (scrollKeys.includes(e.key)) {
       e.preventDefault();
       e.stopPropagation();
       return false;
     }
-  };
-
-  useEffect(() => {
-    // Check if user has already made a choice
-    const consent = localStorage.getItem("cookie-consent");
-    if (!consent) {
-      setIsVisible(true);
-      preventScroll();
-
-      // Focus the accept button when the modal appears for keyboard users
-      setTimeout(() => {
-        acceptButtonRef.current?.focus();
-      }, 100);
-    }
   }, []);
 
+  // Optimized scroll prevention
+  const preventScroll = useCallback(() => {
+    if (eventListenersRef.current) return;
+    
+    scrollPositionRef.current = window.pageYOffset;
+    
+    // Use requestAnimationFrame to defer style changes
+    requestAnimationFrame(() => {
+      document.body.style.position = "fixed";
+      document.body.style.top = `-${scrollPositionRef.current}px`;
+      document.body.style.width = "100%";
+      document.body.style.overflow = "hidden";
+      document.documentElement.style.overflow = "hidden";
+    });
+
+    // Add event listeners with passive: false only when needed
+    document.addEventListener("wheel", preventScrollEvent, { passive: false });
+    document.addEventListener("touchmove", preventScrollEvent, { passive: false });
+    document.addEventListener("keydown", preventKeyboardScroll, { passive: false });
+    eventListenersRef.current = true;
+  }, [preventScrollEvent, preventKeyboardScroll]);
+
+  // Optimized scroll restoration
+  const restoreScroll = useCallback(() => {
+    if (!eventListenersRef.current) return;
+
+    // Remove event listeners first
+    document.removeEventListener("wheel", preventScrollEvent);
+    document.removeEventListener("touchmove", preventScrollEvent);
+    document.removeEventListener("keydown", preventKeyboardScroll);
+    eventListenersRef.current = false;
+
+    // Use requestAnimationFrame to defer style restoration
+    requestAnimationFrame(() => {
+      document.body.style.position = "";
+      document.body.style.top = "";
+      document.body.style.width = "";
+      document.body.style.overflow = "";
+      document.documentElement.style.overflow = "";
+      
+      // Restore scroll position
+      window.scrollTo(0, scrollPositionRef.current);
+    });
+  }, [preventScrollEvent, preventKeyboardScroll]);
+
   useEffect(() => {
-    // Cleanup: restore scrolling when component unmounts
+    // Defer localStorage check to avoid blocking initial render
+    const checkConsent = () => {
+      try {
+        const consent = localStorage.getItem("cookie-consent");
+        if (!consent) {
+          setIsVisible(true);
+          // Defer scroll prevention to next frame
+          requestAnimationFrame(() => {
+            preventScroll();
+            // Defer focus to avoid blocking render
+            setTimeout(() => {
+              acceptButtonRef.current?.focus();
+            }, 150);
+          });
+        }
+      } catch (error) {
+        // Fallback if localStorage is not available
+        console.warn("localStorage not available:", error);
+        setIsVisible(true);
+      }
+      setIsLoaded(true);
+    };
+
+    // Use setTimeout to defer the check and avoid blocking initial render
+    const timeoutId = setTimeout(checkConsent, 0);
+    return () => clearTimeout(timeoutId);
+  }, [preventScroll]);
+
+  useEffect(() => {
+    // Cleanup on unmount
     return () => {
       restoreScroll();
     };
-  }, []);
+  }, [restoreScroll]);
 
   useEffect(() => {
-    // Restore scrolling when modal is hidden
+    // Handle visibility changes
+    if (!isLoaded) return;
+    
     if (!isVisible) {
       restoreScroll();
-    } else {
-      preventScroll();
+    } else if (isVisible && !eventListenersRef.current) {
+      // Use requestAnimationFrame to defer scroll prevention
+      requestAnimationFrame(() => {
+        preventScroll();
+      });
     }
-  }, [isVisible]);
+  }, [isVisible, isLoaded, preventScroll, restoreScroll]);
 
-  const handleAccept = () => {
-    localStorage.setItem("cookie-consent", "accepted");
+  const handleAccept = useCallback(() => {
+    try {
+      localStorage.setItem("cookie-consent", "accepted");
+    } catch (error) {
+      console.warn("Could not save cookie consent:", error);
+    }
     setIsVisible(false);
     onAccept();
-  };
+  }, [onAccept]);
 
-  const handleReject = () => {
-    localStorage.setItem("cookie-consent", "rejected");
+  const handleReject = useCallback(() => {
+    try {
+      localStorage.setItem("cookie-consent", "rejected");
+    } catch (error) {
+      console.warn("Could not save cookie consent:", error);
+    }
     setIsVisible(false);
     onReject();
-  };
+  }, [onReject]);
 
-  const handleKeyDown = (event: React.KeyboardEvent) => {
+  const handleKeyDown = useCallback((event: React.KeyboardEvent) => {
     if (event.key === "Escape") {
       handleReject(); // Default to reject on escape
     }
-  };
+  }, [handleReject]);
 
-  if (!isVisible) return null;
+  // Don't render anything until we've checked localStorage
+  if (!isLoaded || !isVisible) return null;
 
   return (
     <div
-      className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50"
+      className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50 modal-backdrop"
       style={{
         position: "fixed",
         top: 0,
@@ -150,7 +178,9 @@ export default function CookieConsent({
       aria-describedby="cookie-consent-description"
       onKeyDown={handleKeyDown}
     >
-      <div className="bg-white rounded-lg shadow-xl max-w-md w-full mx-auto p-6 relative">
+      <div 
+        className="bg-white rounded-lg shadow-xl max-w-md w-full mx-auto p-6 relative modal-content"
+      >
         <div className="text-center">
           <h2
             id="cookie-consent-title"
@@ -179,7 +209,7 @@ export default function CookieConsent({
             </Link>{" "}
             and{" "}
             <Link
-              href="/privacy/cookies"
+              href="/cookies"
               className="underline underline-offset-2 decoration-1 hover:decoration-yellow-500"
               aria-label="Read our Cookie Policy (opens in same window)"
               onClick={(e) => {

@@ -51,6 +51,43 @@ body {
   visibility: visible;
 }
 
+/* Cookie consent modal optimizations */
+[role="dialog"] {
+  /* Optimize modal rendering */
+  contain: layout style paint;
+  /* Prevent layout shifts */
+  transform: translateZ(0);
+  /* Optimize compositing */
+  isolation: isolate;
+}
+
+/* Prevent cookie consent from being LCP element */
+#cookie-consent-description {
+  /* Ensure this doesn't become LCP */
+  contain: layout style;
+  /* Optimize text rendering */
+  text-rendering: optimizeSpeed;
+  /* Prevent font loading delays */
+  font-display: swap;
+}
+
+/* Performance optimizations for modals */
+.modal-backdrop {
+  /* Optimize backdrop rendering */
+  will-change: opacity;
+  contain: strict;
+  /* Use GPU acceleration */
+  transform: translateZ(0);
+}
+
+.modal-content {
+  /* Optimize modal content */
+  will-change: transform;
+  contain: layout style paint;
+  /* Use GPU acceleration */
+  transform: translateZ(0);
+}
+
 /* Accessibility: Screen reader only content */
 .sr-only {
   position: absolute;
