@@ -20,34 +20,38 @@ export default function CookieConsent({
   const preventScroll = () => {
     // Save current scroll position
     scrollPositionRef.current = window.pageYOffset;
-    
+
     // Apply styles to prevent scrolling
-    document.body.style.position = 'fixed';
+    document.body.style.position = "fixed";
     document.body.style.top = `-${scrollPositionRef.current}px`;
-    document.body.style.width = '100%';
-    document.body.style.overflow = 'hidden';
-    document.documentElement.style.overflow = 'hidden';
-    
+    document.body.style.width = "100%";
+    document.body.style.overflow = "hidden";
+    document.documentElement.style.overflow = "hidden";
+
     // Add event listeners to prevent scrolling
-    document.addEventListener('wheel', preventScrollEvent, { passive: false });
-    document.addEventListener('touchmove', preventScrollEvent, { passive: false });
-    document.addEventListener('keydown', preventKeyboardScroll, { passive: false });
+    document.addEventListener("wheel", preventScrollEvent, { passive: false });
+    document.addEventListener("touchmove", preventScrollEvent, {
+      passive: false,
+    });
+    document.addEventListener("keydown", preventKeyboardScroll, {
+      passive: false,
+    });
   };
 
   // Restore scrolling function
   const restoreScroll = () => {
     // Remove event listeners
-    document.removeEventListener('wheel', preventScrollEvent);
-    document.removeEventListener('touchmove', preventScrollEvent);
-    document.removeEventListener('keydown', preventKeyboardScroll);
-    
+    document.removeEventListener("wheel", preventScrollEvent);
+    document.removeEventListener("touchmove", preventScrollEvent);
+    document.removeEventListener("keydown", preventKeyboardScroll);
+
     // Remove the fixed positioning
-    document.body.style.position = '';
-    document.body.style.top = '';
-    document.body.style.width = '';
-    document.body.style.overflow = '';
-    document.documentElement.style.overflow = '';
-    
+    document.body.style.position = "";
+    document.body.style.top = "";
+    document.body.style.width = "";
+    document.body.style.overflow = "";
+    document.documentElement.style.overflow = "";
+
     // Restore scroll position
     window.scrollTo(0, scrollPositionRef.current);
   };
@@ -61,7 +65,17 @@ export default function CookieConsent({
 
   // Prevent keyboard scrolling (arrow keys, page up/down, etc.)
   const preventKeyboardScroll = (e: KeyboardEvent) => {
-    const scrollKeys = ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'PageUp', 'PageDown', 'Home', 'End', ' '];
+    const scrollKeys = [
+      "ArrowUp",
+      "ArrowDown",
+      "ArrowLeft",
+      "ArrowRight",
+      "PageUp",
+      "PageDown",
+      "Home",
+      "End",
+      " ",
+    ];
     if (scrollKeys.includes(e.key)) {
       e.preventDefault();
       e.stopPropagation();
@@ -75,7 +89,7 @@ export default function CookieConsent({
     if (!consent) {
       setIsVisible(true);
       preventScroll();
-      
+
       // Focus the accept button when the modal appears for keyboard users
       setTimeout(() => {
         acceptButtonRef.current?.focus();
@@ -112,7 +126,7 @@ export default function CookieConsent({
   };
 
   const handleKeyDown = (event: React.KeyboardEvent) => {
-    if (event.key === 'Escape') {
+    if (event.key === "Escape") {
       handleReject(); // Default to reject on escape
     }
   };
@@ -120,15 +134,15 @@ export default function CookieConsent({
   if (!isVisible) return null;
 
   return (
-    <div 
+    <div
       className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50"
       style={{
-        position: 'fixed',
+        position: "fixed",
         top: 0,
         left: 0,
         right: 0,
         bottom: 0,
-        zIndex: 9999
+        zIndex: 9999,
       }}
       role="dialog"
       aria-modal="true"
@@ -138,35 +152,47 @@ export default function CookieConsent({
     >
       <div className="bg-white rounded-lg shadow-xl max-w-md w-full mx-auto p-6 relative">
         <div className="text-center">
-          <h2 
-            id="cookie-consent-title" 
+          <h2
+            id="cookie-consent-title"
             className="text-lg font-semibold text-gray-900 mb-4"
           >
             Cookie Consent
           </h2>
-          <p 
+          <p
             id="cookie-consent-description"
             className="text-sm text-gray-700 leading-relaxed mb-6"
           >
             We use Google Analytics to understand how visitors interact with our
-            website. This helps us improve your experience. You can learn more about our data practices in our{' '}
-            <Link 
-              href="/privacy" 
-              className="text-amber-600 hover:text-amber-700 underline decoration-amber-600 hover:decoration-amber-700"
+            website. This helps us improve your experience. You can learn more
+            about our data practices in our{" "}
+            <Link
+              href="/privacy"
+              className="underline underline-offset-2 decoration-1 hover:decoration-yellow-500"
               aria-label="Read our Privacy Policy (opens in same window)"
+              onClick={(e) => {
+                setTimeout(() => {
+                  (e.target as HTMLElement).blur();
+                }, 100);
+              }}
             >
               Privacy Policy
-            </Link>{' '}
-            and{' '}
-            <Link 
-              href="/privacy/cookies" 
-              className="text-amber-600 hover:text-amber-700 underline decoration-amber-600 hover:decoration-amber-700"
+            </Link>{" "}
+            and{" "}
+            <Link
+              href="/privacy/cookies"
+              className="underline underline-offset-2 decoration-1 hover:decoration-yellow-500"
               aria-label="Read our Cookie Policy (opens in same window)"
+              onClick={(e) => {
+                setTimeout(() => {
+                  (e.target as HTMLElement).blur();
+                }, 100);
+              }}
             >
               Cookie Policy
-            </Link>.
+            </Link>
+            .
           </p>
-          <div 
+          <div
             className="flex flex-col sm:flex-row gap-3 justify-center"
             role="group"
             aria-label="Cookie consent options"
