@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { trackFormSubmission, trackButtonClick } from './Analytics';
 import { submitWebsite } from '../lib/supabase';
+import { Music, Instagram, Youtube, X } from "lucide-react";
 
 interface SubmissionFormProps {
   onSubmit?: (url: string) => void;
@@ -75,18 +76,47 @@ export default function SubmissionForm({
             </svg>
           </div>
           <h3 className="heading-md text-white mb-2 font-retro">We Got Your Site! 🎉</h3>
-          <p className="text-slate-300 mb-4">
-            Your website has been submitted for review. Keep an eye out on our{' '}
+          <p className="text-slate-300 mb-6">
+            Your website has been submitted for review. Keep an eye out on our socials for your professional review!
+          </p>
+          <div className="flex justify-center items-center gap-4 mb-4">
             <a 
               href="https://www.tiktok.com/@sitegradeuk" 
-              target="_blank" 
+              className="hover:text-amber-400 transition-colors p-3 bg-slate-700 rounded-lg hover:bg-slate-600"
+              target="_blank"
               rel="noopener noreferrer"
-              className="text-yellow-400 hover:text-yellow-300 underline"
+              aria-label="Follow us on TikTok"
             >
-              TikTok @sitegradeuk
-            </a>{' '}
-            for your professional review!
-          </p>
+              <Music className="w-6 h-6" />
+            </a>
+            <a 
+              href="https://www.instagram.com/sitegradeuk/" 
+              className="hover:text-amber-400 transition-colors p-3 bg-slate-700 rounded-lg hover:bg-slate-600"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Follow us on Instagram"
+            >
+              <Instagram className="w-6 h-6" />
+            </a>
+            <a 
+              href="https://www.youtube.com/@sitegradeuk" 
+              className="hover:text-amber-400 transition-colors p-3 bg-slate-700 rounded-lg hover:bg-slate-600"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Follow us on YouTube"
+            >
+              <Youtube className="w-6 h-6" />
+            </a>
+            <a 
+              href="https://x.com/sitegradeuk" 
+              className="hover:text-amber-400 transition-colors p-3 bg-slate-700 rounded-lg hover:bg-slate-600"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Follow us on X"
+            >
+              <X className="w-6 h-6" />
+            </a>
+          </div>
           <button 
             onClick={() => {
               setIsSubmitted(false);

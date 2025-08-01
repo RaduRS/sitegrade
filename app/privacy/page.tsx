@@ -42,7 +42,7 @@ export default function PrivacyPolicy() {
               <p className="text-gray-300">We use the website URLs you submit to:</p>
               <ul className="list-disc list-inside text-gray-300 space-y-2 ml-4">
                 <li>Review your website based on our 7 pillars (Performance, Design, Responsiveness, SEO, Security, Compliance, Analytics)</li>
-                <li>Create educational content for TikTok and other social media platforms</li>
+                <li>Create educational content for TikTok, Instagram, YouTube, X (Twitter), and other social media platforms</li>
                 <li>Help others learn about web development best practices</li>
               </ul>
               <p className="text-gray-300 mt-3">
@@ -58,7 +58,7 @@ export default function PrivacyPolicy() {
                   When you submit your website for review, you understand and consent that:
                 </p>
                 <ul className="list-disc list-inside text-gray-300 space-y-1 mt-2 ml-4">
-                  <li>Your website URL and our review may be featured in public content on TikTok</li>
+                  <li>Your website URL and our review may be featured in public content on TikTok, Instagram, YouTube, X (Twitter), and other social media platforms</li>
                   <li>Reviews are educational and may include constructive criticism</li>
                   <li>We cannot guarantee that every submitted website will be reviewed</li>
                   <li>Reviews are conducted at our discretion based on availability and educational value</li>
