@@ -2,10 +2,6 @@ import Link from 'next/link';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 
-// Route Segment Config for bfcache optimization
-export const dynamic = 'force-static';
-export const revalidate = 86400; // 24 hours
-
 export default function CookiePolicy() {
   return (
     <div className="min-h-screen bg-slate-900 text-white">

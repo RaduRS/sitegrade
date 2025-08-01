@@ -6,10 +6,6 @@ import ErrorBoundary from './components/ErrorBoundary';
 import StructuredData from "./components/StructuredData";
 import WebVitals from "./components/WebVitals";
 
-// Route Segment Config for bfcache optimization
-export const dynamic = 'force-static';
-export const revalidate = 86400; // 24 hours
-
 const inter = Inter({ 
   subsets: ['latin'],
   variable: '--font-inter',

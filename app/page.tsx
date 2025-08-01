@@ -6,10 +6,6 @@ import GradingPillars from "./components/GradingPillars";
 import Footer from "./components/Footer";
 import { siteData } from "./data/siteData";
 
-// Route Segment Config for bfcache optimization
-export const dynamic = 'force-static';
-export const revalidate = 86400; // 24 hours
-
 export default function Home() {
   return (
     <div className="bg-slate-900 text-white min-h-screen">
