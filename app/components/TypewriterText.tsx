@@ -35,13 +35,14 @@ const TypewriterText = memo(function TypewriterText({
     setCurrentWordIndex((prev) => (prev + 1) % memoizedWords.length);
   }, [memoizedWords.length]);
 
-  // Delay animation start to improve LCP
+  // Start animation immediately to avoid delays
   useEffect(() => {
-    const timer = setTimeout(() => {
+    // Use requestAnimationFrame for better performance
+    const frame = requestAnimationFrame(() => {
       setIsVisible(true);
-    }, 500); // Start animation after 500ms
+    });
 
-    return () => clearTimeout(timer);
+    return () => cancelAnimationFrame(frame);
   }, []);
 
   useEffect(() => {

@@ -204,6 +204,22 @@ body {
   font-weight: 700;
 }
 
+/* Critical LCP element optimization */
+#hero-title {
+  /* Optimize for fastest possible rendering */
+  text-rendering: optimizeSpeed;
+  font-display: swap;
+  /* Prevent any layout containment that could delay rendering */
+  contain: none;
+  /* Ensure immediate visibility */
+  visibility: visible;
+  /* Optimize font loading */
+  font-synthesis: none;
+  /* Prevent any transforms that could delay rendering */
+  transform: none;
+  will-change: auto;
+}
+
 /* Consistent Typography System */
 .heading-xl {
   font-size: clamp(2rem, 5vw, 3.5rem);
