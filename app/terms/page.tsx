@@ -49,12 +49,30 @@ export default function TermsOfService() {
           </section>
 
           <section className="space-y-4">
-            <h2 className="heading-lg text-amber-400 font-retro">4. Disclaimer</h2>
-            <p className="text-gray-300 leading-relaxed">
-              Our reviews are educational opinions based on our expertise. We provide no warranties about the accuracy 
-              or completeness of our reviews. Use our feedback at your own discretion. We&apos;re not liable for any 
-              decisions you make based on our reviews.
-            </p>
+            <h2 className="heading-lg text-amber-400 font-retro">4. Educational Reviews and Disclaimer</h2>
+            <div className="space-y-3">
+              <p className="text-gray-300 leading-relaxed">
+                Our reviews are educational opinions based on our expertise and industry best practices. Reviews may include:
+              </p>
+              <ul className="list-disc list-inside text-gray-300 space-y-1 ml-4">
+                <li>Constructive criticism about website performance, design, or functionality</li>
+                <li>Technical assessments that may highlight areas for improvement</li>
+                <li>Honest evaluations that could range from positive to negative feedback</li>
+                <li>Educational commentary intended to help others learn web development best practices</li>
+              </ul>
+              <p className="text-gray-300 leading-relaxed mt-3">
+                We provide no warranties about the accuracy or completeness of our reviews. Our assessments are subjective 
+                opinions for educational purposes. Use our feedback at your own discretion. We are not liable for any 
+                decisions you make based on our reviews, nor for any business impact resulting from public reviews.
+              </p>
+              <div className="bg-red-500/10 border border-red-500/30 p-3 rounded mt-3">
+                <p className="text-red-200 text-sm">
+                  <strong>Important:</strong> By submitting your website, you acknowledge that reviews may be critical 
+                  and will be publicly visible on social media platforms. You waive any claims related to defamation, 
+                  business harm, or reputational damage arising from honest educational reviews.
+                </p>
+              </div>
+            </div>
           </section>
 
           <section className="space-y-4">

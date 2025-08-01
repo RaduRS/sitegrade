@@ -159,7 +159,7 @@ export async function submitWebsite(
       if (isDuplicateError) {
         return {
           success: false,
-          error: 'This website has already been submitted and is in our review queue. No need to submit it again! Keep an eye out on our <a href="https://www.tiktok.com/@sitegradeuk" target="_blank" rel="noopener noreferrer" class="text-yellow-400 hover:text-yellow-300 underline">TikTok @sitegradeuk</a> for your review.',
+          error: 'DUPLICATE_SUBMISSION',
         };
       }
 
