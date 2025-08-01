@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { siteData } from "../data/siteData";
 import { Mail, Music, Instagram, Youtube, X } from "lucide-react";
 
@@ -90,8 +91,15 @@ export default function Footer() {
       >
         {/* Centered branding section */}
         <div className="text-center mb-12">
-          <h4 className="text-xl font-bold text-yellow-400 font-retro mb-4">
+          <h4 className="text-xl font-bold text-yellow-400 font-retro mb-4 flex items-center justify-center gap-3">
             {siteData.brand.name}
+            <Image
+              src="/SITEGRADE-logo.svg"
+              alt="SiteGrade Logo"
+              width={32}
+              height={32}
+              className="inline-block"
+            />
           </h4>
           <p className="text-slate-300 text-sm">{siteData.brand.description}</p>
         </div>
