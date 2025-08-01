@@ -45,7 +45,7 @@ const nextConfig = {
           // Optimize for back/forward cache (bfcache)
           {
             key: 'Cache-Control',
-            value: 'public, max-age=0, s-maxage=86400'
+            value: 'public, max-age=1, s-maxage=86400'
           }
         ],
       },
