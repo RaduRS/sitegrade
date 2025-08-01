@@ -24,20 +24,11 @@ export default function HeroSection({
       aria-label="Website submission form"
     >
       <div style={{ width: "100%", maxWidth: "1200px", margin: "0 auto" }}>
-        {/* Critical LCP element - render immediately with optimizations */}
+        {/* Critical LCP element - render immediately */}
         <h1 
           id="hero-title"
           className="heading-xl text-white mb-0 uppercase"
           aria-describedby="hero-typewriter"
-          style={{ 
-            // Ensure this becomes the LCP element
-            contain: 'layout style paint',
-            willChange: 'auto',
-            // Ensure immediate visibility
-            visibility: 'visible',
-            // Prevent layout shifts
-            minHeight: '4rem'
-          }}
         >
           {title}
         </h1>

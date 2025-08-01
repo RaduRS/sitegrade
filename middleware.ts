@@ -49,9 +49,9 @@ export function middleware(request: NextRequest) {
   response.headers.set('X-Nonce', nonce);
   
   // Optimize for back/forward cache (bfcache)
-  // Use max-age=1 instead of 0 to allow bfcache
+  // Use max-age=1 instead of 0 to allow bfcache, add stale-while-revalidate
   if (!response.headers.get('Cache-Control')) {
-    response.headers.set('Cache-Control', 'public, max-age=1, s-maxage=86400');
+    response.headers.set('Cache-Control', 'public, max-age=1, s-maxage=86400, stale-while-revalidate=86400');
   }
 
   return response;

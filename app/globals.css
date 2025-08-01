@@ -41,14 +41,8 @@ body {
 
 /* Critical LCP element optimization */
 #hero-title {
-  /* Ensure immediate rendering */
-  contain: layout style paint;
   /* Prevent layout shifts */
   font-display: swap;
-  /* Optimize paint */
-  will-change: auto;
-  /* Ensure visibility */
-  visibility: visible;
 }
 
 /* Cookie consent modal optimizations */
