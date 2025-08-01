@@ -31,7 +31,7 @@ export default function Error({
               Something went wrong!
             </h2>
             <p className="text-slate-300 mb-8">
-              We encountered an unexpected error. Don&apos;t worry, our team has been notified and we&apos;re working to fix it.
+              We encountered an unexpected error. Please try refreshing the page or contact us if the problem persists.
             </p>
           </div>
           

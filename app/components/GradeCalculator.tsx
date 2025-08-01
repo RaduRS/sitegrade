@@ -164,7 +164,7 @@ export default function GradeCalculator({ pillars }: GradeCalculatorProps) {
         >
           <div className="bg-slate-800/50 border-2 border-slate-700 p-8 mb-6">
             <h1 className="text-2xl md:text-3xl font-mono text-amber-400 mb-4">
-              Website Grade
+              Website Grade Calculator
             </h1>
             <div className="flex items-center justify-center">
               <div
@@ -231,7 +231,7 @@ export default function GradeCalculator({ pillars }: GradeCalculatorProps) {
 
             {!overallGrade && (
               <div className="mt-4">
-                <p className="text-slate-400 font-mono">
+                <p className="text-slate-500 text-sm font-mono">
                   Grade all 7 pillars to see your overall score
                 </p>
               </div>
@@ -245,12 +245,12 @@ export default function GradeCalculator({ pillars }: GradeCalculatorProps) {
           {...(mounted && {
             initial: { opacity: 0 },
             animate: { opacity: 1 },
-            transition: { delay: 0.3, duration: 0.5 },
+            transition: { delay: 0.2, duration: 0.3 },
           })}
         >
-          <h3 className="text-lg font-mono text-amber-400 mb-4">
+          <h2 className="text-lg font-mono text-amber-400 mb-4">
             Grade Scale Reference
-          </h3>
+          </h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm font-mono">
             {OVERALL_GRADES.map((grade) => {
               const getGradeName = (g: string) => {
@@ -298,8 +298,12 @@ export default function GradeCalculator({ pillars }: GradeCalculatorProps) {
           </div>
         </MotionDiv>
 
-        {/* Pillar Grading Grid */}
-        <div className="grid grid-cols-1 gap-8 mb-8">
+        {/* Pillar Grading Section */}
+        <section className="mb-8">
+          <h2 className="text-xl font-mono text-amber-400 mb-6 text-center">
+            Grade Each Pillar
+          </h2>
+          <div className="grid grid-cols-1 gap-8">
           {pillars.map((pillar, index) => {
             const IconComponent = iconMap[pillar.icon as keyof typeof iconMap];
             const currentGrade = grades[index];
@@ -311,7 +315,7 @@ export default function GradeCalculator({ pillars }: GradeCalculatorProps) {
                 {...(mounted && {
                   initial: { opacity: 0, y: 20 },
                   animate: { opacity: 1, y: 0 },
-                  transition: { delay: index * 0.1, duration: 0.5 },
+                  transition: { delay: index * 0.05, duration: 0.3 },
                 })}
               >
                 {/* Pillar Header */}
@@ -356,7 +360,8 @@ export default function GradeCalculator({ pillars }: GradeCalculatorProps) {
               </MotionDiv>
             );
           })}
-        </div>
+          </div>
+        </section>
 
         {/* Reset Button */}
         <div className="text-center">
