@@ -57,17 +57,17 @@ export const siteData = {
       {
         stepNumber: "01",
         title: "Submit Your Site",
-        description: "Enter your website URL and we'll add it to our review queue. No payment required upfront."
+        description: "Enter your website URL and we'll add it to our review queue. It's completely free!"
       },
       {
         stepNumber: "02", 
         title: "Expert Review",
-        description: "Our team conducts a comprehensive analysis across all 7 pillars of website quality."
+        description: "A comprehensive analysis is conducted across all 7 pillars of website quality."
       },
       {
         stepNumber: "03",
-        title: "Get Your Grade",
-        description: "Receive your detailed review video on TikTok with actionable insights and recommendations."
+        title: "Follow Our Socials",
+        description: "Watch for your detailed review video on our social media: TikTok, YouTube, Instagram, and X."
       }
     ]
   },

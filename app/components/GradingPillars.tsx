@@ -45,7 +45,7 @@ export default function GradingPillars({ title, subtitle, items }: GradingPillar
   const MotionDiv = mounted ? motion.div : 'div';
 
   return (
-    <section className="py-20 px-4" itemScope itemType="https://schema.org/Service">
+    <section id="grading-pillars" className="py-20 px-4" itemScope itemType="https://schema.org/Service">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-12">
