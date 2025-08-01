@@ -20,6 +20,7 @@ const TypewriterText = memo(function TypewriterText({
   const [displayText, setDisplayText] = useState("");
   const [isTyping, setIsTyping] = useState(true);
   const [isVisible, setIsVisible] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
 
   const memoizedWords = useMemo(() => words, [words]);
 
@@ -35,8 +36,9 @@ const TypewriterText = memo(function TypewriterText({
     setCurrentWordIndex((prev) => (prev + 1) % memoizedWords.length);
   }, [memoizedWords.length]);
 
-  // Start animation immediately to avoid delays
+  // Ensure component is mounted before starting animation
   useEffect(() => {
+    setIsMounted(true);
     // Use requestAnimationFrame for better performance
     const frame = requestAnimationFrame(() => {
       setIsVisible(true);
@@ -46,7 +48,7 @@ const TypewriterText = memo(function TypewriterText({
   }, []);
 
   useEffect(() => {
-    if (!isVisible) return;
+    if (!isVisible || !isMounted) return;
 
     let timeout: NodeJS.Timeout;
     const currentWord = memoizedWords[currentWordIndex];
@@ -77,11 +79,11 @@ const TypewriterText = memo(function TypewriterText({
     }
 
     return () => clearTimeout(timeout);
-  }, [displayText, isTyping, currentWordIndex, memoizedWords, typingSpeed, deletingSpeed, pauseDuration, updateText, toggleTyping, nextWord, isVisible]);
+  }, [displayText, isTyping, currentWordIndex, memoizedWords, typingSpeed, deletingSpeed, pauseDuration, updateText, toggleTyping, nextWord, isVisible, isMounted]);
 
   return (
     <div className="h-20 md:h-24 lg:h-32 flex items-center justify-center">
-      {isVisible ? (
+      {isMounted && isVisible ? (
         <motion.span
           className="text-yellow-400 font-mono text-4xl md:text-6xl lg:text-7xl block"
           initial={{ opacity: 0 }}

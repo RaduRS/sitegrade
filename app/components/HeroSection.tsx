@@ -1,9 +1,10 @@
+"use client";
 import dynamic from "next/dynamic";
 import SubmissionForm from "./SubmissionForm";
 
-// Dynamically import TypewriterText with higher priority and no loading state
+// Dynamically import TypewriterText with loading fallback to prevent hydration issues
 const TypewriterText = dynamic(() => import("./TypewriterText"), {
-  ssr: false, // Client-side only to prevent hydration delays
+  loading: () => <span className="text-blue-600">optimizing</span>
 });
 
 interface HeroSectionProps {
@@ -18,12 +19,7 @@ export default function HeroSection({
   return (
     <section 
       className="flex flex-col items-center justify-center px-4 text-center" 
-      style={{ 
-        minHeight: 'calc(100vh - 120px)',
-        // Ensure this section renders with highest priority
-        contentVisibility: 'visible',
-        contain: 'none'
-      }}
+      style={{ minHeight: 'calc(100vh - 120px)' }}
       aria-labelledby="hero-title"
       role="region"
       aria-label="Website submission form"
@@ -34,10 +30,6 @@ export default function HeroSection({
           id="hero-title"
           className="heading-xl text-white mb-0 uppercase"
           aria-describedby="hero-typewriter"
-          style={{
-            textRendering: 'optimizeSpeed',
-            willChange: 'auto'
-          }}
         >
           {title}
         </h1>
