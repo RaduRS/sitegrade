@@ -75,17 +75,17 @@ export const siteData = {
   about: {
     title: "Professional Website Analysis for Modern Businesses",
     content: {
-      introduction: "In today's digital landscape, your website serves as the cornerstone of your online presence. SiteGrade provides comprehensive website analysis and professional reviews that help businesses understand their digital performance across critical areas. Our expert team evaluates websites using industry-standard methodologies and cutting-edge tools to deliver actionable insights that drive real improvements.",
+      introduction: "Your website is often the first impression potential customers have of your business. SiteGrade offers detailed website reviews that break down exactly how your site performs across the areas that matter most. All reviews provide honest, actionable feedback from real expertise.",
       benefits: [
-        "Comprehensive analysis across 7 essential website quality pillars including performance, security, and SEO optimization",
-        "Professional video reviews delivered through engaging TikTok content that reaches your target audience",
-        "Actionable recommendations based on current web standards and best practices for improved user experience",
-        "Expert insights into Core Web Vitals, accessibility compliance, and modern web development standards",
-        "Detailed security assessments covering SSL implementation, data protection, and vulnerability analysis",
-        "SEO optimization guidance including meta tag analysis, content structure evaluation, and search visibility improvements"
+        "Comprehensive analysis across 7 core website pillars including performance, design, and SEO",
+        "Video reviews showing exactly how your site was evaluated and scored, with clear explanations of each grade",
+        "Honest feedback on what's working well and what needs improvement, based on current web standards",
+        "Real insights into performance metrics, user experience, mobile responsiveness, and SEO fundamentals",
+        "Security assessments covering SSL certificates, headers, and vulnerability analysis",
+        "Practical recommendations you can actually implement to improve your website's performance"
       ],
-      expertise: "Our team combines years of web development experience with deep knowledge of digital marketing, user experience design, and technical SEO. We stay current with Google's algorithm updates, accessibility guidelines, and emerging web technologies to ensure our reviews reflect the latest industry standards. Every website analysis includes practical recommendations that can be implemented immediately to improve performance and user satisfaction.",
-      commitment: "We're committed to helping businesses succeed online by providing transparent, honest, and constructive website reviews that highlight both strengths and areas for improvement."
+      expertise: "Every website get a thorough review using industry-standard methodologies. The evaluation process covers performance testing, design and UX assessment, mobile responsiveness checks, SEO audits, security testing, compliance verification, and analytics setup verification. Reviews deliver professional insights that help you understand exactly where your website stands.",
+      commitment: "All reviews are done with care and attention to detail. The goal is to provide honest, helpful feedback that actually makes a difference for your website and business."
     }
   },
 

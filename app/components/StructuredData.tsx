@@ -11,7 +11,7 @@ export default async function StructuredData() {
     url: "https://sitegrade.co.uk",
     logo: "https://sitegrade.co.uk/SITEGRADE-logo.png",
     description:
-      "Expert website appraisals and reviews based on 7 core pillars: Performance, Design, Responsiveness, SEO, Security, Compliance, and Analytics.",
+      "Expert website appraisals and reviews based on 7 core pillars: Performance, Design, Responsiveness, SEO, Security, Compliance, and Analytics. Free reviews featured across social media platforms including TikTok, Instagram, and YouTube.",
     email: "hello@sitegrade.co.uk",
     sameAs: [
       "https://www.tiktok.com/@sitegradeuk",

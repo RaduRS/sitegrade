@@ -24,7 +24,7 @@ const jetbrainsMono = JetBrains_Mono({
 export const metadata: Metadata = {
   title: "SiteGrade Expert Website Appraisals and Reviews",
   description:
-    "Get your website professionally reviewed based on 7 core pillars. Performance, Design, SEO, Security analysis. Free reviews featured on TikTok.",
+    "Get your website professionally reviewed based on 7 core pillars: Performance, Design, Responsiveness, SEO, Security, Compliance, and Analytics. Expert analysis with actionable recommendations. Free reviews featured on TikTok, YouTube, Instagram & X.",
   keywords:
     "website review, website appraisal, web design analysis, SEO audit, performance testing, website grading, TikTok reviews",
   authors: [{ name: "SiteGrade Team" }],
@@ -42,7 +42,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "SiteGrade Expert Website Appraisals and Reviews",
     description:
-      "Get your website professionally reviewed based on 7 core pillars. Free reviews featured on TikTok.",
+        "Get your website professionally reviewed based on 7 core pillars: Performance, Design, Responsiveness, SEO, Security, Compliance, and Analytics. Expert analysis with actionable recommendations. Free reviews featured on TikTok, YouTube, Instagram & X.",
     url: "https://sitegrade.co.uk",
     siteName: "SiteGrade",
     images: [
@@ -60,7 +60,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "SiteGrade Expert Website Appraisals and Reviews",
     description:
-      "Get your website professionally reviewed based on 7 core pillars. Free reviews featured on TikTok.",
+        "Get your website professionally reviewed based on 7 core pillars: Performance, Design, Responsiveness, SEO, Security, Compliance, and Analytics. Expert analysis with actionable recommendations. Free reviews featured on TikTok, YouTube, Instagram & X.",
     images: ["https://sitegrade.co.uk/SITEGRADE-logo.png"],
     creator: "@sitegradeuk",
   },
@@ -88,7 +88,7 @@ export default function RootLayout({
         {/* SEO meta tags */}
         <meta
           name="description"
-          content="Get your website professionally reviewed based on 7 core pillars. Performance, Design, SEO, Security analysis. Free reviews featured on TikTok."
+          content="Get your website professionally reviewed based on 7 core pillars: Performance, Design, Responsiveness, SEO, Security, Compliance, and Analytics. Expert analysis with actionable recommendations. Free reviews featured across social media platforms including TikTok, Instagram, and YouTube."
         />
         <meta
           name="keywords"
@@ -96,7 +96,31 @@ export default function RootLayout({
         />
         <meta name="author" content="SiteGrade Team" />
         <meta name="robots" content="index, follow" />
+        <meta name="published" content="2025-08-01" />
+        <meta name="modified" content="2025-08-01" />
+        <meta name="article:published_time" content="2025-08-01T00:00:00Z" />
+        <meta name="article:modified_time" content="2025-08-01T00:00:00Z" />
         <link rel="canonical" href="https://sitegrade.co.uk/" />
+
+        {/* Open Graph meta tags */}
+        <meta property="og:title" content="SiteGrade Expert Website Appraisals and Reviews" />
+        <meta property="og:description" content="Get your website professionally reviewed based on 7 core pillars: Performance, Design, Responsiveness, SEO, Security, Compliance, and Analytics. Expert analysis with actionable recommendations. Free reviews featured across social media platforms including TikTok, Instagram, and YouTube." />
+        <meta property="og:url" content="https://sitegrade.co.uk" />
+        <meta property="og:site_name" content="SiteGrade" />
+        <meta property="og:image" content="https://sitegrade.co.uk/SITEGRADE-logo.png" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="1200" />
+        <meta property="og:image:alt" content="SiteGrade Logo - Professional Website Reviews" />
+        <meta property="og:locale" content="en_GB" />
+        <meta property="og:type" content="website" />
+
+        {/* Twitter Card meta tags */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:site" content="@sitegradeuk" />
+        <meta name="twitter:creator" content="@sitegradeuk" />
+        <meta name="twitter:title" content="SiteGrade Expert Website Appraisals and Reviews" />
+        <meta name="twitter:description" content="Get your website professionally reviewed based on 7 core pillars: Performance, Design, Responsiveness, SEO, Security, Compliance, and Analytics. Expert analysis with actionable recommendations. Free reviews featured across social media platforms." />
+        <meta name="twitter:image" content="https://sitegrade.co.uk/SITEGRADE-logo.png" />
 
         {/* Accessibility and SEO meta tags */}
         <meta name="color-scheme" content="dark light" />

@@ -23,6 +23,8 @@ export default function HeroSection({
       aria-labelledby="hero-title"
       role="region"
       aria-label="Website submission form"
+      itemScope
+      itemType="https://schema.org/Service"
     >
       <div style={{ width: "100%", maxWidth: "1200px", margin: "0 auto" }}>
         {/* Critical LCP element - render immediately with optimized styles */}
@@ -30,6 +32,7 @@ export default function HeroSection({
           id="hero-title"
           className="heading-xl text-white mb-0 uppercase"
           aria-describedby="hero-typewriter"
+          itemProp="name"
         >
           {title}
         </h1>
