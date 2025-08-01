@@ -231,7 +231,7 @@ export default function GradeCalculator({ pillars }: GradeCalculatorProps) {
 
             {!overallGrade && (
               <div className="mt-4">
-                <p className="text-slate-500 text-sm font-mono">
+                <p className="text-slate-400 text-sm font-mono">
                   Grade all 7 pillars to see your overall score
                 </p>
               </div>
@@ -367,11 +367,11 @@ export default function GradeCalculator({ pillars }: GradeCalculatorProps) {
         <div className="text-center">
           <button
             onClick={resetCalculator}
-            className="px-6 py-3 bg-slate-700 hover:bg-slate-600 border-2 border-slate-600 hover:border-slate-500 text-white font-mono transition-all duration-200 hover:scale-105 focus:scale-105 focus:outline-none focus:ring-2 focus:ring-amber-400"
+            className="button-3d"
             type="button"
             aria-label="Reset all grades"
           >
-            Reset All Grades
+            <span className="button_top">Reset All Grades</span>
           </button>
         </div>
       </div>
