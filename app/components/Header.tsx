@@ -19,7 +19,6 @@ export default function Header({ title }: HeaderProps) {
             width={40}
             height={40}
             className="inline-block"
-            priority
           />
         </h1>
       </div>

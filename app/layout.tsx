@@ -18,7 +18,7 @@ const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
   variable: "--font-jetbrains-mono",
   display: "swap", // Improve font loading performance
-  preload: true,
+  preload: false, // Don't preload since it's only used in typewriter component
 });
 
 export const metadata: Metadata = {
