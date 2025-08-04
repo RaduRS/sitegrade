@@ -10,7 +10,7 @@ export default function Header({ title }: HeaderProps) {
     <header className="w-full py-8" role="banner" itemScope itemType="https://schema.org/Organization">
       <div className="text-center">
         <Link href="/" className="inline-block" itemProp="url">
-          <h2 
+          <div 
             className="text-3xl md:text-4xl font-bold text-yellow-400 font-retro flex items-center justify-center gap-3 hover:text-yellow-300 transition-colors cursor-pointer"
             aria-label={`${title} - Professional website reviews`}
             itemProp="name"
@@ -24,7 +24,7 @@ export default function Header({ title }: HeaderProps) {
               className="inline-block"
               itemProp="logo"
             />
-          </h2>
+          </div>
         </Link>
       </div>
     </header>
