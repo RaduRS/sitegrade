@@ -86,6 +86,7 @@ export default function RootLayout({
     <html lang="en-GB" dir="ltr">
       <head>
         {/* Essential meta tags for better SEO tool compatibility */}
+        <meta name="description" content="Professional website reviews across 7 pillars: Performance, Design, Responsiveness, SEO, Security, Compliance & Analytics. Expert actionable insights today." />
         <link rel="canonical" href="https://sitegrade.co.uk/" />
         
         {/* Open Graph meta tags */}
