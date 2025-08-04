@@ -1,6 +1,20 @@
+import type { Metadata } from "next";
 import Link from 'next/link';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+
+export const metadata: Metadata = {
+  title: "Privacy Policy - SiteGrade",
+  description: "Privacy policy for SiteGrade website review service. Learn how we collect, use, and protect your data when you submit websites for professional review.",
+  metadataBase: new URL("https://sitegrade.co.uk"),
+  alternates: {
+    canonical: "https://sitegrade.co.uk/privacy",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+};
 
 export default function PrivacyPolicy() {
   return (

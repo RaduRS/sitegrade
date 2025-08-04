@@ -1,6 +1,20 @@
+import type { Metadata } from "next";
 import Link from 'next/link';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+
+export const metadata: Metadata = {
+  title: "Cookie Policy - SiteGrade",
+  description: "Cookie policy for SiteGrade website review service. Learn about how we use cookies and manage your preferences for analytics tracking.",
+  metadataBase: new URL("https://sitegrade.co.uk"),
+  alternates: {
+    canonical: "https://sitegrade.co.uk/cookies",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+};
 
 export default function CookiePolicy() {
   return (

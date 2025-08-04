@@ -1,6 +1,20 @@
+import type { Metadata } from "next";
 import Link from 'next/link';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+
+export const metadata: Metadata = {
+  title: "Terms of Service - SiteGrade",
+  description: "Terms of service for SiteGrade website review service. Understand your rights and responsibilities when submitting websites for professional review.",
+  metadataBase: new URL("https://sitegrade.co.uk"),
+  alternates: {
+    canonical: "https://sitegrade.co.uk/terms",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+};
 
 export default function TermsOfService() {
   return (

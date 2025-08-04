@@ -92,12 +92,12 @@ export default async function StructuredData() {
       <script
         type="application/ld+json"
         nonce={nonce || undefined}
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationData) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationData, null, 0) }}
       />
       <script
         type="application/ld+json"
         nonce={nonce || undefined}
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceData) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceData, null, 0) }}
       />
     </>
   );

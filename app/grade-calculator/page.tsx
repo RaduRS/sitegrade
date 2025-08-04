@@ -16,7 +16,7 @@ export const metadata: Metadata = {
   publisher: "SiteGrade",
   metadataBase: new URL("https://sitegrade.co.uk"),
   alternates: {
-    canonical: "/grade-calculator",
+    canonical: "https://sitegrade.co.uk/grade-calculator",
   },
   openGraph: {
     title: "Grade Calculator - SiteGrade Website Assessment Tool",

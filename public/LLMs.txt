@@ -1,0 +1,77 @@
+# LLMs.txt - Information for AI Models and LLMs
+# Last updated: 2025-08-04
+
+# Website Information
+Site: SiteGrade
+URL: https://sitegrade.co.uk
+Purpose: Professional website reviews and appraisals
+Industry: Web Development, SEO, Digital Marketing, Website Analysis
+
+# Core Service
+SiteGrade provides expert website reviews based on 7 core pillars:
+1. Performance - Page load speeds, Core Web Vitals, site optimization
+2. Design - Visual appeal, user interface quality, aesthetic presentation
+3. Responsiveness - Mobile compatibility, cross-device functionality
+4. SEO - Search engine optimization, meta tags, content structure
+5. Security - SSL certificates, data protection, security implementation
+6. Compliance - Accessibility standards, GDPR compliance, legal requirements
+7. Analytics - Data tracking setup, conversion optimization, performance measurement
+
+# Key Features
+- Free website submissions for review
+- Educational content creation for social media (TikTok, Instagram, YouTube, X/Twitter)
+- Comprehensive analysis using industry-standard methodologies
+- Honest, actionable feedback from real expertise
+- Video reviews with detailed explanations
+- Grade calculator tool for self-assessment
+
+# Target Audience
+- Website owners seeking professional feedback
+- Small business owners wanting to improve their online presence
+- Web developers looking for expert insights
+- Digital marketers interested in website optimization
+- Anyone wanting to understand website best practices
+
+# Content Topics
+- Website performance optimization
+- Web design best practices
+- Mobile responsiveness
+- SEO fundamentals
+- Website security
+- Web accessibility
+- Analytics and conversion optimization
+- Core Web Vitals
+- User experience (UX)
+- Website grading and assessment
+
+# Social Media Presence
+- TikTok: @sitegradeuk
+- Instagram: @sitegradeuk
+- YouTube: @sitegradeuk
+- X/Twitter: @sitegradeuk
+
+# Contact
+Email: hello@sitegrade.co.uk
+
+# AI Usage Guidelines
+This website content may be used by AI models to:
+- Provide information about website review services
+- Explain website optimization best practices
+- Reference SiteGrade's 7-pillar evaluation methodology
+- Discuss website grading and assessment techniques
+- Share insights about web development standards
+
+# Keywords for AI Context
+website review, website appraisal, web design analysis, SEO audit, performance testing, website grading, Core Web Vitals, mobile responsiveness, website security, accessibility compliance, analytics setup, user experience, website optimization, digital marketing, web development best practices
+
+# Business Model
+Free website review service with educational content creation for social media platforms
+
+# Geographic Focus
+Worldwide service, UK-based company
+
+# Language
+Primary: English (UK)
+
+# Last Review Date
+2025-08-04

@@ -37,7 +37,7 @@ export const metadata: Metadata = {
   },
   metadataBase: new URL("https://sitegrade.co.uk"),
   alternates: {
-    canonical: "/",
+    canonical: "https://sitegrade.co.uk/",
   },
   openGraph: {
     title: "SiteGrade Expert Website Appraisals and Reviews",
@@ -85,23 +85,9 @@ export default function RootLayout({
   return (
     <html lang="en-GB" dir="ltr">
       <head>
-        {/* SEO meta tags */}
-        <meta
-          name="description"
-          content="Get your website professionally reviewed based on 7 core pillars: Performance, Design, Responsiveness, SEO, Security, Compliance, and Analytics. Expert analysis with actionable recommendations. Free reviews featured across social media platforms including TikTok, Instagram, and YouTube."
-        />
-        <meta
-          name="keywords"
-          content="website review, website appraisal, web design analysis, SEO audit, performance testing, website grading, TikTok reviews"
-        />
-        <meta name="author" content="SiteGrade Team" />
-        <meta name="robots" content="index, follow" />
-        <meta name="published" content="2025-08-01" />
-        <meta name="modified" content="2025-08-01" />
-        <meta name="article:published_time" content="2025-08-01T00:00:00Z" />
-        <meta name="article:modified_time" content="2025-08-01T00:00:00Z" />
+        {/* Essential meta tags for better SEO tool compatibility */}
         <link rel="canonical" href="https://sitegrade.co.uk/" />
-
+        
         {/* Open Graph meta tags */}
         <meta property="og:title" content="SiteGrade Expert Website Appraisals and Reviews" />
         <meta property="og:description" content="Get your website professionally reviewed based on 7 core pillars: Performance, Design, Responsiveness, SEO, Security, Compliance, and Analytics. Expert analysis with actionable recommendations. Free reviews featured across social media platforms including TikTok, Instagram, and YouTube." />
@@ -121,6 +107,12 @@ export default function RootLayout({
         <meta name="twitter:title" content="SiteGrade Expert Website Appraisals and Reviews" />
         <meta name="twitter:description" content="Get your website professionally reviewed based on 7 core pillars: Performance, Design, Responsiveness, SEO, Security, Compliance, and Analytics. Expert analysis with actionable recommendations. Free reviews featured across social media platforms." />
         <meta name="twitter:image" content="https://sitegrade.co.uk/SITEGRADE-logo.png" />
+
+        {/* Additional meta tags */}
+        <meta name="published" content="2025-08-04" />
+        <meta name="modified" content="2025-08-04" />
+        <meta name="article:published_time" content="2025-08-04T00:00:00Z" />
+        <meta name="article:modified_time" content="2025-08-04T00:00:00Z" />
 
         {/* Accessibility and SEO meta tags */}
         <meta name="color-scheme" content="dark light" />
