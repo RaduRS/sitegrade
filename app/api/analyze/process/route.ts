@@ -1,5 +1,4 @@
 import { NextRequest } from "next/server";
-import { createClient } from "@supabase/supabase-js";
 import {
   extractWebsiteData,
   closeExtractionEngine,
@@ -227,19 +226,8 @@ async function handleProcess(request: NextRequest) {
     // Update status to processing
     await DatabaseOperations.updateAnalysisStatus(requestId, "processing");
 
-    // Start analysis - Don't await on Vercel to avoid timeout
-    const isVercel = process.env.VERCEL === "1";
-
-    if (isVercel) {
-      // On Vercel, start in background to avoid serverless timeout
-      processAnalysis(analysisRequest).catch(async (error) => {
-        console.error(`Background analysis failed for ${requestId}:`, error);
-        await DatabaseOperations.updateAnalysisStatus(requestId, "failed");
-      });
-    } else {
-      // On local/other environments, run normally
-      await processAnalysis(analysisRequest);
-    }
+    // Start analysis
+    await processAnalysis(analysisRequest);
 
     return ApiResponses.success({
       success: true,
@@ -271,22 +259,8 @@ async function processAnalysis(analysisRequest: AnalysisRequest) {
     console.log(
       `📊 Step 1: Extracting website data for ${analysisRequest.url}`
     );
-
-    // Add extra logging for Vercel debugging
-    const isVercel = process.env.VERCEL === "1";
-    console.log(`🔧 Running on Vercel: ${isVercel}`);
-    console.log(`🔧 Node environment: ${process.env.NODE_ENV}`);
-
-    // Mark that analysis has started by updating metadata
-    await DatabaseOperations.updateAnalysisMetadata(analysisRequest.id, {
-      extracted_data: {
-        status: "extraction_started",
-        timestamp: new Date().toISOString(),
-      },
-    });
-
     extractedData = await extractWebsiteData(analysisRequest.url, {
-      timeout: isVercel ? 15000 : 20000, // Shorter timeout on Vercel
+      timeout: 20000,
       fullPageScreenshot: true,
     });
     console.log(`✅ Step 1: Website data extracted successfully`);
@@ -508,49 +482,25 @@ async function processAnalysis(analysisRequest: AnalysisRequest) {
     });
   } catch (error) {
     // Log the actual error details
-    console.error("Analysis failed for request:", analysisRequest.id);
-    console.error("Error details:", error);
+    console.error("❌ Analysis failed for request:", analysisRequest.id);
+    console.error("❌ Error details:", error);
     console.error(
-      "Stack trace:",
+      "❌ Stack trace:",
       error instanceof Error ? error.stack : "No stack trace"
     );
-
-    const errorMessage =
-      error instanceof Error
-        ? error.message
-        : "Unknown error occurred during analysis";
 
     // Update status to failed
     await DatabaseOperations.updateAnalysisStatus(analysisRequest.id, "failed");
 
-    // Also update the error message in the database
-    try {
-      const supabase = createClient(
-        process.env.NEXT_PUBLIC_SUPABASE_URL!,
-        process.env.SUPABASE_SERVICE_ROLE_KEY!
-      );
-
-      await supabase
-        .from("analysis_requests")
-        .update({
-          error_message: errorMessage,
-          completed_at: new Date().toISOString(),
-        })
-        .eq("id", analysisRequest.id);
-    } catch (dbError) {
-      console.error("Failed to update error message:", dbError);
-    }
-
     // Send failure email
-    try {
-      await sendAnalysisFailedEmail(
-        analysisRequest.url,
-        analysisRequest.email,
-        errorMessage
-      );
-    } catch (emailError) {
-      console.error("Failed to send failure email:", emailError);
-    }
+    console.log(
+      `📧 Attempting to send failure email to: ${analysisRequest.email} for URL: ${analysisRequest.url}`
+    );
+    await sendAnalysisFailedEmail(
+      analysisRequest.url,
+      analysisRequest.email,
+      error instanceof Error ? error.message : "Unknown error"
+    );
   } finally {
     // Clean up resources
     try {

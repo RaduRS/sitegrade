@@ -81,59 +81,20 @@ async function handleSubmit(request: NextRequest) {
     // Don't return error here, analysis can still proceed
   }
 
-  // Trigger analysis processing with proper error handling
-  const processUrl = `${
-    process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000"
-  }/api/analyze/process`;
-
-  fetch(processUrl, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ requestId: analysisRequest.id }),
-  })
-    .then(async (response) => {
-      console.log(
-        `🔗 Process fetch response: ${response.status} ${response.statusText}`
-      );
-
-      if (!response.ok) {
-        const errorText = await response.text();
-        console.error(
-          `Failed to trigger analysis: ${response.status}`,
-          errorText
-        );
-
-        // Update status to failed if the process trigger fails
-        await supabase
-          .from("analysis_requests")
-          .update({
-            status: "failed",
-            error_message: `Failed to start analysis: ${response.status} - ${errorText}`,
-            completed_at: new Date().toISOString(),
-          })
-          .eq("id", analysisRequest.id);
-      } else {
-        console.log(`✅ Process trigger successful for ${analysisRequest.id}`);
-      }
-    })
-    .catch(async (error) => {
-      console.error(
-        `❌ Network error triggering analysis for ${analysisRequest.id}:`,
-        error
-      );
-
-      // Update status to failed if there's a network error
-      await supabase
-        .from("analysis_requests")
-        .update({
-          status: "failed",
-          error_message: `Network error starting analysis: ${error.message}`,
-          completed_at: new Date().toISOString(),
-        })
-        .eq("id", analysisRequest.id);
-    });
+  fetch(
+    `${
+      process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000"
+    }/api/analyze/process`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ requestId: analysisRequest.id }),
+    }
+  ).catch(() => {
+    // Silently handle fetch errors
+  });
 
   return ApiResponses.success({
     id: analysisRequest.id,
