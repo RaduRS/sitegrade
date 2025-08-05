@@ -62,18 +62,24 @@ export class DatabaseOperations {
     completedAt?: string
   ) {
     const updateData: { status: string; completed_at?: string } = { status };
-    if (completedAt) {
-      updateData.completed_at = completedAt;
+    if (completedAt || status === 'completed') {
+      updateData.completed_at = completedAt || new Date().toISOString();
     }
 
-    const { error } = await supabase
+    console.log(`[DB] Updating status for ${requestId}:`, updateData);
+
+    const { error, data } = await supabase
       .from('analysis_requests')
       .update(updateData)
-      .eq('id', requestId);
+      .eq('id', requestId)
+      .select();
 
     if (error) {
+      console.error(`[DB] Failed to update status:`, error);
       throw new Error(`Failed to update analysis status: ${error.message}`);
     }
+
+    console.log(`[DB] Status updated successfully:`, data);
   }
 
   /**
