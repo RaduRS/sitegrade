@@ -118,14 +118,6 @@ export default function ReportPage() {
     }
   };
 
-  const getGradeLetter = (score: number) => {
-    if (score >= 90) return "A";
-    if (score >= 80) return "B";
-    if (score >= 70) return "C";
-    if (score >= 60) return "D";
-    return "F";
-  };
-
   if (loading) {
     return (
       <div className="bg-slate-900 text-white min-h-screen">
