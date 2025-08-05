@@ -1,9 +1,9 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { trackFormSubmission, trackButtonClick } from "./Analytics";
-import { submitWebsite } from "../lib/supabase";
+import { trackButtonClick } from "./Analytics";
 import { Music, Instagram, Youtube, X } from "lucide-react";
+import EmailCaptureModal from "./EmailCaptureModal";
 
 interface SubmissionFormProps {
   onSubmit?: (url: string) => void;
@@ -16,9 +16,10 @@ export default function SubmissionForm({
   placeholder = "Enter your website URL",
   buttonText = "Grade My Site",
 }: SubmissionFormProps) {
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [showModal, setShowModal] = useState(false);
+  const [submittedUrl, setSubmittedUrl] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
   const errorRef = useRef<HTMLDivElement>(null);
 
@@ -36,28 +37,50 @@ export default function SubmissionForm({
 
     if (!url) return;
 
-    setIsSubmitting(true);
     setError(null);
 
+    // Basic URL validation
     try {
-      // Track the form submission
-      trackFormSubmission(url);
-
-      // Submit to Supabase
-      const result = await submitWebsite(url);
-
-      if (result.success) {
-        setIsSubmitted(true);
-        if (onSubmit) {
-          onSubmit(url);
-        }
-      } else {
-        setError(result.error || "Failed to submit website");
-      }
+      new URL(url);
     } catch {
+      setError("Please enter a valid URL (including http:// or https://)");
+      return;
+    }
+
+    // Show the email capture modal
+    setSubmittedUrl(url);
+    setShowModal(true);
+  };
+
+  const handleEmailSubmit = async (email: string) => {
+    try {
+      // Submit to the new API endpoint
+      const response = await fetch("/api/analyze/submit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          url: submittedUrl,
+          email: email,
+        }),
+      });
+
+      const result = await response.json();
+
+      if (response.ok && result.id) {
+        // Close modal and redirect to the report page
+        setShowModal(false);
+        window.location.href = `/report/${result.id}`;
+      } else {
+        setError(result.error || result.message || "Failed to submit website");
+        setShowModal(false);
+        setIsSubmitted(false); // Reset the submitted state
+      }
+    } catch (error) {
       setError("Something went wrong. Please try again.");
-    } finally {
-      setIsSubmitting(false);
+      setShowModal(false);
+      setIsSubmitted(false); // Reset the submitted state
     }
   };
 
@@ -151,54 +174,45 @@ export default function SubmissionForm({
   }
 
   return (
-    <div style={{ width: "100%", maxWidth: "800px", margin: "0 auto" }}>
-      <form
-        onSubmit={handleSubmit}
-        role="search"
-        aria-label="Website submission form"
-      >
-        <div className="flex flex-col sm:flex-row gap-3 items-stretch justify-center">
-          <label htmlFor="website-url" className="sr-only">
-            Website URL to review
-          </label>
-          <input
-            ref={inputRef}
-            id="website-url"
-            type="url"
-            name="url"
-            placeholder={placeholder}
-            className="retro-input flex-1 w-full sm:w-auto min-w-0 px-4 sm:px-6"
-            required
-            aria-describedby={
-              error
-                ? "url-help url-error public-notice"
-                : "url-help public-notice"
-            }
-            aria-invalid={error ? "true" : "false"}
-            autoComplete="url"
-            disabled={isSubmitting}
-          />
-          <div id="url-help" className="sr-only">
-            Enter the full URL of your website including https://
-          </div>
-          <button
-            type="submit"
-            className="button-3d w-full sm:w-auto shrink-0"
-            aria-label="Submit website for grading"
-            onClick={handleButtonClick}
-            disabled={isSubmitting}
-            aria-describedby={isSubmitting ? "submit-status" : undefined}
-          >
-            <span className="button_top">
-              {isSubmitting ? "Submitting..." : buttonText}
-            </span>
-          </button>
-          {isSubmitting && (
-            <div id="submit-status" className="sr-only" aria-live="polite">
-              Submitting your website for review
+    <>
+      <div style={{ width: "100%", maxWidth: "800px", margin: "0 auto" }}>
+        <form
+          onSubmit={handleSubmit}
+          role="search"
+          aria-label="Website submission form"
+        >
+          <div className="flex flex-col sm:flex-row gap-3 items-stretch justify-center">
+            <label htmlFor="website-url" className="sr-only">
+              Website URL to review
+            </label>
+            <input
+              ref={inputRef}
+              id="website-url"
+              type="url"
+              name="url"
+              placeholder={placeholder}
+              className="retro-input flex-1 w-full sm:w-auto min-w-0 px-4 sm:px-6"
+              required
+              aria-describedby={
+                error
+                  ? "url-help url-error public-notice"
+                  : "url-help public-notice"
+              }
+              aria-invalid={error ? "true" : "false"}
+              autoComplete="url"
+            />
+            <div id="url-help" className="sr-only">
+              Enter the full URL of your website including https://
             </div>
-          )}
-        </div>
+            <button
+              type="submit"
+              className="button-3d w-full sm:w-auto shrink-0"
+              aria-label="Submit website for grading"
+              onClick={handleButtonClick}
+            >
+              <span className="button_top">{buttonText}</span>
+            </button>
+          </div>
 
         {/* Public Review Notice */}
         <div id="public-notice" className="mt-3 text-center">
@@ -288,9 +302,18 @@ export default function SubmissionForm({
             ) : (
               error
             )}
-          </div>
-        )}
-      </form>
-    </div>
+        </div>
+      )}
+        </form>
+      </div>
+
+      {/* Email Capture Modal */}
+      <EmailCaptureModal
+        isOpen={showModal}
+        onClose={() => setShowModal(false)}
+        websiteUrl={submittedUrl}
+        onSubmit={handleEmailSubmit}
+      />
+    </>
   );
 }
