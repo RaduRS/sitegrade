@@ -1,6 +1,7 @@
 import { ExtractedData } from "../dataExtraction";
 import OpenAI from "openai";
 import puppeteer, { Page } from "puppeteer";
+import chromium from "@sparticuz/chromium";
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
@@ -120,7 +121,26 @@ export async function analyzeResponsiveness(
 
 // Perform actual device testing with Puppeteer
 async function performDeviceTesting(url: string) {
-  const browser = await puppeteer.launch({ headless: true });
+  // Configure for Vercel deployment
+  const isProduction = process.env.NODE_ENV === "production";
+
+  const browser = await puppeteer.launch({
+    headless: true,
+    args: isProduction
+      ? chromium.args
+      : [
+          "--no-sandbox",
+          "--disable-setuid-sandbox",
+          "--disable-dev-shm-usage",
+          "--disable-accelerated-2d-canvas",
+          "--no-first-run",
+          "--no-zygote",
+          "--disable-gpu",
+        ],
+    executablePath: isProduction
+      ? await chromium.executablePath()
+      : puppeteer.executablePath(),
+  });
 
   try {
     // Test mobile (iPhone 12)
