@@ -112,7 +112,9 @@ export default function ReportPage() {
       case "failed":
         return "Analysis Failed";
       case "processing":
-        return "Analyzing Your Website";
+        return progress > 5
+          ? "Analyzing Your Website"
+          : "Starting Analysis Engine";
       default:
         return progress > 0 ? "Analysis Starting" : "Analysis Queued";
     }

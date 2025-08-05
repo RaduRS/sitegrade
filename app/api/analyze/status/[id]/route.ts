@@ -1,6 +1,6 @@
 import { NextRequest } from "next/server";
-import { createClient } from "@supabase/supabase-js";
 import { ApiResponses, Validators, withErrorHandling } from "@/lib/apiUtils";
+import { DatabaseOperations } from "@/lib/dbUtils";
 
 interface AnalysisResult {
   pillar: string;
@@ -21,6 +21,9 @@ interface PillarStatus {
   };
 }
 
+// Use the same Supabase client from DatabaseOperations to avoid consistency issues
+import { createClient } from "@supabase/supabase-js";
+
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.SUPABASE_SERVICE_ROLE_KEY!
@@ -37,47 +40,28 @@ async function handleGetStatus(
     return ApiResponses.badRequest(idError);
   }
 
-  // Get analysis request with results
-  const { data: analysisRequest, error: requestError } = await supabase
-    .from("analysis_requests")
-    .select(
-      `
-        id,
-        url,
-        email,
-        status,
-        created_at,
-        completed_at,
-        error_message,
-        analysis_results (
-          pillar,
-          score,
-          analyzed,
-          insights,
-          recommendations,
-          error_message
-        ),
-        analysis_metadata (
-          total_score,
-          analysis_duration,
-          screenshot_url
-        )
-      `
-    )
-    .eq("id", requestId)
-    .single();
-
-  if (requestError || !analysisRequest) {
+  // Get analysis request with results using the same client as other operations
+  let analysisRequest;
+  try {
+    analysisRequest = await DatabaseOperations.getAnalysisRequestWithResults(
+      requestId
+    );
+  } catch {
     return ApiResponses.notFound("Analysis request not found");
   }
 
   // Calculate progress
-  const totalPillars = 7; // Performance, Design, Responsiveness, SEO, Security, Compliance
+  const totalPillars = 7; // Performance, Design, Responsiveness, SEO, Security, Compliance, Analytics
   const completedPillars =
     (analysisRequest.analysis_results as AnalysisResult[])?.filter(
       (result) => result.analyzed
     ).length || 0;
-  const progress = Math.round((completedPillars / totalPillars) * 100);
+  let progress = Math.round((completedPillars / totalPillars) * 100);
+
+  // Show some progress if status is processing (even with 0 completed pillars)
+  if (analysisRequest.status === "processing" && progress === 0) {
+    progress = 5; // Show 5% to indicate processing has started
+  }
 
   // Auto-update status if all pillars are completed but status is still processing
   if (
@@ -85,14 +69,12 @@ async function handleGetStatus(
     (analysisRequest.status === "processing" ||
       analysisRequest.status === "pending")
   ) {
-    // Update status to completed
-    await supabase
-      .from("analysis_requests")
-      .update({
-        status: "completed",
-        completed_at: new Date().toISOString(),
-      })
-      .eq("id", requestId);
+    // Update status to completed using the same database operations
+    await DatabaseOperations.updateAnalysisStatus(
+      requestId,
+      "completed",
+      new Date().toISOString()
+    );
 
     // Update the local object for response
     analysisRequest.status = "completed";
@@ -106,12 +88,18 @@ async function handleGetStatus(
     analysisRequest.status === "pending" &&
     requestAge > 10 * 60 * 1000 // 10 minutes
   ) {
+    // Update status using the same database operations
+    await DatabaseOperations.updateAnalysisStatus(
+      requestId,
+      "failed",
+      new Date().toISOString()
+    );
+
+    // Also update error message - we'll need a separate operation for this
     await supabase
       .from("analysis_requests")
       .update({
-        status: "failed",
         error_message: "Analysis timed out - process may have failed to start",
-        completed_at: new Date().toISOString(),
       })
       .eq("id", requestId);
 

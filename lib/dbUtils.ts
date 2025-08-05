@@ -1,4 +1,4 @@
-import { createClient } from '@supabase/supabase-js';
+import { createClient } from "@supabase/supabase-js";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -30,23 +30,26 @@ export class DatabaseOperations {
    * Insert analysis result for a specific pillar
    */
   static async insertAnalysisResult(data: AnalysisResultData) {
-    const { error } = await supabase
-      .from('analysis_results')
-      .insert(data);
+    const { error } = await supabase.from("analysis_results").insert(data);
 
     if (error) {
-      throw new Error(`Failed to store ${data.pillar} results: ${error.message}`);
+      throw new Error(
+        `Failed to store ${data.pillar} results: ${error.message}`
+      );
     }
   }
 
   /**
    * Update analysis metadata
    */
-  static async updateAnalysisMetadata(requestId: string, updates: AnalysisMetadataUpdate) {
+  static async updateAnalysisMetadata(
+    requestId: string,
+    updates: AnalysisMetadataUpdate
+  ) {
     const { error } = await supabase
-      .from('analysis_metadata')
+      .from("analysis_metadata")
       .update(updates)
-      .eq('request_id', requestId);
+      .eq("request_id", requestId);
 
     if (error) {
       throw new Error(`Failed to update analysis metadata: ${error.message}`);
@@ -57,8 +60,8 @@ export class DatabaseOperations {
    * Update analysis request status
    */
   static async updateAnalysisStatus(
-    requestId: string, 
-    status: 'pending' | 'processing' | 'completed' | 'failed',
+    requestId: string,
+    status: "pending" | "processing" | "completed" | "failed",
     completedAt?: string
   ) {
     const updateData: { status: string; completed_at?: string } = { status };
@@ -67,9 +70,9 @@ export class DatabaseOperations {
     }
 
     const { error } = await supabase
-      .from('analysis_requests')
+      .from("analysis_requests")
       .update(updateData)
-      .eq('id', requestId);
+      .eq("id", requestId);
 
     if (error) {
       throw new Error(`Failed to update analysis status: ${error.message}`);
@@ -81,10 +84,10 @@ export class DatabaseOperations {
    */
   static async getAnalysisResults(requestId: string) {
     const { data, error } = await supabase
-      .from('analysis_results')
-      .select('pillar, score, analyzed, insights, recommendations')
-      .eq('request_id', requestId)
-      .eq('analyzed', true);
+      .from("analysis_results")
+      .select("pillar, score, analyzed, insights, recommendations")
+      .eq("request_id", requestId)
+      .eq("analyzed", true);
 
     if (error) {
       throw new Error(`Failed to fetch analysis results: ${error.message}`);
@@ -98,13 +101,53 @@ export class DatabaseOperations {
    */
   static async getAnalysisRequest(requestId: string) {
     const { data, error } = await supabase
-      .from('analysis_requests')
-      .select('*')
-      .eq('id', requestId)
+      .from("analysis_requests")
+      .select("*")
+      .eq("id", requestId)
       .single();
 
     if (error || !data) {
-      throw new Error('Analysis request not found');
+      throw new Error("Analysis request not found");
+    }
+
+    return data;
+  }
+
+  /**
+   * Get analysis request with all related data for status endpoint
+   */
+  static async getAnalysisRequestWithResults(requestId: string) {
+    const { data, error } = await supabase
+      .from("analysis_requests")
+      .select(
+        `
+        id,
+        url,
+        email,
+        status,
+        created_at,
+        completed_at,
+        error_message,
+        analysis_results (
+          pillar,
+          score,
+          analyzed,
+          insights,
+          recommendations,
+          error_message
+        ),
+        analysis_metadata (
+          total_score,
+          analysis_duration,
+          screenshot_url
+        )
+      `
+      )
+      .eq("id", requestId)
+      .single();
+
+    if (error) {
+      throw new Error(`Failed to get analysis request: ${error.message}`);
     }
 
     return data;
@@ -115,10 +158,13 @@ export class DatabaseOperations {
    */
   static async checkRecentAnalysis(url: string, minutesAgo: number = 5) {
     const { data } = await supabase
-      .from('analysis_requests')
-      .select('id')
-      .eq('url', url)
-      .gte('created_at', new Date(Date.now() - minutesAgo * 60 * 1000).toISOString())
+      .from("analysis_requests")
+      .select("id")
+      .eq("url", url)
+      .gte(
+        "created_at",
+        new Date(Date.now() - minutesAgo * 60 * 1000).toISOString()
+      )
       .single();
 
     return data;
@@ -130,30 +176,32 @@ export class DatabaseOperations {
   static async createAnalysisRequest(url: string, email: string) {
     // Create analysis request
     const { data: analysisRequest, error: insertError } = await supabase
-      .from('analysis_requests')
+      .from("analysis_requests")
       .insert({
         url,
         email,
-        status: 'pending',
+        status: "pending",
         created_at: new Date().toISOString(),
       })
       .select()
       .single();
 
     if (insertError) {
-      throw new Error(`Failed to create analysis request: ${insertError.message}`);
+      throw new Error(
+        `Failed to create analysis request: ${insertError.message}`
+      );
     }
 
     // Create analysis metadata
     const { error: metadataError } = await supabase
-      .from('analysis_metadata')
+      .from("analysis_metadata")
       .insert({
         request_id: analysisRequest.id,
         created_at: new Date().toISOString(),
       });
 
     if (metadataError) {
-      console.error('Failed to create analysis metadata:', metadataError);
+      console.error("Failed to create analysis metadata:", metadataError);
       // Don't throw error here, analysis can still proceed
     }
 
