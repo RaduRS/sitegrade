@@ -272,8 +272,21 @@ async function processAnalysis(analysisRequest: AnalysisRequest) {
       `📊 Step 1: Extracting website data for ${analysisRequest.url}`
     );
 
+    // Add extra logging for Vercel debugging
+    const isVercel = process.env.VERCEL === "1";
+    console.log(`🔧 Running on Vercel: ${isVercel}`);
+    console.log(`🔧 Node environment: ${process.env.NODE_ENV}`);
+
+    // Mark that analysis has started by updating metadata
+    await DatabaseOperations.updateAnalysisMetadata(analysisRequest.id, {
+      extracted_data: {
+        status: "extraction_started",
+        timestamp: new Date().toISOString(),
+      },
+    });
+
     extractedData = await extractWebsiteData(analysisRequest.url, {
-      timeout: 20000,
+      timeout: isVercel ? 15000 : 20000, // Shorter timeout on Vercel
       fullPageScreenshot: true,
     });
     console.log(`✅ Step 1: Website data extracted successfully`);

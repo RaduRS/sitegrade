@@ -58,8 +58,12 @@ async function handleGetStatus(
     ).length || 0;
   let progress = Math.round((completedPillars / totalPillars) * 100);
 
-  // Show some progress if status is processing (even with 0 completed pillars)
-  if (analysisRequest.status === "processing" && progress === 0) {
+  // Show some progress if analysis has actually started
+  const hasStarted =
+    analysisRequest.analysis_metadata?.[0]?.extracted_data?.status ===
+    "extraction_started";
+
+  if (analysisRequest.status === "processing" && progress === 0 && hasStarted) {
     progress = 5; // Show 5% to indicate processing has started
   }
 

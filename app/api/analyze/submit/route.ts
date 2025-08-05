@@ -94,6 +94,10 @@ async function handleSubmit(request: NextRequest) {
     body: JSON.stringify({ requestId: analysisRequest.id }),
   })
     .then(async (response) => {
+      console.log(
+        `🔗 Process fetch response: ${response.status} ${response.statusText}`
+      );
+
       if (!response.ok) {
         const errorText = await response.text();
         console.error(
@@ -110,11 +114,13 @@ async function handleSubmit(request: NextRequest) {
             completed_at: new Date().toISOString(),
           })
           .eq("id", analysisRequest.id);
+      } else {
+        console.log(`✅ Process trigger successful for ${analysisRequest.id}`);
       }
     })
     .catch(async (error) => {
       console.error(
-        `Network error triggering analysis for ${analysisRequest.id}:`,
+        `❌ Network error triggering analysis for ${analysisRequest.id}:`,
         error
       );
 
