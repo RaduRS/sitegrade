@@ -20,6 +20,7 @@ import {
 import { scoreToGrade } from "@/lib/gradeUtils";
 import { ApiResponses, Validators, withErrorHandling } from "@/lib/apiUtils";
 import { DatabaseOperations } from "@/lib/dbUtils";
+import { analyzeCombinedVisual } from "@/lib/visionAnalysis";
 
 function generatePerformanceInsights(
   performanceResult: PerformanceAnalysis
@@ -190,13 +191,6 @@ interface AnalysisRequest {
   status: string;
 }
 
-interface BasicAnalysisResult {
-  score: number;
-  insights: string;
-  recommendations: string[];
-  details: Record<string, unknown>;
-}
-
 interface PillarResults {
   [key: string]: {
     score: number;
@@ -279,6 +273,16 @@ async function processAnalysis(analysisRequest: AnalysisRequest) {
     // Convert screenshot to base64 for vision analysis
     const screenshotBase64 = extractedData.screenshot.toString("base64");
 
+    // Step 1.5: Combined vision analysis (COST OPTIMIZATION - 1 call instead of 3)
+    console.log(
+      `🔍 Running combined vision analysis (saves ~70% on vision API costs)`
+    );
+    const visionAnalysis = await analyzeCombinedVisual(
+      screenshotBase64,
+      analysisRequest.url
+    );
+    console.log(`✅ Combined vision analysis complete`);
+
     // Step 2: Analyze Performance (MVP pillar)
     console.log(`📊 Step 2: Analyzing performance`);
     const performanceResult = await analyzePerformance(
@@ -305,12 +309,13 @@ async function processAnalysis(analysisRequest: AnalysisRequest) {
       error_message: performanceResult.error || null,
     });
 
-    // Step 3: Analyze Design
+    // Step 3: Analyze Design (using precomputed vision data)
     console.log(`📊 Step 3: Analyzing design`);
     const designResult = await analyzeDesign(
       extractedData,
       performanceResult,
-      screenshotBase64
+      undefined, // Don't pass screenshot - use precomputed vision
+      visionAnalysis.design
     );
     console.log(
       `✅ Step 3: Design analysis complete - Score: ${designResult.score}`
@@ -326,10 +331,15 @@ async function processAnalysis(analysisRequest: AnalysisRequest) {
       analyzed: true,
     });
 
-    // Step 4: Analyze Responsiveness
+    // Step 4: Analyze Responsiveness (using precomputed vision data)
+    console.log(`📊 Step 4: Analyzing responsiveness`);
     const responsivenessResult = await analyzeResponsiveness(
       extractedData,
-      screenshotBase64
+      undefined, // Don't pass screenshot - use precomputed vision
+      visionAnalysis.responsiveness
+    );
+    console.log(
+      `✅ Step 4: Responsiveness analysis complete - Score: ${responsivenessResult.score}`
     );
 
     await DatabaseOperations.insertAnalysisResult({
@@ -343,11 +353,13 @@ async function processAnalysis(analysisRequest: AnalysisRequest) {
     });
 
     // Step 5: Analyze SEO
+    console.log(`📊 Step 5: Analyzing SEO`);
     const seoResult = await analyzeSEO({
       ...extractedData,
       url: analysisRequest.url,
       html: extractedData.html,
     });
+    console.log(`✅ Step 5: SEO analysis complete - Score: ${seoResult.score}`);
 
     await DatabaseOperations.insertAnalysisResult({
       request_id: analysisRequest.id,
@@ -360,7 +372,11 @@ async function processAnalysis(analysisRequest: AnalysisRequest) {
     });
 
     // Step 6: Basic Security Analysis (MVP pillar)
+    console.log(`📊 Step 6: Analyzing security`);
     const securityResult = await analyzeSecurity(analysisRequest.url);
+    console.log(
+      `✅ Step 6: Security analysis complete - Score: ${securityResult.score}`
+    );
 
     await DatabaseOperations.insertAnalysisResult({
       request_id: analysisRequest.id,
@@ -372,11 +388,20 @@ async function processAnalysis(analysisRequest: AnalysisRequest) {
       analyzed: true,
     });
 
-    // Step 7: Analyze Compliance (Legal, Privacy, Accessibility)
+    // Step 7: Analyze Compliance (using precomputed vision data)
+    console.log(`📊 Step 7: Analyzing compliance`);
     const complianceResult = await analyzeCompliance(
       analysisRequest.url,
       extractedData,
-      screenshotBase64
+      undefined, // Don't pass screenshot - use precomputed vision
+      {
+        accessibility: visionAnalysis.compliance.accessibility,
+        recommendations:
+          visionAnalysis.compliance.overallCompliance.recommendations,
+      }
+    );
+    console.log(
+      `✅ Step 7: Compliance analysis complete - Score: ${complianceResult.score}`
     );
 
     await DatabaseOperations.insertAnalysisResult({
@@ -390,7 +415,11 @@ async function processAnalysis(analysisRequest: AnalysisRequest) {
     });
 
     // Step 8: Analyze Analytics (Tracking, Conversion, Privacy)
+    console.log(`📊 Step 8: Analyzing analytics`);
     const analyticsResult = await analyzeAnalytics(extractedData);
+    console.log(
+      `✅ Step 8: Analytics analysis complete - Score: ${analyticsResult.score}`
+    );
 
     await DatabaseOperations.insertAnalysisResult({
       request_id: analysisRequest.id,

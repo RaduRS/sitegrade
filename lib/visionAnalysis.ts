@@ -5,6 +5,175 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
+// Combined analysis interface for cost optimization
+export interface CombinedVisionAnalysis {
+  compliance: {
+    cookieBanner: {
+      detected: boolean;
+      confidence: number;
+      description: string;
+    };
+    accessibility: {
+      colorContrast: "good" | "poor" | "unknown";
+      textReadability: "good" | "poor" | "unknown";
+    };
+    overallCompliance: {
+      recommendations: string[];
+    };
+  };
+  design: {
+    primaryCTA: string;
+    visualStyle: string;
+    designIssues: string[];
+    recommendations: string[];
+  };
+  responsiveness: {
+    layoutStructure: string;
+    mobileOptimization: string;
+    issues: string[];
+    recommendations: string[];
+  };
+}
+
+// COST-OPTIMIZED: Single API call for all visual analysis
+export async function analyzeCombinedVisual(
+  screenshotBase64: string,
+  url: string
+): Promise<CombinedVisionAnalysis> {
+  try {
+    const response = await openai.chat.completions.create({
+      model: "gpt-4o-mini",
+      messages: [
+        {
+          role: "user",
+          content: [
+            {
+              type: "text",
+              text: `Analyze this website screenshot for COMPLIANCE, DESIGN, and RESPONSIVENESS in one comprehensive analysis.
+
+COMPLIANCE ANALYSIS:
+- Cookie consent banners/notices (detect and confidence level)
+- Color contrast quality for accessibility
+- Text readability and sizing
+- Only recommend features that are clearly missing or problematic
+
+DESIGN ANALYSIS:
+- Primary call-to-action identification
+- Overall visual style and aesthetics
+- Design issues and problems
+- Design improvement recommendations
+
+RESPONSIVENESS ANALYSIS:
+- Layout structure and organization
+- Mobile optimization assessment
+- Responsive design issues
+- Improvement recommendations
+
+Website URL: ${url}
+
+Respond with this exact JSON structure:
+{
+  "compliance": {
+    "cookieBanner": {
+      "detected": boolean,
+      "confidence": number,
+      "description": "brief description"
+    },
+    "accessibility": {
+      "colorContrast": "good|poor|unknown",
+      "textReadability": "good|poor|unknown"
+    },
+    "overallCompliance": {
+      "recommendations": ["max 3 specific recommendations"]
+    }
+  },
+  "design": {
+    "primaryCTA": "description of main CTA",
+    "visualStyle": "overall design assessment",
+    "designIssues": ["list of design problems"],
+    "recommendations": ["max 3 design improvements"]
+  },
+  "responsiveness": {
+    "layoutStructure": "layout assessment",
+    "mobileOptimization": "mobile-specific evaluation",
+    "issues": ["responsive design problems"],
+    "recommendations": ["max 3 responsive improvements"]
+  }
+}`,
+            },
+            {
+              type: "image_url",
+              image_url: {
+                url: `data:image/png;base64,${screenshotBase64}`,
+                detail: "low", // COST OPTIMIZATION: Use low detail
+              },
+            },
+          ],
+        },
+      ],
+      max_tokens: 1000, // COST OPTIMIZATION: Limit tokens
+      temperature: 0.1,
+    });
+
+    const content = response.choices[0]?.message?.content;
+    if (!content) {
+      throw new Error("No response from OpenAI Vision");
+    }
+
+    // Extract JSON from the response
+    const jsonMatch = content.match(/\{[\s\S]*\}/);
+    if (!jsonMatch) {
+      throw new Error("Could not parse JSON from OpenAI response");
+    }
+
+    const result = JSON.parse(jsonMatch[0]) as CombinedVisionAnalysis;
+
+    // Validate the result structure
+    if (!result.compliance || !result.design || !result.responsiveness) {
+      throw new Error(
+        "Invalid response structure from combined vision analysis"
+      );
+    }
+
+    return result;
+  } catch (error) {
+    console.error("Combined vision analysis failed:", error);
+
+    // Return a fallback result
+    return {
+      compliance: {
+        cookieBanner: {
+          detected: false,
+          confidence: 0,
+          description:
+            "Vision analysis failed - using text-based detection only",
+        },
+        accessibility: {
+          colorContrast: "unknown",
+          textReadability: "unknown",
+        },
+        overallCompliance: {
+          recommendations: [
+            "Manual review recommended for accurate compliance assessment",
+          ],
+        },
+      },
+      design: {
+        primaryCTA: "Could not analyze due to vision API failure",
+        visualStyle: "Analysis unavailable",
+        designIssues: ["Vision analysis unavailable"],
+        recommendations: ["Manual design review recommended"],
+      },
+      responsiveness: {
+        layoutStructure: "Could not analyze layout",
+        mobileOptimization: "Analysis unavailable",
+        issues: ["Vision analysis unavailable"],
+        recommendations: ["Manual responsiveness review recommended"],
+      },
+    };
+  }
+}
+
 export interface VisionComplianceResult {
   cookieBanner: {
     detected: boolean;
