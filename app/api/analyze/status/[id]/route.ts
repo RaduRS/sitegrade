@@ -71,13 +71,24 @@ async function handleGetStatus(
     return ApiResponses.notFound("Analysis request not found");
   }
 
-  // Calculate progress
-  const totalPillars = 7; // Performance, Design, Responsiveness, SEO, Security, Compliance
-  const completedPillars =
-    (analysisRequest.analysis_results as AnalysisResult[])?.filter(
-      (result) => result.analyzed
-    ).length || 0;
-  const progress = Math.round((completedPillars / totalPillars) * 100);
+     // Calculate progress
+   const totalPillars = 7; // Performance, Design, Responsiveness, SEO, Security, Compliance, Analytics
+   const completedPillars =
+     (analysisRequest.analysis_results as AnalysisResult[])?.filter(
+       (result) => result.analyzed
+     ).length || 0;
+   const progress = Math.round((completedPillars / totalPillars) * 100);
+
+   // Debug logging
+   console.log(`[Status API] Request ${requestId}:`, {
+     status: analysisRequest.status,
+     completedPillars,
+     totalPillars,
+     progress,
+     hasResults: !!analysisRequest.analysis_results,
+     resultsCount: (analysisRequest.analysis_results as AnalysisResult[])?.length || 0,
+     analyzedCount: completedPillars
+   });
 
   // Auto-update status if all pillars are completed but status is still processing
   if (

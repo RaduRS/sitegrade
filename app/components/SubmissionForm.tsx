@@ -71,7 +71,6 @@ export default function SubmissionForm({
       if (response.ok && result.id) {
         // Close modal and redirect to the report page immediately
         setShowModal(false);
-        console.log("✅ Redirecting to report page:", `/report/${result.id}`);
 
         // Use Next.js router for reliable navigation
         router.push(`/report/${result.id}`);

@@ -1,4 +1,5 @@
 import { NextRequest } from "next/server";
+import { createClient } from "@supabase/supabase-js";
 import {
   extractWebsiteData,
   closeExtractionEngine,
@@ -226,8 +227,13 @@ async function handleProcess(request: NextRequest) {
     // Update status to processing
     await DatabaseOperations.updateAnalysisStatus(requestId, "processing");
 
-    // Start analysis
-    await processAnalysis(analysisRequest);
+    // Start analysis - DON'T await this so the HTTP response can return immediately
+    processAnalysis(analysisRequest).catch((error) => {
+      console.error(
+        `❌ Background analysis failed for request ${requestId}:`,
+        error
+      );
+    });
 
     return ApiResponses.success({
       success: true,
@@ -453,7 +459,8 @@ async function processAnalysis(analysisRequest: AnalysisRequest) {
     // Update request status to completed
     await DatabaseOperations.updateAnalysisStatus(
       analysisRequest.id,
-      "completed"
+      "completed",
+      new Date().toISOString()
     );
 
     // Send completion email
@@ -489,18 +496,46 @@ async function processAnalysis(analysisRequest: AnalysisRequest) {
       error instanceof Error ? error.stack : "No stack trace"
     );
 
-    // Update status to failed
+    // Update status to failed with detailed error message
+    const errorMessage =
+      error instanceof Error
+        ? error.message
+        : "Unknown error occurred during analysis";
+    console.log(
+      `🔧 Updating request ${analysisRequest.id} status to failed with message: ${errorMessage}`
+    );
+
     await DatabaseOperations.updateAnalysisStatus(analysisRequest.id, "failed");
 
+    // Also update the error message in the database
+    try {
+      const supabase = createClient(
+        process.env.NEXT_PUBLIC_SUPABASE_URL!,
+        process.env.SUPABASE_SERVICE_ROLE_KEY!
+      );
+
+      await supabase
+        .from("analysis_requests")
+        .update({
+          error_message: errorMessage,
+          completed_at: new Date().toISOString(),
+        })
+        .eq("id", analysisRequest.id);
+    } catch (dbError) {
+      console.error("Failed to update error message in database:", dbError);
+    }
+
     // Send failure email
-    console.log(
-      `📧 Attempting to send failure email to: ${analysisRequest.email} for URL: ${analysisRequest.url}`
-    );
-    await sendAnalysisFailedEmail(
-      analysisRequest.url,
-      analysisRequest.email,
-      error instanceof Error ? error.message : "Unknown error"
-    );
+
+    try {
+      await sendAnalysisFailedEmail(
+        analysisRequest.url,
+        analysisRequest.email,
+        errorMessage
+      );
+    } catch (emailError) {
+      console.error("Failed to send failure email:", emailError);
+    }
   } finally {
     // Clean up resources
     try {

@@ -81,20 +81,53 @@ async function handleSubmit(request: NextRequest) {
     // Don't return error here, analysis can still proceed
   }
 
-  fetch(
-    `${
-      process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000"
-    }/api/analyze/process`,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ requestId: analysisRequest.id }),
-    }
-  ).catch(() => {
-    // Silently handle fetch errors
-  });
+  // Trigger analysis processing with proper error handling
+  const processUrl = `${
+    process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000"
+  }/api/analyze/process`;
+
+  fetch(processUrl, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ requestId: analysisRequest.id }),
+  })
+    .then(async (response) => {
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error(
+          `Failed to trigger analysis process: ${response.status} ${response.statusText}`,
+          errorText
+        );
+
+        // Update status to failed if the process trigger fails
+        await supabase
+          .from("analysis_requests")
+          .update({
+            status: "failed",
+            error_message: `Failed to start analysis: ${response.status} ${response.statusText}`,
+            completed_at: new Date().toISOString(),
+          })
+          .eq("id", analysisRequest.id);
+      }
+    })
+    .catch(async (error) => {
+      console.error(
+        `Network error triggering analysis process for request ${analysisRequest.id}:`,
+        error
+      );
+
+      // Update status to failed if there's a network error
+      await supabase
+        .from("analysis_requests")
+        .update({
+          status: "failed",
+          error_message: `Network error starting analysis: ${error.message}`,
+          completed_at: new Date().toISOString(),
+        })
+        .eq("id", analysisRequest.id);
+    });
 
   return ApiResponses.success({
     id: analysisRequest.id,
