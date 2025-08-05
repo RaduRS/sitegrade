@@ -65,6 +65,11 @@ export default function ReportPage() {
 
         const data = await response.json();
         setAnalysis(data);
+
+        // If analysis is still in progress, set up polling
+        if (data.status === "pending" || data.status === "processing") {
+          setTimeout(fetchAnalysisStatus, 10000); // Poll every 10 seconds
+        }
       } catch (err) {
         console.error("Error fetching analysis status:", err);
         setError(
@@ -75,16 +80,17 @@ export default function ReportPage() {
       }
     };
 
-    // Initial fetch
     fetchAnalysisStatus();
 
-    // Set up polling interval - check every 5 seconds
+    // Poll for updates if analysis is not complete
     const interval = setInterval(() => {
-      fetchAnalysisStatus();
-    }, 5000);
+      if (analysis?.status === "pending" || analysis?.status === "processing") {
+        fetchAnalysisStatus();
+      }
+    }, 3000);
 
     return () => clearInterval(interval);
-  }, [id]); // Only depend on id, not analysis status
+  }, [id, analysis?.status]);
 
   const getStatusIcon = (status: string) => {
     switch (status) {
@@ -197,17 +203,9 @@ export default function ReportPage() {
                 {analysis.progress}% complete
               </p>
               {analysis.status === "pending" && analysis.progress === 0 && (
-                <div className="text-center mt-2">
-                  <p className="text-yellow-400 text-sm mb-3">
-                    ⚡ Starting analysis engine... This may take a moment.
-                  </p>
-                  <button
-                    onClick={() => window.location.reload()}
-                    className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm rounded-lg transition-colors"
-                  >
-                    🔄 Refresh Status
-                  </button>
-                </div>
+                <p className="text-yellow-400 text-sm text-center mt-2">
+                  ⚡ Starting analysis engine... This may take a moment.
+                </p>
               )}
             </div>
           )}
