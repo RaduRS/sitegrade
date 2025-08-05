@@ -59,7 +59,7 @@ export default function EmailCaptureModal({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!email.trim()) {
       setError("Please enter your email address");
       return;
@@ -78,13 +78,15 @@ export default function EmailCaptureModal({
     try {
       // Track the form submission
       trackFormSubmission(websiteUrl);
-      
+
       // Call the parent's onSubmit function
       await onSubmit(email);
-      
+
       // If we reach here, the submission was successful
       // The parent will handle closing the modal and redirecting
-    } catch (err) {
+      setIsSubmitting(false); // Stop loading state on success
+    } catch (error) {
+      console.error("Email submission error:", error);
       setError("Something went wrong. Please try again.");
       setIsSubmitting(false);
     }
@@ -119,11 +121,15 @@ export default function EmailCaptureModal({
           <div className="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
             <Mail className="w-8 h-8 text-white" />
           </div>
-          <h2 id="modal-title" className="heading-md text-white mb-2 font-retro">
+          <h2
+            id="modal-title"
+            className="heading-md text-white mb-2 font-retro"
+          >
             Your Report is Being Generated! 🚀
           </h2>
           <p className="text-slate-300 text-sm">
-            Enter your email below to view your report and receive a copy in your inbox.
+            Enter your email below to view your report and receive a copy in
+            your inbox.
           </p>
         </div>
 

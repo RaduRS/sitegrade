@@ -78,41 +78,57 @@ async function handleSubmit(request: NextRequest) {
     // Don't return error here, analysis can still proceed
   }
 
-  // Trigger analysis processing (fire and forget)
-  try {
-    const baseUrl =
-      process.env.NEXT_PUBLIC_BASE_URL || process.env.VERCEL_URL
-        ? `https://${process.env.VERCEL_URL}`
-        : "http://localhost:3000";
-
-    const response = await fetch(`${baseUrl}/api/analyze/process`, {
+  fetch(
+    `${
+      process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000"
+    }/api/analyze/process`,
+    {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ requestId: analysisRequest.id }),
-    });
-
-    if (!response.ok) {
-      console.error(
-        "Failed to trigger analysis processing:",
-        response.status,
-        response.statusText
-      );
-      // Update status to failed if we can't trigger processing
-      await supabase
-        .from("analysis_requests")
-        .update({ status: "failed" })
-        .eq("id", analysisRequest.id);
     }
-  } catch (error) {
-    console.error("Error triggering analysis processing:", error);
-    // Update status to failed if we can't trigger processing
-    await supabase
-      .from("analysis_requests")
-      .update({ status: "failed" })
-      .eq("id", analysisRequest.id);
-  }
+  ).catch(() => {
+    // Silently handle fetch errors
+  });
+
+  // Trigger analysis processing (fire and forget)
+  // try {
+  //   const baseUrl =
+  //     process.env.NEXT_PUBLIC_BASE_URL ||
+  //     (process.env.VERCEL_URL
+  //       ? `https://${process.env.VERCEL_URL}`
+  //       : "http://localhost:3000");
+
+  //   const response = await fetch(`${baseUrl}/api/analyze/process`, {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //     body: JSON.stringify({ requestId: analysisRequest.id }),
+  //   });
+
+  //   if (!response.ok) {
+  //     console.error(
+  //       "Failed to trigger analysis processing:",
+  //       response.status,
+  //       response.statusText
+  //     );
+  //     // Update status to failed if we can't trigger processing
+  //     await supabase
+  //       .from("analysis_requests")
+  //       .update({ status: "failed" })
+  //       .eq("id", analysisRequest.id);
+  //   }
+  // } catch (error) {
+  //   console.error("Error triggering analysis processing:", error);
+  //   // Update status to failed if we can't trigger processing
+  //   await supabase
+  //     .from("analysis_requests")
+  //     .update({ status: "failed" })
+  //     .eq("id", analysisRequest.id);
+  // }
 
   return ApiResponses.success({
     id: analysisRequest.id,
