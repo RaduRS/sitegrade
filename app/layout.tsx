@@ -22,11 +22,11 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "SiteGrade Expert Website Appraisals and Reviews",
+  title: "SiteGrade - Instant Website Audit & Performance Report",
   description:
-    "Professional website reviews across 7 pillars: Performance, Design, Responsiveness, SEO, Security, Compliance & Analytics. Expert actionable insights today.",
+    "Get an instant website audit. We analyze your site's Performance, SEO, Security & more across 7 key pillars to give you an actionable report. Grade your website now.",
   keywords:
-    "website review, website appraisal, web design analysis, SEO audit, performance testing, website grading, TikTok reviews",
+    "free website audit, website performance check, improve website speed, website security scan, SEO checker, technical SEO audit, website report card",
   authors: [{ name: "SiteGrade Team" }],
   creator: "SiteGrade",
   publisher: "SiteGrade",
@@ -40,9 +40,9 @@ export const metadata: Metadata = {
     canonical: "https://sitegrade.co.uk/",
   },
   openGraph: {
-    title: "SiteGrade Expert Website Appraisals and Reviews",
+    title: "SiteGrade - Instant Website Audit & Performance Report",
     description:
-        "Professional website reviews across 7 pillars: Performance, Design, Responsiveness, SEO, Security, Compliance & Analytics. Expert actionable insights today.",
+      "Get an instant website audit. We analyze your site's Performance, SEO, Security & more across 7 key pillars to give you an actionable report. Grade your website now.",
     url: "https://sitegrade.co.uk",
     siteName: "SiteGrade",
     images: [
@@ -50,7 +50,7 @@ export const metadata: Metadata = {
         url: "https://sitegrade.co.uk/SITEGRADE-logo.png",
         width: 1200,
         height: 1200,
-        alt: "SiteGrade Logo - Professional Website Reviews",
+        alt: "SiteGrade Logo - Instant Website Audits & Reports",
       },
     ],
     locale: "en_GB",
@@ -58,9 +58,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "SiteGrade Expert Website Appraisals and Reviews",
+    title: "SiteGrade - Instant Website Audit & Performance Report",
     description:
-        "Professional website reviews across 7 pillars: Performance, Design, Responsiveness, SEO, Security, Compliance & Analytics. Expert actionable insights today.",
+      "Get an instant website audit. We analyze your site's Performance, SEO, Security & more across 7 key pillars to give you an actionable report. Grade your website now.",
     images: ["https://sitegrade.co.uk/SITEGRADE-logo.png"],
     creator: "@sitegradeuk",
   },
@@ -86,18 +86,33 @@ export default function RootLayout({
     <html lang="en-GB" dir="ltr">
       <head>
         {/* Essential meta tags for better SEO tool compatibility */}
-        <meta name="description" content="Professional website reviews across 7 pillars: Performance, Design, Responsiveness, SEO, Security, Compliance & Analytics. Expert actionable insights today." />
+        <meta
+          name="description"
+          content="Get an instant website audit. We analyze your site's Performance, SEO, Security & more across 7 key pillars to give you an actionable report. Grade your website now."
+        />
         <link rel="canonical" href="https://sitegrade.co.uk/" />
-        
+
         {/* Open Graph meta tags */}
-        <meta property="og:title" content="SiteGrade Expert Website Appraisals and Reviews" />
-        <meta property="og:description" content="Professional website reviews across 7 pillars: Performance, Design, Responsiveness, SEO, Security, Compliance & Analytics. Expert actionable insights today." />
+        <meta
+          property="og:title"
+          content="SiteGrade - Instant Website Audit & Performance Report"
+        />
+        <meta
+          property="og:description"
+          content="Get an instant website audit. We analyze your site's Performance, SEO, Security & more across 7 key pillars to give you an actionable report. Grade your website now."
+        />
         <meta property="og:url" content="https://sitegrade.co.uk" />
         <meta property="og:site_name" content="SiteGrade" />
-        <meta property="og:image" content="https://sitegrade.co.uk/SITEGRADE-logo.png" />
+        <meta
+          property="og:image"
+          content="https://sitegrade.co.uk/SITEGRADE-logo.png"
+        />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="1200" />
-        <meta property="og:image:alt" content="SiteGrade Logo - Professional Website Reviews" />
+        <meta
+          property="og:image:alt"
+          content="SiteGrade Logo - Instant Website Audits & Reports"
+        />
         <meta property="og:locale" content="en_GB" />
         <meta property="og:type" content="website" />
 
@@ -105,15 +120,24 @@ export default function RootLayout({
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:site" content="@sitegradeuk" />
         <meta name="twitter:creator" content="@sitegradeuk" />
-        <meta name="twitter:title" content="SiteGrade Expert Website Appraisals and Reviews" />
-        <meta name="twitter:description" content="Professional website reviews across 7 pillars: Performance, Design, Responsiveness, SEO, Security, Compliance & Analytics. Expert actionable insights today." />
-        <meta name="twitter:image" content="https://sitegrade.co.uk/SITEGRADE-logo.png" />
+        <meta
+          name="twitter:title"
+          content="SiteGrade - Instant Website Audit & Performance Report"
+        />
+        <meta
+          name="twitter:description"
+          content="Get an instant website audit. We analyze your site's Performance, SEO, Security & more across 7 key pillars to give you an actionable report. Grade your website now."
+        />
+        <meta
+          name="twitter:image"
+          content="https://sitegrade.co.uk/SITEGRADE-logo.png"
+        />
 
         {/* Additional meta tags */}
-        <meta name="published" content="2025-08-04" />
-        <meta name="modified" content="2025-08-04" />
-        <meta name="article:published_time" content="2025-08-04T00:00:00Z" />
-        <meta name="article:modified_time" content="2025-08-04T00:00:00Z" />
+        <meta name="published" content="2025-08-05" />
+        <meta name="modified" content="2025-08-05" />
+        <meta name="article:published_time" content="2025-08-05T00:00:00Z" />
+        <meta name="article:modified_time" content="2025-08-05T00:00:00Z" />
 
         {/* Accessibility and SEO meta tags */}
         <meta name="color-scheme" content="dark light" />

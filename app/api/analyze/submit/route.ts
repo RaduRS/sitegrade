@@ -2,6 +2,7 @@ import { NextRequest } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { isValidUrl, normalizeUrl } from "@/lib/dataExtraction";
 import { ApiResponses, Validators, withErrorHandling } from "@/lib/apiUtils";
+import { isValidBusinessEmail } from "@/lib/emailValidation";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -20,9 +21,23 @@ async function handleSubmit(request: NextRequest) {
     return ApiResponses.badRequest(urlError || emailError || "Invalid input");
   }
 
-  // Validate email format
-  if (!Validators.email(email)) {
-    return ApiResponses.badRequest("Invalid email format");
+  // Validate email format and check for temporary/burner emails
+  const emailValidation = isValidBusinessEmail(email);
+  if (!emailValidation.isValid) {
+    return ApiResponses.badRequest(emailValidation.reason || "Invalid email");
+  }
+
+  // Check if user has already used the system
+  const { data: existingUser } = await supabase
+    .from("analysis_requests")
+    .select("email")
+    .eq("email", email.toLowerCase())
+    .single();
+
+  if (existingUser) {
+    return ApiResponses.badRequest(
+      "This email has already been used for an analysis. Each user can only generate one report. If you need another analysis, please contact our support team at <a href='mailto:hello@sitegrade.co.uk' style='color: #fbbf24; text-decoration: underline;'>hello@sitegrade.co.uk</a>"
+    );
   }
 
   // Validate and normalize URL
@@ -34,26 +49,14 @@ async function handleSubmit(request: NextRequest) {
 
   const normalizedUrl = normalizeUrl(url);
 
-  // Check for recent analysis to prevent spam
-  const { data: recentAnalysis } = await supabase
-    .from("analysis_requests")
-    .select("id")
-    .eq("url", normalizedUrl)
-    .gte("created_at", new Date(Date.now() - 5 * 60 * 1000).toISOString()) // 5 minutes ago
-    .single();
-
-  if (recentAnalysis) {
-    return ApiResponses.tooManyRequests(
-      "Analysis for this URL was recently requested. Please wait before requesting again."
-    );
-  }
+  // Note: Multiple users can analyze the same website - no URL restrictions
 
   // Create analysis request
   const { data: analysisRequest, error: insertError } = await supabase
     .from("analysis_requests")
     .insert({
       url: normalizedUrl,
-      email,
+      email: email.toLowerCase(), // Store email in lowercase for consistency
       status: "pending",
       created_at: new Date().toISOString(),
     })

@@ -96,7 +96,7 @@ export default function EmailCaptureModal({
 
   return (
     <div
-      className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center p-4 z-50"
+      className="fixed inset-0 bg-black/40 flex items-center justify-center p-4 z-50"
       onClick={handleBackdropClick}
       role="dialog"
       aria-modal="true"
@@ -192,27 +192,29 @@ export default function EmailCaptureModal({
         </form>
 
         {/* Privacy notice */}
-        <p className="text-slate-400 text-xs text-center mt-4">
-          By submitting, you agree to our{" "}
-          <a
-            href="/terms"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-amber-400 hover:text-amber-300 underline"
-          >
-            Terms
-          </a>{" "}
-          &{" "}
-          <a
-            href="/privacy"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-amber-400 hover:text-amber-300 underline"
-          >
-            Privacy Policy
-          </a>
-          .
-        </p>
+        <div className="text-slate-400 text-xs text-center mt-4 space-y-2">
+          <p>Your analysis report will be emailed to the address above.</p>
+          <p>
+            By submitting, you agree to our {" "}
+            <a
+              href="/terms"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-amber-400 hover:text-amber-300 underline"
+            >
+              Terms
+            </a>{" "}
+            &{" "}
+            <a
+              href="/privacy"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-amber-400 hover:text-amber-300 underline"
+            >
+              Privacy Policy
+            </a>
+          </p>
+        </div>
       </div>
     </div>
   );

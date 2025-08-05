@@ -1,8 +1,8 @@
-import { headers } from 'next/headers';
+import { headers } from "next/headers";
 
 export default async function StructuredData() {
   const headersList = await headers();
-  const nonce = headersList.get('X-Nonce');
+  const nonce = headersList.get("X-Nonce");
 
   const organizationData = {
     "@context": "https://schema.org",
@@ -26,7 +26,7 @@ export default async function StructuredData() {
       availableLanguage: "English",
     },
     areaServed: "Worldwide",
-    serviceType: "Website Review and Analysis",
+    serviceType: "Website Performance Audit",
     foundingDate: "2025",
     knowsAbout: [
       "Website Performance Optimization",
@@ -42,19 +42,19 @@ export default async function StructuredData() {
   const serviceData = {
     "@context": "https://schema.org",
     "@type": "Service",
-    name: "Professional Website Review and Analysis",
+    name: "Website Analysis Report Card",
     description:
-      "Comprehensive website evaluation covering performance, design, SEO, security, compliance, and analytics with expert recommendations.",
+      "We audit your site's Performance, SEO, Security, and more. Get your actionable report card in under 2 minutes.",
     provider: {
       "@type": "Organization",
       name: "SiteGrade",
       url: "https://sitegrade.co.uk",
     },
-    serviceType: "Website Analysis",
+    serviceType: "Website Performance Audit",
     areaServed: "Worldwide",
     hasOfferCatalog: {
       "@type": "OfferCatalog",
-      name: "Website Review Services",
+      name: "Instant Website Audit Services",
       itemListElement: [
         {
           "@type": "Offer",
@@ -92,12 +92,16 @@ export default async function StructuredData() {
       <script
         type="application/ld+json"
         nonce={nonce || undefined}
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationData, null, 0) }}
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(organizationData, null, 0),
+        }}
       />
       <script
         type="application/ld+json"
         nonce={nonce || undefined}
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceData, null, 0) }}
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(serviceData, null, 0),
+        }}
       />
     </>
   );

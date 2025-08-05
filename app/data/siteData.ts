@@ -1,54 +1,70 @@
 export const siteData = {
   brand: {
     name: "SITEGRADE",
-    description: "Professional website reviews for the modern web"
+    description: "Instant website audits that actually help",
   },
-  
+
   hero: {
     title: "We grade sites for",
-    typewriterWords: ["Performance", "Design", "Responsiveness", "SEO", "Security", "Compliance", "Analytics"]
+    typewriterWords: [
+      "Performance",
+      "Design",
+      "Responsiveness",
+      "SEO",
+      "Security",
+      "Compliance",
+      "Analytics",
+    ],
   },
 
   pillars: {
     title: "7 Core Grading Pillars",
-    subtitle: "Every website review is evaluated across these essential areas to provide you with comprehensive insights and actionable recommendations.",
+    subtitle:
+      "Get instant insights across these 7 critical areas. Discover what's slowing down your site and exactly how to fix it for better performance.",
     items: [
       {
         name: "Performance",
-        description: "Page load speeds, Core Web Vitals, and overall site optimization for better user experience.",
-        icon: "Zap"
+        description:
+          "Page load speeds, Core Web Vitals, and overall site optimization for better user experience.",
+        icon: "Zap",
       },
       {
         name: "Design",
-        description: "Visual appeal, user interface quality, and overall aesthetic presentation of your website.",
-        icon: "Palette"
+        description:
+          "Visual appeal, user interface quality, and overall aesthetic presentation of your website.",
+        icon: "Palette",
       },
       {
         name: "Responsiveness",
-        description: "Mobile compatibility, cross-device functionality, and adaptive design implementation.",
-        icon: "Smartphone"
+        description:
+          "Mobile compatibility, cross-device functionality, and adaptive design implementation.",
+        icon: "Smartphone",
       },
       {
         name: "SEO",
-        description: "Search engine optimization, meta tags, content structure, and discoverability factors.",
-        icon: "Search"
+        description:
+          "Search engine optimization, meta tags, content structure, and discoverability factors.",
+        icon: "Search",
       },
       {
         name: "Security",
-        description: "SSL certificates, data protection measures, and overall website security implementation.",
-        icon: "Shield"
+        description:
+          "SSL certificates, data protection measures, and overall website security implementation.",
+        icon: "Shield",
       },
       {
         name: "Compliance",
-        description: "Accessibility standards, GDPR compliance, and legal requirements adherence.",
-        icon: "CheckCircle"
+        description:
+          "Accessibility standards, GDPR compliance, and legal requirements adherence.",
+        icon: "CheckCircle",
       },
       {
         name: "Analytics",
-        description: "Data tracking setup, conversion optimization, and performance measurement capabilities.",
-        icon: "BarChart3"
-      }
-    ]
+        description:
+          "Data tracking setup, conversion optimization, and performance measurement capabilities.",
+        icon: "BarChart3",
+      },
+    ],
   },
 
   howItWorks: {
@@ -57,36 +73,42 @@ export const siteData = {
       {
         stepNumber: "01",
         title: "Submit Your Site",
-        description: "Enter your website URL and we'll add it to our review queue. It's completely free!"
+        description:
+          "Just drop your URL and email. Get your instant website report card in under 2 minutes. We'll check everything that matters. Simple as that!",
       },
       {
-        stepNumber: "02", 
-        title: "Expert Review",
-        description: "A comprehensive analysis is conducted across all 7 pillars of website quality."
+        stepNumber: "02",
+        title: "Get Your Report Card",
+        description:
+          "We instantly audit your site's Performance, SEO, Security, and more. Get an actionable report with specific improvements you can actually use.",
       },
       {
         stepNumber: "03",
         title: "Follow Our Socials",
-        description: "Watch for your detailed review video on our social media: TikTok, YouTube, Instagram, and X."
-      }
-    ]
+        description:
+          "If you're lucky, watch for your website's review on our social media. We feature the good, the bad, and the hilariously broken. Don't worry - we're nice about it! 😉",
+      },
+    ],
   },
 
   about: {
-    title: "Professional Website Analysis for Modern Businesses",
+    title: "Get Instant Insights Into What's Breaking Your Website",
     content: {
-      introduction: "Your website is often the first impression potential customers have of your business. SiteGrade offers detailed website reviews that break down exactly how your site performs across the areas that matter most. All reviews provide honest, actionable feedback from real expertise.",
+      introduction:
+        "Your website could be bleeding customers right now and you'd never know. Get an instant audit that shows exactly what's broken (spoiler: it's probably more than you think). We'll tell you what's wrong and how to fix it - no sugar-coating, just actionable insights.",
       benefits: [
-        "Comprehensive analysis across 7 core website pillars including performance, design, and SEO",
-        "Video reviews showing exactly how your site was evaluated and scored, with clear explanations of each grade",
-        "Honest feedback on what's working well and what needs improvement, based on current web standards",
-        "Real insights into performance metrics, user experience, mobile responsiveness, and SEO fundamentals",
-        "Security assessments covering SSL certificates, headers, and vulnerability analysis",
-        "Practical recommendations you can actually implement to improve your website's performance"
+        "Discover what's killing your website speed and conversion rates across 7 critical areas",
+        "Get specific action items to boost your Google rankings and user experience",
+        "Uncover security vulnerabilities before hackers find them first",
+        "Fix mobile responsiveness issues that are costing you mobile traffic",
+        "Receive prioritized improvements that deliver the biggest impact first",
+        "Stop losing customers to slow load times and broken user experiences",
       ],
-      expertise: "Every website get a thorough review using industry-standard methodologies. The evaluation process covers performance testing, design and UX assessment, mobile responsiveness checks, SEO audits, security testing, compliance verification, and analytics setup verification. Reviews deliver professional insights that help you understand exactly where your website stands.",
-      commitment: "All reviews are done with care and attention to detail. The goal is to provide honest, helpful feedback that actually makes a difference for your website and business."
-    }
+      expertise:
+        "Every website gets instantly scanned using the same tools Google uses to rank your site. We check what actually matters: page speed, mobile experience, SEO fundamentals, and security. Get enterprise-level insights without the enterprise price tag.",
+      commitment:
+        "No fluff, no generic advice. Every report gives you specific, prioritized action items you can implement today to improve your website performance and user experience.",
+    },
   },
 
   footer: {
@@ -95,19 +117,16 @@ export const siteData = {
         title: "Services",
         items: [
           "Performance Analysis",
-          "SEO Optimization", 
+          "SEO Optimization",
           "Design Review",
-          "Security Audit"
-        ]
+          "Security Audit",
+        ],
       },
       {
         title: "Contact",
-        items: [
-          "hello@sitegrade.co.uk",
-          "https://sitegrade.co.uk"
-        ]
-      }
+        items: ["hello@sitegrade.co.uk", "https://sitegrade.co.uk"],
+      },
     ],
-    copyrightText: "© 2025 SiteGrade. All rights reserved."
-  }
+    copyrightText: "© 2025 SiteGrade. All rights reserved.",
+  },
 };
