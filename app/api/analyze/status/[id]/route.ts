@@ -82,7 +82,8 @@ async function handleGetStatus(
   // Auto-update status if all pillars are completed but status is still processing
   if (
     completedPillars === totalPillars &&
-    analysisRequest.status === "processing"
+    (analysisRequest.status === "processing" ||
+      analysisRequest.status === "pending")
   ) {
     // Update status to completed
     await supabase
@@ -95,6 +96,29 @@ async function handleGetStatus(
 
     // Update the local object for response
     analysisRequest.status = "completed";
+    analysisRequest.completed_at = new Date().toISOString();
+  }
+
+  // If request is older than 10 minutes and still pending, mark as failed
+  const requestAge =
+    Date.now() - new Date(analysisRequest.created_at).getTime();
+  if (
+    analysisRequest.status === "pending" &&
+    requestAge > 10 * 60 * 1000 // 10 minutes
+  ) {
+    await supabase
+      .from("analysis_requests")
+      .update({
+        status: "failed",
+        error_message: "Analysis timed out - process may have failed to start",
+        completed_at: new Date().toISOString(),
+      })
+      .eq("id", requestId);
+
+    // Update the local object for response
+    analysisRequest.status = "failed";
+    analysisRequest.error_message =
+      "Analysis timed out - process may have failed to start";
     analysisRequest.completed_at = new Date().toISOString();
   }
 

@@ -105,16 +105,16 @@ export default function ReportPage() {
     }
   };
 
-  const getStatusText = (status: string) => {
+  const getStatusText = (status: string, progress: number) => {
     switch (status) {
       case "completed":
         return "Analysis Complete";
       case "failed":
         return "Analysis Failed";
       case "processing":
-        return "Analysis in Progress";
+        return "Analyzing Your Website";
       default:
-        return "Analysis Queued";
+        return progress > 0 ? "Analysis Starting" : "Analysis Queued";
     }
   };
 
@@ -185,7 +185,7 @@ export default function ReportPage() {
           <div className="flex items-center justify-center gap-3 mb-4">
             {getStatusIcon(analysis.status)}
             <h2 className="heading-md text-white font-retro">
-              {getStatusText(analysis.status)}
+              {getStatusText(analysis.status, analysis.progress)}
             </h2>
           </div>
 
@@ -201,6 +201,20 @@ export default function ReportPage() {
               </div>
               <p className="text-slate-400 text-sm text-center mt-2">
                 {analysis.progress}% complete
+              </p>
+              {analysis.status === "pending" && analysis.progress === 0 && (
+                <p className="text-yellow-400 text-sm text-center mt-2">
+                  ⚡ Starting analysis engine... This may take a moment.
+                </p>
+              )}
+            </div>
+          )}
+
+          {/* Error Message */}
+          {analysis.status === "failed" && analysis.errorMessage && (
+            <div className="bg-red-900/50 border border-red-600 rounded-lg p-4 mb-4">
+              <p className="text-red-300 text-sm">
+                <strong>Error:</strong> {analysis.errorMessage}
               </p>
             </div>
           )}
