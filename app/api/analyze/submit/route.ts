@@ -26,8 +26,14 @@ async function handleSubmit(request: NextRequest) {
   if (!emailValidation.isValid) {
     return ApiResponses.badRequest(emailValidation.reason || "Invalid email");
   }
+  // Define a list of emails that can bypass the one-report-per-email limit
+  const bypassEmails = [
+    "hello@sitegrade.co.uk", // Example: Your primary support/admin email
+    "rsrusu90@gmail.com", // Add your personal email here
+  ];
 
-  // Check if user has already used the system
+  // Check if user has already used the system (skip check for bypass emails)
+if (!bypassEmails.includes(email.toLowerCase())) {
   const { data: existingUser } = await supabase
     .from("analysis_requests")
     .select("email")
@@ -39,6 +45,7 @@ async function handleSubmit(request: NextRequest) {
       "This email has already been used for an analysis. Each user can only generate one report. If you need another analysis, please contact our support team at <a href='mailto:hello@sitegrade.co.uk' style='color: #fbbf24; text-decoration: underline;'>hello@sitegrade.co.uk</a>"
     );
   }
+}
 
   // Validate and normalize URL
   if (!isValidUrl(url)) {

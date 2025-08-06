@@ -182,15 +182,15 @@ export default function ReportPage() {
 
         {/* Status Section */}
         <div className="bg-slate-800 rounded-lg border border-slate-700 p-6 mb-8">
-          <div className="flex items-center justify-center gap-3 mb-4">
+          <div className="flex items-center justify-center gap-3 mb-4 flex-col text-center">
             {/* {getStatusIcon(analysis.status)} */}
             <h2 className="heading-md text-white font-retro">
               {/* {getStatusText(analysis.status, analysis.progress)} */}
               Your report is being sent to your email!
             </h2>
             <p className="text-slate-400">
-              You&apos;ll receive it within the next 5 minutes. Don&apos;t forget to
-              check your spam folder if you don&apos;t see it.
+              You&apos;ll receive it within the next 5 minutes. Don&apos;t
+              forget to check your spam folder if you don&apos;t see it.
             </p>
           </div>
 
