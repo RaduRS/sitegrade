@@ -92,8 +92,9 @@ async function handleSubmit(request: NextRequest) {
       },
       body: JSON.stringify({ requestId: analysisRequest.id }),
     }
-  ).catch(() => {
+  ).catch((error) => {
     // Silently handle fetch errors
+    console.error("Failed to trigger analysis process:", error);
   });
 
   return ApiResponses.success({
