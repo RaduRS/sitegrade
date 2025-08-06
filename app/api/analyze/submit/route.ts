@@ -83,22 +83,26 @@ async function handleSubmit(request: NextRequest) {
 
   // Trigger background analysis - Use direct import instead of fetch for better Vercel compatibility
   console.log(`🚀 Triggering analysis for request ${analysisRequest.id}`);
+  console.log(`[DEBUG] Attempting to dynamically import process module for request ${analysisRequest.id}`);
   
   // Import and call the process function directly to avoid Vercel fetch issues
   import("../process/route").then(async (processModule) => {
+    console.log(`[DEBUG] Successfully imported process module for request ${analysisRequest.id}`);
     try {
       const mockRequest = {
         json: async () => ({ requestId: analysisRequest.id })
       } as NextRequest;
       
+      console.log(`[DEBUG] Calling processModule.POST for request ${analysisRequest.id}`);
       await processModule.POST(mockRequest);
       console.log(`✅ Analysis triggered successfully for request ${analysisRequest.id}`);
     } catch (error) {
-      console.error("❌ Failed to trigger background analysis:", error);
+      console.error("❌ Failed to trigger background analysis (inside .then block):", error);
       console.error("❌ Request ID:", analysisRequest.id);
     }
   }).catch((error) => {
-    console.error("❌ Failed to import process module:", error);
+    console.error("❌ Failed to import process module (top-level catch):", error);
+    console.error("❌ Request ID:", analysisRequest.id);
   });
 
   return ApiResponses.success({
