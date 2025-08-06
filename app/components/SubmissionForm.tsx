@@ -53,10 +53,8 @@ export default function SubmissionForm({
   };
 
   const handleEmailSubmit = async (email: string) => {
-    console.log(`[DEBUG] Submitting URL: ${submittedUrl} with email: ${email}`);
     try {
       // Submit to the new API endpoint
-      console.log(`[DEBUG] Sending POST request to /api/analyze/submit`);
       const response = await fetch("/api/analyze/submit", {
         method: "POST",
         headers: {
@@ -69,8 +67,7 @@ export default function SubmissionForm({
       });
 
       const result = await response.json();
-      
-      console.log(`[DEBUG] Received response from /api/analyze/submit:`, result);
+
       if (response.ok && result.id) {
         // Close modal and redirect to the report page immediately
         setShowModal(false);
