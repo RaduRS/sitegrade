@@ -81,19 +81,24 @@ async function handleSubmit(request: NextRequest) {
     // Don't return error here, analysis can still proceed
   }
 
-  fetch(
-    `${
-      process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000"
-    }/api/analyze/process`,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ requestId: analysisRequest.id }),
+  // Trigger background analysis - Use direct import instead of fetch for better Vercel compatibility
+  console.log(`🚀 Triggering analysis for request ${analysisRequest.id}`);
+  
+  // Import and call the process function directly to avoid Vercel fetch issues
+  import("../process/route").then(async (processModule) => {
+    try {
+      const mockRequest = {
+        json: async () => ({ requestId: analysisRequest.id })
+      } as NextRequest;
+      
+      await processModule.POST(mockRequest);
+      console.log(`✅ Analysis triggered successfully for request ${analysisRequest.id}`);
+    } catch (error) {
+      console.error("❌ Failed to trigger background analysis:", error);
+      console.error("❌ Request ID:", analysisRequest.id);
     }
-  ).catch(() => {
-    // Silently handle fetch errors
+  }).catch((error) => {
+    console.error("❌ Failed to import process module:", error);
   });
 
   return ApiResponses.success({

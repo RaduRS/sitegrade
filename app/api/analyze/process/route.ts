@@ -202,11 +202,16 @@ interface PillarResults {
 }
 
 async function handleProcess(request: NextRequest) {
+  console.log("🔄 Process endpoint called");
+  
   const body = await request.json();
   const { requestId } = body;
+  
+  console.log(`📋 Processing request ID: ${requestId}`);
 
   const idError = Validators.required(requestId, "Request ID");
   if (idError) {
+    console.error("❌ Invalid request ID:", idError);
     return ApiResponses.badRequest(idError);
   }
 
