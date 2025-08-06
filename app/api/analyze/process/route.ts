@@ -249,7 +249,10 @@ async function handleProcess(request: NextRequest) {
   }
 }
 
-export const POST = withErrorHandling(handleProcess);
+export async function POST(request: NextRequest) {
+  console.log("[/api/analyze/process] POST function hit.");
+  return withErrorHandling(handleProcess)(request);
+}
 
 async function processAnalysis(analysisRequest: AnalysisRequest) {
   const startTime = Date.now();
@@ -282,27 +285,36 @@ async function processAnalysis(analysisRequest: AnalysisRequest) {
     console.log(
       `🔍 Running combined vision analysis (saves ~70% on vision API costs)`
     );
+    console.log(`[DEBUG] Before analyzeCombinedVisual call.`);
     const visionAnalysis = await analyzeCombinedVisual(
       screenshotBase64,
       analysisRequest.url
     );
+    console.log(`[DEBUG] After analyzeCombinedVisual call. Result: ${JSON.stringify(visionAnalysis)}`);
     console.log(`✅ Combined vision analysis complete`);
 
     // Step 2: Analyze Performance (MVP pillar)
     console.log(`📊 Step 2: Analyzing performance`);
+    console.log(`[DEBUG] Before analyzePerformance call.`);
     const performanceResult = await analyzePerformance(
       analysisRequest.url,
       extractedData
     );
+    console.log(`[DEBUG] After analyzePerformance call. Result: ${JSON.stringify(performanceResult)}`);
     console.log(
       `✅ Step 2: Performance analysis complete - Score: ${performanceResult.score}`
     );
 
     // Store performance results
+    console.log(`[DEBUG] Before generatePerformanceInsights call.`);
     const performanceInsights = generatePerformanceInsights(performanceResult);
+    console.log(`[DEBUG] After generatePerformanceInsights call. Result: ${JSON.stringify(performanceInsights)}`);
+    console.log(`[DEBUG] Before generatePerformanceRecommendations call.`);
     const performanceRecommendations =
       generatePerformanceRecommendations(performanceResult);
+    console.log(`[DEBUG] After generatePerformanceRecommendations call. Result: ${JSON.stringify(performanceRecommendations)}`);
 
+    console.log(`[DEBUG] Before insertAnalysisResult (performance) call.`);
     await DatabaseOperations.insertAnalysisResult({
       request_id: analysisRequest.id,
       pillar: "performance",
@@ -313,6 +325,7 @@ async function processAnalysis(analysisRequest: AnalysisRequest) {
       analyzed: performanceResult.analyzed,
       error_message: performanceResult.error || null,
     });
+    console.log(`[DEBUG] After insertAnalysisResult (performance) call.`);
 
     // Step 3: Analyze Design (using precomputed vision data)
     console.log(`📊 Step 3: Analyzing design`);
